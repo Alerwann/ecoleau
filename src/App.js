@@ -1,14 +1,16 @@
-
+import Accueil from './accueil/accueil';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>salut</p>
-      </header>
-    </div>
-  );
+     <Router basename='/'>
+    <Routes>
+      
+      <Route path='/' element={<Accueil/>}/>
+   
+      </Routes>
+   </Router>)
 }
 
 export default App;
