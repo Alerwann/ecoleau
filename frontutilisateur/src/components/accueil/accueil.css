@@ -54,11 +54,15 @@ img{
 
 .formulairecont{
     display: grid;
-    grid-template-columns: 2fr 4fr;
+    grid-template-columns: 2fr 4fr 3fr;
     gap: 30px;
     align-items: center;
     font-size: 1rem;
 }
+.labelpass{
+grid-column: 1;
+}
+
 
 input{
     padding: 10px 15px;
@@ -79,6 +83,18 @@ input{
     padding: 10px 20px;
     border-radius: 10px;
     font-size: 30px;
+    font-weight: 900;
+    color: rgb(184, 74, 74);
+    background-color: rgba(26, 139, 30, 0.5);;
+}
+
+
+
+.showButon{
+    padding: 10px 15px;
+    
+   border-radius: 10px;
+    font-size: 20px;
     font-weight: 900;
     color: rgb(184, 74, 74);
     background-color: rgba(26, 139, 30, 0.5);;

@@ -3,17 +3,28 @@ import { useState } from 'react';
 import './accueil.css'
 import idimg from './assets/idimg.webp'
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
+import { login } from '../../services/api';
+
+import {usePasswordDisplay } from '../../Hook/useTogglePassword';
 
 
 
 function Accueil(){
 
         const [identifiant, setIdentifiant] = useState('');
-        const [password, setPassword] = useState('');
+        // const [password, setPassword] = useState('');
         const [error, setError] = useState('');
         const navigate = useNavigate();
- 
+
+          const {
+                password,
+                setPassword,
+                showPassword,
+                togglePasswordVisibility,
+                } = usePasswordDisplay();
+
+       
+
         const handleSubmit = async (e) => 
             {
                 e.preventDefault();
@@ -29,6 +40,8 @@ function Accueil(){
                 }       
             };
 
+              
+        
     return(
         <div className='global'>
         
@@ -59,17 +72,23 @@ function Accueil(){
                             placeholder='Id de connexion' 
                             required/>
 
-                            <label htmlFor="mdp">Votre mot de passe </label>
-                            <input type="password" 
-                            id='mdp' 
-                            onChange={(e)=>setPassword(e.target.value)} 
-                            placeholder='Password'
-                            required/>
+                            <label className='labelpass' htmlFor="password">Votre mot de passe </label>
+                            <input
+                                type={showPassword ? 'text' : 'password'}
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
 
-
+                            <div className="show">
+                                 <button className='showButon' type='button' onClick={togglePasswordVisibility}>
+                            {showPassword ? 'Cacher 🙈' : 'Montrer 👀'}
+                             </button>
+                            </div>
+                           
 
                             <div className='button'>
-                                <button className='boutonval'>Valider</button>
+                                <button className='boutonval' type='submit'>Valider</button>
                             </div>
                             
                         </div>

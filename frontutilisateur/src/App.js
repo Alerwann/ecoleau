@@ -1,7 +1,7 @@
-import Accueil from './accueil/accueil';
+import Accueil from './components/accueil/accueil';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Page from './p/p';
+import Page from './components/p/p';
 
 function App() {
   return (
