@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const { login, refreshToken, logout } = require('../controllers/authControllers');
 
 const authController = require('../controllers/authControllers');
 
 // POST /api/login -> identification
 router.post('/login', authController.login)
-
+router.post('/refresh-token', refreshToken);
+router.post('/logout', logout);
 
 // POST /api/create -> création de personnes
 router.post('/create', authController.create)

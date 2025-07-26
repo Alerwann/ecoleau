@@ -7,7 +7,10 @@ const saltRounds = 10;
 
 const userSchema = new mongoose.Schema({
   identifiant: { type: String, unique: true, required: true },
-  password: { type: String, required: true }
+  password: { type: String, required: true },
+  nom : { type: String, required: true },
+  prenom : { type: String, required: true }
+  
 });
 
 // Méthode pour comparer les mots de passe

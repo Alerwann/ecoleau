@@ -64,7 +64,7 @@ function Accueil(){
                         {error && <div className="error">{error}</div>}
 
                         <div className='formulairecont'>
-                            <label htmlFor="idname">Votre Id </label>
+                            <label className='labelpass' htmlFor="idname">Votre Id </label>
                             <input type="text" 
                             value={identifiant} 
                             id='idname'
@@ -73,21 +73,24 @@ function Accueil(){
                             required/>
 
                             <label className='labelpass' htmlFor="password">Votre mot de passe </label>
-                            <input
+                            <input className='password'
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 value={password}
+                                placeholder='Password'
                                 onChange={(e) => setPassword(e.target.value)}
                             />
 
                             <div className="show">
-                                 <button className='showButon' type='button' onClick={togglePasswordVisibility}>
+                                 <button className='showButon' type='button' 
+                                 onClick={togglePasswordVisibility}
+                                 >
                             {showPassword ? 'Cacher 🙈' : 'Montrer 👀'}
                              </button>
                             </div>
                            
 
-                            <div className='button'>
+                            <div className='buttoncontenair'>
                                 <button className='boutonval' type='submit'>Valider</button>
                             </div>
                             

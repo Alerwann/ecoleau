@@ -1,43 +1,121 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { JWT_SECRET, JWT_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN } = require('../config/jwt');
+const tokenService = require('../services/tokenServices')
 
-exports.login = async (req,res) =>{
-      const { identifiant, password } = req.body;
+
+exports.login = async (req,res) =>
+  {
+    const { identifiant, password } = req.body;
       
-      try {
-        const user = await User.findOne({ identifiant });
-        if (!user) return res.status(401).json({ error: 'Identifiants invalides' });
-    
-        const isMatch = await user.comparePassword(password);
-        if (!isMatch) return res.status(401).json({ error: 'Identifiants invalides' });
+    try 
+    {
+      const user = await User.findOne({ identifiant });
         
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      if (!user) return res.status(401).json({ error: 'Identifiants invalides' });
+    
+      const isMatch = await user.comparePassword(password);
+        
+      if (!isMatch) return res.status(401).json({ error: 'Identifiants invalides' });
+        
+      const accessToken = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn:JWT_EXPIRES_IN });
+      
+      const refreshToken = jwt.sign({ id: user.id }, JWT_SECRET + "_REFRESH", { expiresIn: REFRESH_TOKEN_EXPIRES_IN });
+      
+       
+      await tokenService.createRefreshToken(user._id, refreshToken);
 
-        res.json({ success: true, token, user: { id: user._id, identifiant: user.identifiant } });
-      } catch (err) {
-        console.error("Erreur dans /login :", err);
-        res.status(500).json({ error: 'Erreur serveur', details: err.message });
-      }
-    };
+      res.cookie('accessToken', accessToken, 
+        { 
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict'
+        });
+  
+        res.cookie('refreshToken', refreshToken, 
+        {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict'
+        });
+
+      res.json({ success: true,  user: { id: user._id, identifiant: user.identifiant , accessToken , refreshToken} });
+    } 
+      
+      catch (err) 
+    {
+      console.error("Erreur dans /login :", err);
+      res.status(500).json({ error: 'Erreur serveur', details: err.message });
+    }
+};
+
+
+exports.refreshToken = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+
+  // 1. Vérification en base
+  if (!refreshToken || !(await tokenService.verifyRefreshToken(refreshToken))) {
+    return res.status(403).json({ error: 'RefreshToken invalide' });
+  }
+
+  try {
+    // 2. Vérification JWT
+    const decoded = jwt.verify(refreshToken, JWT_SECRET + "_REFRESH");
+    
+    // 3. Nouvel accessToken
+    const newAccessToken = jwt.sign({ id: decoded.id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+    
+    res.cookie('accessToken', newAccessToken, { 
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict'
+    });
+    
+    res.json({ accessToken: newAccessToken });
+  } catch (err) {
+    await tokenService.deleteRefreshToken(refreshToken); // Nettoie si token invalide
+    res.status(403).json({ error: 'Session expirée, veuillez vous reconnecter' });
+  }
+};
+
+exports.logout = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  
+  if (refreshToken) {
+    await tokenService.deleteRefreshToken(refreshToken);
+  }
+
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
+  res.sendStatus(204);
+};
+exports.invalidateAllSessions = async (req, res) => {
+  await tokenService.deleteAllRefreshTokensForUser(req.user.id);
+  res.json({ message: 'Toutes les sessions ont été invalidées' });
+};
 
 exports.create = async(req,res)=>{
     try{
-        const{identifiant, password} =req.body;
+        const{identifiant, password, nom, prenom} =req.body;
 
-        if (!identifiant || !password)
+        if (!identifiant || !password || !nom || !prenom)
         {
             return res.status(400).json({message : 'tous les champs sont requis'});
 
         }
     const newUser = new User({
         identifiant,
-        password
+        password,
+        nom,
+        prenom
     })
 const savedUser = await newUser.save();
 // Puis vous pouvez directement modifier l'objet
 
    const userResponse = {
       _id: savedUser._id,
+      nom: savedUser.nom,
+      prenom : savedUser.prenom,
       identifiant: savedUser.identifiant,
       // Ne pas inclure le password !
       __v: savedUser.__v
