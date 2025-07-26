@@ -1,6 +1,9 @@
-const app = require('./app');
-const PORT = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+const express = require('express');
+const app = require('./app');
+
+ // Vos routes sont bien préfixées par /api
+
+app.listen(3001, () => {
+  console.log('Serveur démarré sur http://localhost:3001');
 });
