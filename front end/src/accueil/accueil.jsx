@@ -1,4 +1,4 @@
-import { useState } from 'react';
+
 import './accueil.css'
 import idimg from './assets/idimg.webp'
 
