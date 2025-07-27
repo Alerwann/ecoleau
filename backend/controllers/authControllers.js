@@ -80,6 +80,13 @@ exports.refreshToken = async (req, res) => {
   }
 };
 
+exports.validateToken = async(req,res)=>{
+  res.status(200).json({
+    valid:true,
+   
+  })
+}
+
 exports.logout = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   

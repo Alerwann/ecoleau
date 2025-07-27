@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './accueil.css'
 import idimg from './assets/idimg.webp'
 import { useNavigate } from 'react-router-dom';
-import { login } from '../../services/api';
+import  {login}  from '../../services/api';
 
 import {usePasswordDisplay } from '../../Hook/useTogglePassword';
 
@@ -30,8 +30,8 @@ function Accueil(){
                 e.preventDefault();
                 try 
                 {
-                    const { token, user } = await login({ identifiant, password });
-                    localStorage.setItem('token', token);
+                    const {user } = await login({ identifiant, password });
+                
                          console.log('Connecté !', user);
                     navigate('/page'); // Redirection après connexion
                 } catch (err) 
