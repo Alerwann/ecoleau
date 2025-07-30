@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './accueil.css'
 import idimg from './assets/idimg.webp'
 import { useNavigate } from 'react-router-dom';
