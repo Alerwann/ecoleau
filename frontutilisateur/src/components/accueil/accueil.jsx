@@ -31,9 +31,9 @@ function Accueil(){
                 e.preventDefault();
                 try 
                 {
-                    const {user } = await login({ identifiant, password });
-                
-                    console.log('Connecté !', user);
+                    const { token, user } = await login({ identifiant, password });
+                    localStorage.setItem('token', token);
+                         console.log('Connecté !', user);
                     navigate('/page'); // Redirection après connexion
                 } catch (err) 
                 { 
