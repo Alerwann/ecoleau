@@ -4,7 +4,7 @@ const refreshTokenSchema = new mongoose.Schema({
   token: {
     type: String,
     required: true,
-    unique: true
+    // unique: true
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -18,7 +18,7 @@ const refreshTokenSchema = new mongoose.Schema({
   }
 });
 
-refreshTokenSchema.index({ token: 1 }, { unique: true }); // Index unique sur token
-refreshTokenSchema.index({ userId: 1 }); // Index non-unique sur userId
+refreshTokenSchema.index({ token: 1 }); // Index unique sur token
+
 
 export default mongoose.model('RefreshToken', refreshTokenSchema);

@@ -1,7 +1,10 @@
 import jwt from 'jsonwebtoken';
 import User from'../models/User.js';
-import { JWT_SECRET, JWT_EXPIRES_IN, REFRESH_TOKEN_EXPIRES_IN } from'../config/jwt.js';
-import{ createRefreshToken} from '../services/tokenServices.js'
+import  {JWT_EXPIRES_IN, REFRESH_TOKEN_SECRET, JWT_SECRET, REFRESH_TOKEN_EXPIRE_IN} from'../config/jwt.js';
+
+
+
+import{ createRefreshToken, deleteRefreshToken} from '../services/tokenServices.js'
 
 
 export const loginController = async (req,res) =>
@@ -17,7 +20,7 @@ export const loginController = async (req,res) =>
         
       const accessToken = jwt.sign({ id: user._id , scope : 'acces'}, JWT_SECRET, { expiresIn:JWT_EXPIRES_IN });
       
-      const refreshToken = jwt.sign({ id: user.id , scope : 'refresh' }, JWT_SECRET + "_REFRESH", { expiresIn: REFRESH_TOKEN_EXPIRES_IN });
+      const refreshToken = jwt.sign({ id: user.id , scope : 'refresh' }, REFRESH_TOKEN_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRE_IN});
       
        
       await createRefreshToken(user._id, refreshToken);
@@ -88,7 +91,7 @@ export const logout = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   
   if (refreshToken) {
-    await tokenService.deleteRefreshToken(refreshToken);
+    await deleteRefreshToken(refreshToken);
   }
 
   res.clearCookie('accessToken');

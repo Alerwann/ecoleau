@@ -6,8 +6,6 @@ const router = express.Router();
 
 
 
-
-// POST /api/login -> identification
 router.post('/login',loginLimiter, loginController)
 router.post('/refresh-token',refreshToken);
 router.post('/logout', logout);
