@@ -1,9 +1,13 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const AuthRoutes = require ('./routes/route')
-const cookieParser = require('cookie-parser');
+import { config } from 'dotenv';
+config();
+
+
+import express from 'express';
+import cors from 'cors';
+import connectDB from './config/db.js';
+import mainRouter from './routes/index.js'
+import cookieParser from 'cookie-parser' ;
+import { globalLimiter } from './middleware/rate-limiter.js';
 
 // Initialisation
 const app = express();
@@ -20,6 +24,7 @@ app.use(cors({
   credentials: true
 }));
 
+app.use(globalLimiter)
 
 // Connexion DB
 connectDB();
@@ -29,7 +34,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/api', AuthRoutes)
+app.use('/api', mainRouter)
 
 
-module.exports = app;
+export default app;

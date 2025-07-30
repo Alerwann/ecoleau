@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './accueil.css'
 import idimg from './assets/idimg.webp'
 import { useNavigate } from 'react-router-dom';
@@ -12,11 +12,12 @@ import {usePasswordDisplay } from '../../Hook/useTogglePassword';
 function Accueil(){
 
         const [identifiant, setIdentifiant] = useState('');
-        // const [password, setPassword] = useState('');
         const [error, setError] = useState('');
         const navigate = useNavigate();
+        const [isDisabled, setIsDisabled] = useState(false);
+        const [timeLeft, setTimeLeft] = useState(0);
 
-          const {
+        const {
                 password,
                 setPassword,
                 showPassword,
@@ -32,16 +33,40 @@ function Accueil(){
                 {
                     const {user } = await login({ identifiant, password });
                 
-                         console.log('Connecté !', user);
+                    console.log('Connecté !', user);
                     navigate('/page'); // Redirection après connexion
                 } catch (err) 
-                {
+                { 
                     setError(err.message);
+                  
+                    if (err.message==='Trop de tentatives. Veuillez réessayer plus tard.'){
+                        
+                    setIsDisabled(true)
+                    setTimeLeft(300)
+
+                    const timer =setInterval(()=>{
+                        setTimeLeft(prev =>{
+                            if(prev<=1){
+                                clearInterval(timer)
+                                setIsDisabled(false)
+                                setError(null);
+                                return 0
+                            }
+                            return prev -1
+                        });
+                    },300)
+                }
                 }       
             };
 
-              
-        
+
+       const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}'${secs < 10 ? '0' : ''}${secs}`;
+  };
+  
+
     return(
         <div className='global'>
         
@@ -61,7 +86,10 @@ function Accueil(){
                 <img src={idimg} alt="icon pour identification" />
                
                     <form onSubmit={handleSubmit}>
-                        {error && <div className="error">{error}</div>}
+                        {error && <div className="error">{error}  
+                            <span >Temps restant : {formatTime(timeLeft)}</span>
+                            </div>}
+                    
 
                         <div className='formulairecont'>
                             <label className='labelpass' htmlFor="idname">Votre Id </label>
@@ -70,7 +98,9 @@ function Accueil(){
                             id='idname'
                             onChange={(e)=>setIdentifiant(e.target.value)} 
                             placeholder='Id de connexion' 
-                            required/>
+                            required
+                            disabled={isDisabled}
+                            />
 
                             <label className='labelpass' htmlFor="password">Votre mot de passe </label>
                             <input className='password'
@@ -79,6 +109,7 @@ function Accueil(){
                                 value={password}
                                 placeholder='Password'
                                 onChange={(e) => setPassword(e.target.value)}
+                                disabled={isDisabled}
                             />
 
                             <div className="show">
@@ -91,7 +122,8 @@ function Accueil(){
                            
 
                             <div className='buttoncontenair'>
-                                <button className='boutonval' type='submit'>Valider</button>
+                                <button className='boutonval' type='submit'
+                                disabled={isDisabled}>Valider</button>
                             </div>
                             
                         </div>

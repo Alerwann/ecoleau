@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const refreshTokenSchema = new mongoose.Schema({
   token: {
@@ -21,4 +21,4 @@ const refreshTokenSchema = new mongoose.Schema({
 refreshTokenSchema.index({ token: 1 }, { unique: true }); // Index unique sur token
 refreshTokenSchema.index({ userId: 1 }); // Index non-unique sur userId
 
-module.exports = mongoose.model('RefreshToken', refreshTokenSchema);
+export default mongoose.model('RefreshToken', refreshTokenSchema);

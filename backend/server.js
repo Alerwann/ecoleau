@@ -1,6 +1,6 @@
 
 
-const app = require('./app');
+import app from './app.js';
 
  // Vos routes sont bien préfixées par /api
 

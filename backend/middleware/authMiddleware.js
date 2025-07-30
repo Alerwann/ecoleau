@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../config/jwt');
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../config/jwt.js';
 
-exports.authenticate = (req, res, next) => {
+export const authenticate = (req, res, next) => {
   const token = req.cookies.accessToken || req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'Token manquant' });
 

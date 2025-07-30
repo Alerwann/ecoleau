@@ -5,6 +5,7 @@ export const usePasswordDisplay = (initialValue = '') => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
+    
     setShowPassword(!showPassword);
   };
 
