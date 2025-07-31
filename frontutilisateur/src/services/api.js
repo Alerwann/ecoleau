@@ -15,7 +15,13 @@ export const login = async (credentials) => {
 };
 
 export const logout = async () => {
-  await api.post('/auth/logout', {}, { withCredentials: true });
+  try{
+     await api.post('/auth/logout', {}, { withCredentials: true });
+ 
+  }catch(error){
+   console.error('Erreur logout APi:', error)
+  }
   window.location.href = '/login';
+
 };
 
