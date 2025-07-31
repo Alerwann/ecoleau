@@ -12,29 +12,32 @@ import { globalLimiter } from './middleware/rate-limiter.js';
 // Initialisation
 const app = express();
 
-app.use(express.json());
 
-app.use(cookieParser());
-
-
-// Middlewares
 app.use(cors({
   origin: 'http://localhost:3000', 
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true
 }));
 
-app.use(globalLimiter)
+app.use(cookieParser());
+app.use(express.json());
 
-// Connexion DB
-connectDB();
+
+
+// app.use(globalLimiter)
+
+
 
 app.use((req, res, next) => {
-  console.log('Cookies reçus :', req.cookies); // Debug (à retirer en prod)
+  console.log('Cookies reçus :', req.cookies);
+   console.log('Route appelée :', req.path); // Debug (à retirer en prod)
   next();
 });
 
+connectDB();
+
 app.use('/api', mainRouter)
+
 
 
 export default app;

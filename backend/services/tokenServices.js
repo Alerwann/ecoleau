@@ -31,7 +31,7 @@ export const createRefreshToken = async (userId, token, req) => {
   export const deleteRefreshToken=async (token) => {
     await RefreshToken.deleteOne({ token });
   };
-  // Supprime tous les refreshTokens d'un utilisateur (optionnel)
+  // Supprime tous les refreshTokens d'un utilisateur 
  export const deleteAllRefreshTokensForUser= async (userId) => {
     await RefreshToken.deleteMany({ userId });
   }
