@@ -62,6 +62,7 @@ useEffect(() => {
     const response = await api.post('/auth/login', { identifiant, password });
     setAccessToken(response.data.accessToken);
     setUser(response.data.user);
+    window.location.href = '/sommaire';
     return response;
   };
 
