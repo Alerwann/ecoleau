@@ -59,15 +59,27 @@ export const refreshToken = async (req, res) => {
     const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
     
     // 3. Nouvel accessToken
-    const newAccessToken = jwt.sign({ id: decoded.id, scope: 'access' }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+   
     
-   const user = await User.findById(decoded.id);
-  if (!user) {
-  await tokenService.deleteRefreshToken(refreshToken);
-  return res.status(403).json({ error: 'Utilisateur introuvable' });
-}
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+                
+      await tokenService.deleteRefreshToken(refreshToken);
+                
+      return res.status(403).json({ error: 'Utilisateur introuvable' });
+    }
  
-    res.json({ accessToken: newAccessToken, identifiant: user.identifiant });
+       
+    const newAccessToken = jwt.sign(
+      
+      { id: decoded.id, 
+        scope: 'access' }, 
+        JWT_SECRET, 
+      { expiresIn: JWT_EXPIRES_IN }
+    );
+    
+    res.json({ accessToken: newAccessToken,  user: { id: user._id, identifiant: user.identifiant } });
   } catch (err) {
     await tokenService.deleteRefreshToken(refreshToken); // Nettoie si token invalide
     res.status(403).json({ error: 'Session expirée, veuillez vous reconnecter' });
