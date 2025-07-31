@@ -1,7 +1,6 @@
 import './Sommaire.css'
-import { logout } from '../../services/api'
+import { logout } from '../../services/authServices'
 import { useNavigate } from 'react-router-dom';
-
 
 
 
@@ -25,6 +24,10 @@ const handlelogout =async()=>{
 
 return(
    <div className="contenairp">
+
+    <div className="welcome-message">
+      
+      </div>
     <h1>déconnexion</h1>
     <button onClick={handlelogout}>déconnecté</button>
    

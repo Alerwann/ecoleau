@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './accueil.css'
 import idimg from '../../assets/idimg.webp'
 import { useNavigate } from 'react-router-dom';
-import  {login}  from '../../services/api';
+import  {login}  from '../../services/authServices';
 
 import {usePasswordDisplay } from '../../Hook/useTogglePassword';
 

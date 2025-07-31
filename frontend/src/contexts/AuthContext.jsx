@@ -1,5 +1,5 @@
-import { createContext, useState, useEffect } from 'react';
-import api, { setAccessToken, refreshToken as apiRefreshToken } from '../services/api';
+import { createContext, useState, useEffect, useContext } from 'react';
+import api, { setAccessToken, refreshToken as apiRefreshToken } from '../services/authServices';
 
 
 const AuthContext = createContext( );
@@ -80,6 +80,7 @@ useEffect(() => {
   return (
     <AuthContext.Provider value={{
       user,
+    
       accessToken,
       loading,
       login,
@@ -91,4 +92,11 @@ useEffect(() => {
   );
 };
 
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
 export default AuthContext;
