@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Aggrégation de toutes les routes
 router.use('/auth', authRoutes);    // Préfixe '/auth' pour toutes ces routes
-router.use('/users', userRoutes);   // Préfixe '/users'
+router.use('/user', userRoutes);   // Préfixe '/users'
 
 // Export unique à importer dans app.js
 export default router;

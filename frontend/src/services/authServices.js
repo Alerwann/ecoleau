@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({
+const authApi = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true
 });
@@ -22,7 +22,7 @@ export const getAccessToken = () => {
 
 
 // Intercepteur pour injecter le token
-api.interceptors.request.use(config => {
+authApi.interceptors.request.use(config => {
 if (currentAccessToken) {
     config.headers.Authorization = `Bearer ${currentAccessToken}`;
   }
@@ -30,7 +30,7 @@ if (currentAccessToken) {
 });
 
 // Intercepteur pour rafraîchir le token
-api.interceptors.response.use(
+authApi.interceptors.response.use(
   response => response,
    async error => {
     if (error.response?.status === 401) {
@@ -44,7 +44,7 @@ api.interceptors.response.use(
 
 export const login = async (credentials) => {
   try {
-    const response = await api.post('/auth/login', credentials);
+    const response = await authApi.post('/auth/login', credentials);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Échec de la connexion');
@@ -53,7 +53,7 @@ export const login = async (credentials) => {
 
 export const logout = async () => {
   try {
-    await api.post('/auth/logout');
+    await authApi.post('/auth/logout');
   } catch (error) {
     console.error('Erreur logout API:', error);
     throw error;
@@ -62,7 +62,7 @@ export const logout = async () => {
 
 export const refreshToken = async () => {
   try {
-     const response = await api.post('/auth/refresh-token', {}, {
+     const response = await authApi.post('/auth/refresh-token', {}, {
       withCredentials: true  
     });
     return response.data;
@@ -72,4 +72,4 @@ export const refreshToken = async () => {
   }
 };
 
-export default api;
+export default authApi;

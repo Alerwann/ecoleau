@@ -1,93 +1,112 @@
+import User from "../models/User.js";
 
-import User from '../models/User.js';
+export const create = async (req, res) => {
+  try {
+    const { identifiant, password, nom, prenom } = req.body;
 
-
-
-
-export const create = async(req,res)=>{
-    try{
-        const{identifiant, password, nom, prenom} =req.body;
-
-        if (!identifiant || !password || !nom || !prenom)
-        {
-            return res.status(400).json({message : 'tous les champs sont requis'});
-
-        }
+    if (!identifiant || !password || !nom || !prenom) {
+      return res.status(400).json({ message: "tous les champs sont requis" });
+    }
     const newUser = new User({
-        identifiant,
-        password,
-        nom,
-        prenom
-    })
-const savedUser = await newUser.save();
-// Puis vous pouvez directement modifier l'objet
+      identifiant,
+      password,
+      nom,
+      prenom,
+    });
+    const savedUser = await newUser.save();
+    // Puis vous pouvez directement modifier l'objet
 
-   const userResponse = {
+    const userResponse = {
       _id: savedUser._id,
       nom: savedUser.nom,
-      prenom : savedUser.prenom,
+      prenom: savedUser.prenom,
       identifiant: savedUser.identifiant,
-     
-      __v: savedUser.__v
+
+      __v: savedUser.__v,
     };
 
     res.status(201).json({
-        message: 'utilisateur créé avec succès',
-        user : userResponse
+      message: "utilisateur créé avec succès",
+      user: userResponse,
     });
-    }catch (error) { 
-    console.error('Erreur lors de la création:', error);
+  } catch (error) {
+    console.error("Erreur lors de la création:", error);
 
-    
     if (error.code === 11000) {
-      return res.status(400).json({ 
-        message: 'Un utilisateur avec cet identifiant existe déjà'
+      return res.status(400).json({
+        message: "Un utilisateur avec cet identifiant existe déjà",
       });
     }
 
     // Erreur serveur générique
-    return res.status(500).json({ 
-      message: 'Erreur lors de la création de l\'utilisateur',
-      error: error.message 
+    return res.status(500).json({
+      message: "Erreur lors de la création de l'utilisateur",
+      error: error.message,
     });
   }
 };
 
-
 export const users = async (req, res) => {
   try {
-    const users = await User.find({}, 'identifiant'); 
-    
+    const users = await User.find({}, "identifiant nom prenom");
+
     res.status(200).json({
       count: users.length,
-      identifiants: users.map(user => user.identifiant)
+      identifiants: users.map((user) => user.identifiant),
+      nom: users.map((user) => user.nom),
+      prenom: users.map((user) => user.prenom),
     });
-
   } catch (error) {
-    res.status(500).json({ 
-      message: 'Erreur lors de la récupération',
-      error: error.message 
+    res.status(500).json({
+      message: "Erreur lors de la récupération",
+      error: error.message,
     });
   }
 };
 
 export const deleteUser = async (req, res) => {
   try {
-    const result = await User.deleteOne({ identifiant: req.params.identifiant });
+    const result = await User.deleteOne({
+      identifiant: req.params.identifiant,
+    });
 
     if (result.deletedCount === 0) {
-      return res.status(404).json({ message: 'Aucun utilisateur trouvé avec cet identifiant' });
+      return res
+        .status(404)
+        .json({ message: "Aucun utilisateur trouvé avec cet identifiant" });
     }
 
-    res.status(200).json({ 
-      message: 'Utilisateur supprimé avec succès',
-      identifiant: req.params.identifiant
+    res.status(200).json({
+      message: "Utilisateur supprimé avec succès",
+      identifiant: req.params.identifiant,
     });
-
   } catch (error) {
-    res.status(500).json({ 
-      message: 'Erreur lors de la suppression',
-      error: error.message 
+    res.status(500).json({
+      message: "Erreur lors de la suppression",
+      error: error.message,
     });
   }
-}
+};
+
+export const user = async (req, res) => {
+  try {
+    const result = await User.findOne({ identifiant: req.params.identifiant },
+      "nom prenom"
+    );
+
+    if (!result) {
+      return res.status(404).json({ message: "personne n'a cet identifiant" });
+    }
+    res.status(200).json({
+      identifiant: req.params.identifiant,
+      nom: result.nom,
+      prenom:  result.prenom,
+    });
+  } catch (error) {
+    res.status(500).json({
+ 
+      message: "Erreur lors de la récupération",
+      error: error.message,
+    });
+  }
+};

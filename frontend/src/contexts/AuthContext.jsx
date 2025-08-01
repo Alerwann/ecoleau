@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import api, { setAccessToken, refreshToken as apiRefreshToken } from '../services/authServices';
+import authApi, { setAccessToken, refreshToken as apiRefreshToken } from '../services/authServices';
 
 
 const AuthContext = createContext( );
@@ -59,7 +59,7 @@ useEffect(() => {
 }, [user, accessToken, loading]);
 
   const login = async (identifiant, password) => {
-    const response = await api.post('/auth/login', { identifiant, password });
+    const response = await authApi.post('/auth/login', { identifiant, password });
     setAccessToken(response.data.accessToken);
     setUser(response.data.user);
     window.location.href = '/sommaire';
@@ -69,7 +69,7 @@ useEffect(() => {
 
   const logout = async () => {
     try {
-       await api.post('/auth/logout');
+       await authApi.post('/auth/logout');
     } catch (error) {
       console.error('Erreur logout:', error);
     }

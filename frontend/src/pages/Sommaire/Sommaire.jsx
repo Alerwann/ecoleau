@@ -1,37 +1,75 @@
-import './Sommaire.css'
-import { logout } from '../../services/authServices'
-import { useNavigate } from 'react-router-dom';
+import "./Sommaire.css";
 
+import { useNavigate } from "react-router-dom";
 
+import Loading from "../../Component/Loading";
+import Error from "../../Component/Error";
 
+import { logout } from "../../services/authServices";
 
+import { useUser } from "../../Hook/useUser";
 
+function Sommaire() {
+ 
 
+  const navigate = useNavigate();
 
-function Sommaire(){
- const navigate = useNavigate();
-const handlelogout =async()=>{
-    try{
-        await logout()
-    navigate('/accueil');
-    }catch (err){
-
-         throw new Error(err.response?.data?.message || 'impossible');
-    }
+  const {
     
-}
+    currentUserDetails, 
+    loading, 
+    error, 
+  } = useUser();
 
+  const handlelogout = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.error("Erreur logout:", err);
+    }
+    navigate("/accueil");
+  };
 
-return(
-   <div className="contenairp">
+  if (loading) {
+    return <Loading />;
+  }
 
-    <div className="welcome-message">
-      
+  if (error) {
+    return <Error message={error} title="Mon Profil" />;
+  }
+
+  if (!currentUserDetails) {
+    return <div>Aucune donnée utilisateur</div>;
+  }
+
+  return (
+    <div className="contenairp">
+      <div className="welcome-message">
+       
+        <div>
+          <h1>Sommaire</h1>
+
+       
+          {currentUserDetails ? (
+            <div>
+              <h2>
+                Bonjour {currentUserDetails.prenom} {currentUserDetails.nom}
+              </h2>
+              <p>Bienvenue sur votre espace personnel</p>
+            </div>
+          ) : (
+            <div>
+              <p>Chargement de vos informations...</p>
+            </div>
+          )}
+        </div>
+ 
       </div>
-    <h1>déconnexion</h1>
-    <button onClick={handlelogout}>déconnecté</button>
-   
-   </div>
-)
+      <h1>
+        Tu veux te déconnecter?
+      </h1>
+      <button onClick={handlelogout}>déconnecté</button>
+    </div>
+  );
 }
-export default Sommaire
+export default Sommaire;
