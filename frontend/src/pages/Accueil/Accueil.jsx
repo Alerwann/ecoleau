@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './accueil.css'
 import idimg from '../../assets/idimg.webp'
 import { useNavigate } from 'react-router-dom';
-import  {login}  from '../../services/authServices';
+import  { useAuth } from '../../Hook/useAuth'
 
 import {usePasswordDisplay } from '../../Hook/useTogglePassword';
 
@@ -16,6 +16,8 @@ function Accueil(){
         const navigate = useNavigate();
         const [isDisabled, setIsDisabled] = useState(false);
         const [timeLeft, setTimeLeft] = useState(0);
+
+         const { login } = useAuth();
 
         const {
                 password,

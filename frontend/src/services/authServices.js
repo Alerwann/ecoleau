@@ -42,16 +42,17 @@ authApi.interceptors.response.use(
   }
 );
 
-export const login = async (credentials) => {
+export const loginAPI = async () => {
   try {
-    const response = await authApi.post('/auth/login', credentials);
+    const response = await authApi.post('/auth/login',{identifiant: 'a',
+  password: 'a'});
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Échec de la connexion');
   }
 };
 
-export const logout = async () => {
+export const logoutAPI = async () => {
   try {
     await authApi.post('/auth/logout');
   } catch (error) {

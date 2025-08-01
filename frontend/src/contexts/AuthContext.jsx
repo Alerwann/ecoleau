@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react';
-import authApi, { setAccessToken, refreshToken as apiRefreshToken } from '../services/authServices';
+import  { setAccessToken, refreshToken as apiRefreshToken, loginAPI, logoutAPI } from '../services/authServices';
 
 
 const AuthContext = createContext( );
@@ -58,24 +58,32 @@ useEffect(() => {
   });
 }, [user, accessToken, loading]);
 
-  const login = async (identifiant, password) => {
-    const response = await authApi.post('/auth/login', { identifiant, password });
-    setAccessToken(response.data.accessToken);
-    setUser(response.data.user);
-    window.location.href = '/sommaire';
-    return response;
-  };
 
+
+  // ✅ CORRIGÉE dans AuthContext
+const login = async (identifiant, password) => {
+  try {
+    const data = await loginAPI({ identifiant, password });
+    updateAccessToken(data.accessToken);
+      setUser(data.user);
+  return data;
+  } catch (error) {
+    console.error('❌ Erreur login:', error);
+    throw error;
+  }
+};
 
   const logout = async () => {
     try {
-       await authApi.post('/auth/logout');
+      await logoutAPI();
     } catch (error) {
       console.error('Erreur logout:', error);
     }
-    setAccessToken(null);
+    // Nettoyage Context dans tous les cas
+    updateAccessToken(null);
     setUser(null);
   };
+
 
   return (
     <AuthContext.Provider value={{

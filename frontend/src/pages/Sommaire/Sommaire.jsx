@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../Component/Loading";
 import Error from "../../Component/Error";
 
-import { logout } from "../../services/authServices";
+import { logoutAPI } from "../../services/authServices";
 
 import { useUser } from "../../Hook/useUser";
 
@@ -23,7 +23,7 @@ function Sommaire() {
 
   const handlelogout = async () => {
     try {
-      await logout();
+      await logoutAPI();
     } catch (err) {
       console.error("Erreur logout:", err);
     }
