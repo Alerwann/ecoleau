@@ -56,6 +56,8 @@ export const logoutAPI = async () => {
 
 export const userAuthentification = async () => {
   try {
+     console.log('🔄 Tentative refresh token...');
+    console.log('🍪 Cookies disponibles:', document.cookie);
     const response = await authApi.post(
       "/auth/refresh-token",
       {},

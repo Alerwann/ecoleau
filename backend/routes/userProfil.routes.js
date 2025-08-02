@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.get('/getAll',   getAllProfils)
 
-router.get('/getone/:identifiantRH', getUserProfil)
+router.get('/getone/:identifiantRH', authenticateToken, getUserProfil)
 
 router.get('/getonebyid/:id', authenticateToken, checkRoles('admin'), getUserProfilByid)
 

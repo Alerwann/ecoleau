@@ -13,7 +13,14 @@ export const ProfilProvider = ({ children }) => {
   const [profilLoading, setProfilLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const { user, isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading, authComplete  } = useAuth();
+
+  console.log("🔍 ProfilContext reçoit:", { 
+  user: !!user, 
+  isAuthenticated, 
+  loading, 
+  authComplete 
+});
 
   const getAllProfils = async () => {
     try {
@@ -30,30 +37,38 @@ export const ProfilProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const fetchUserProfil = async () => {
-      if (loading) return;
-      if (!isAuthenticated || !user?.identifiant) {
-        setCurrentUserProfil(null);
-        return;
-      }
+  const fetchUserProfil = async () => {
+    console.log("📊 État profil:", { loading, authComplete, isAuthenticated, hasUser: !!user });
+    
+    // Attendre que l'auth soit complètement terminée
+    if (loading || !authComplete) {
+      console.log("⏳ En attente de l'auth...");
+      return;
+    }
+    
+    if (!isAuthenticated || !user?.identifiant) {
+      console.log("❌ Utilisateur non connecté");
+      setCurrentUserProfil(null);
+      return;
+    }
 
-      setProfilLoading(true);
-      try {
-        console.log(user.identifiant)
-        const userProfil = await getOneUserProfil(user.identifiant);
-        setCurrentUserProfil(userProfil);
-        console.log("✅ Profil utilisateur récupéré:", userProfil);
-      } catch (err) {
-        console.error("❌ Erreur profil:", err);
-        setError(err.message);
-      } finally {
-        setProfilLoading(false);
-      }
-    };
+    setProfilLoading(true);
+    try {
+      console.log("🔍 Récupération profil pour:", user.identifiant);
+      const userProfil = await getOneUserProfil(user.identifiant);
+      setCurrentUserProfil(userProfil);
+      console.log("✅ Profil utilisateur récupéré:", userProfil);
+    } catch (err) {
+      console.error("❌ Erreur profil:", err);
+      setError(err.message);
+      setCurrentUserProfil(null);
+    } finally {
+      setProfilLoading(false);
+    }
+  };
 
-    fetchUserProfil();
-  }, [user, isAuthenticated, loading]);
-
+  fetchUserProfil();
+}, [user, isAuthenticated, loading, authComplete]); // ← Ajoutez authComplete dans les dépendances
   return (
     <ProfilContext.Provider
       value={{

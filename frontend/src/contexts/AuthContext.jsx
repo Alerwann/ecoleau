@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [accessToken, setAccessTokenState] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [authComplete, setAuthComplete] = useState(false);
 
   const updateAccessToken = (token) => {
     console.log("🔧 updateAccessToken appelé avec:", !!token);
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
 
         updateAccessToken(response.accessToken);
         setUser(response.user);
-
+        setAuthComplete(true);
         console.log(
           "📊 Après mise à jour - user:",
           !!response.user,
@@ -41,8 +42,11 @@ export const AuthProvider = ({ children }) => {
         );
       } catch (error) {
         console.log("❌ Pas de session active:", error);
+        setAuthComplete(true);
       } finally {
         setLoading(false);
+        
+
         console.log("✅ Loading terminé");
       }
     };
@@ -90,6 +94,7 @@ export const AuthProvider = ({ children }) => {
 
         accessToken,
         loading,
+        authComplete,
         login,
         logout,
         isAuthenticated: !!user,
