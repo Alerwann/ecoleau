@@ -23,7 +23,8 @@ const UserProfilSchema = new mongoose.Schema(
       required: true,
     },
     dateEntree: {
-      type: Date,
+      type:String,
+      trim:true,
       required: true,
     },
     managerName: {
@@ -45,9 +46,7 @@ const UserProfilSchema = new mongoose.Schema(
       default: true,
     },
   },
-  {
-    timestamps: true, // ← Ajoute createdAt/updatedAt automatiquement
-  }
+
 );
 UserProfilSchema.index({ managerNom: 1 });
 

@@ -12,7 +12,7 @@ export const createUserProfil = async (req, res) => {
       !nom ||
       !prenom ||
       !dateEntree ||
-      !managerName ||
+      
       !emploi
     ) {
       return res.status(400).json({ message: "tous les champs sont requis" });
@@ -27,8 +27,8 @@ export const createUserProfil = async (req, res) => {
     });
     const savedUserProfil = await newUserProfil.save();
 
-    const userProfilResponse = {
-      _id: savedUserProfil._Id,
+    const newuserProfil = {
+      _id: savedUserProfil._id,
       identifiantRH: savedUserProfil.identifiantRH,
       nom: savedUserProfil.nom,
       prenom: savedUserProfil.prenom,
@@ -40,7 +40,7 @@ export const createUserProfil = async (req, res) => {
 
     res.status(201).json({
       message: "Profil créé avec succès",
-      user: userProfilResponse,
+      user: newuserProfil,
     });
   } catch (error) {
     console.error("Erreur lors de la création:", error);
