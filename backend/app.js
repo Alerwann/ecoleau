@@ -7,7 +7,7 @@ import cors from 'cors';
 import connectDB from './config/db.js';
 import mainRouter from './routes/index.js'
 import cookieParser from 'cookie-parser' ;
-import { globalLimiter } from './middleware/rate-limiter.js';
+
 
 // Initialisation
 const app = express();
@@ -21,10 +21,6 @@ app.use(cors({
 
 app.use(cookieParser());
 app.use(express.json());
-
-
-
-// app.use(globalLimiter)
 
 
 

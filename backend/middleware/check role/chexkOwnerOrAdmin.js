@@ -7,11 +7,8 @@ export const checkOwnerOrAdmin = async (req, res, next) => {
       return next();
     }
     
-    // Utilisateur peut voir SES données
-    const userProfil = await UserProfil.findById(userProfilId);
-    const userAccount = await User.findOne({ userId: userProfilId });
-    
-    if (userAccount && userAccount._id.toString() === req.user.id) {
+    // Si vous stockez userId dans req.user lors de l'authentification
+    if (req.user.userId && req.user.userId.toString() === userProfilId) {
       return next();
     }
     

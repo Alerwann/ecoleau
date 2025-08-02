@@ -1,14 +1,13 @@
 import express from "express";
 import {
   login,
- 
-  logout,
+   logout,
   logoutAll,
   getSession,
   revokeSession,
   refreshToken,
 } from "../controllers/auth.controllers.js";
-import { loginLimiter } from "../middleware/rate-limiter.js";
+import { loginLimiter } from "../middleware/authentification/rate-limiter.js";
 const router = express.Router();
 
 router.post("/login", loginLimiter, login);

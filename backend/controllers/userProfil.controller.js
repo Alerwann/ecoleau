@@ -61,19 +61,17 @@ export const createUserProfil = async (req, res) => {
 
 export const getAllProfils = async (req, res) => {
   try {
-    const profil = await UserProfil.find(
-      {},
-      "identifiant nom prenom managerName emploi"
-    );
+    const profils = await UserProfil.find()
+    .select('identifiantRH nom prenom managerName emploi dateEntree')
+    .sort({nom:1})
 
-    res.status(200).json({
-      count: profil.length,
-      identifiantRH: profil.map((UserProfil) => UserProfil.identifiantRH),
-      nom: profil.map((UserProfil) => UserProfil.nom),
-      prenom: profil.map((UserProfil) => UserProfil.prenom),
-      managerName: profil.map((UserProfil) => UserProfil.managerName),
-      emploi: profil.map((UserProfil) => UserProfil.emploi),
+
+  res.status(200).json({
+      message: "Profils récupérés avec succès",
+      count: profils.length,
+      profils // ← Structure simple et claire
     });
+
   } catch (error) {
     res.status(500).json({
       message: "Erreur lors de la récupération",
@@ -84,21 +82,16 @@ export const getAllProfils = async (req, res) => {
 
 export const getUserProfil = async (req, res) => {
   try {
-    const result = await UserProfil.findOne(
+    const profil = await UserProfil.findOne(
       { identifiantRH: req.params.identifiantRH },
       "nom prenom managerName emploi"
     );
 
-    if (!result) {
+    if (!profil) {
       return res.status(404).json({ message: "personne n'a cet identifiant" });
     }
-    res.status(200).json({
-      identifiantRH: req.params.identifiantRH,
-      nom: profil.map((UserProfil) => UserProfil.nom),
-      prenom: profil.map((UserProfil) => UserProfil.prenom),
-      managerName: profil.map((UserProfil) => UserProfil.managerName),
-      emploi: profil.map((UserProfil) => UserProfil.emploi),
-    });
+    res.status(200).json({message:"Profil trouvé", profil});
+
   } catch (error) {
     res.status(500).json({
       message: "Erreur lors de la récupération",
@@ -106,6 +99,34 @@ export const getUserProfil = async (req, res) => {
     });
   }
 };
+
+export const updateUserProfil = async(req, res)=>{
+   try {
+    const { identifiantRH } = req.params;
+    const updates = req.body;
+    
+    const profil = await UserProfil.findOneAndUpdate(
+      { identifiantRH },
+      updates,
+      { new: true, runValidators: true }
+    );
+
+    if (!profil) {
+      return res.status(404).json({ message: "Profil introuvable" });
+    }
+
+    res.status(200).json({
+      message: "Profil mis à jour avec succès",
+      profil
+    });
+    
+  } catch (error) {
+    res.status(500).json({
+      message: "Erreur lors de la mise à jour",
+      error: error.message
+    });
+  }
+}
 
 // delete
 

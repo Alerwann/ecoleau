@@ -3,7 +3,7 @@ export const checkAdminRole = (req, res, next) => {
     return res.status(401).json({ error: 'Authentification requise' });
   }
   
-  if (!['admin'].includes(req.user.role)) {
+  if (req.user.role !== 'admin') {
     return res.status(403).json({ error: 'Accès refusé - Rôle administrateur requis' });
   }
   
