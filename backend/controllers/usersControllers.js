@@ -95,7 +95,7 @@ export const deleteUser = async (req, res) => {
 export const user = async (req, res) => {
   try {
     const result = await User.findOne({ identifiant: req.params.identifiant },
-      "nom prenom"
+      "identifiant"
     );
 
     if (!result) {

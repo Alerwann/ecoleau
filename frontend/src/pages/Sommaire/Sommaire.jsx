@@ -7,7 +7,7 @@ import Error from "../../Component/Error";
 
 import { useAuth } from "../../contexts/Authcontext";
 
-import { useUser } from "../../Hook/useUser";
+import { useProfil} from "../../Hook/useProfil";
 
 function Sommaire() {
  
@@ -20,7 +20,7 @@ function Sommaire() {
     currentUserDetails, 
     loading, 
     error, 
-  } = useUser();
+  } = useProfil();
 
   const handlelogout = async () => {
     try {

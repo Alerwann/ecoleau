@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
    userId: { 
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserProfil',
+    // type:String,
     unique: true, 
     required: true,
   

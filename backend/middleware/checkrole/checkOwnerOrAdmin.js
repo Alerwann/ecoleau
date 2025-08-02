@@ -3,7 +3,7 @@ export const checkOwnerOrAdmin = async (req, res, next) => {
     const { userProfilId } = req.params;
     
     // Admin peut tout voir
-    if (req.user.role === 'admin') {
+    if (req.user.role === 'admin' || req.user.role =='manager') {
       return next();
     }
     

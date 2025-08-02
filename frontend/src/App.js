@@ -6,28 +6,32 @@ import {
 } from "react-router-dom";
 
 import { AuthProvider } from "./contexts/Authcontext";
-import { UserProvider } from "./contexts/UserContext";
+
 
 import Sommaire from "./pages/Sommaire/Sommaire";
 import "./App.css";
 import Accueil from "./pages/Accueil/Accueil";
+import Test from "./pages/test";
 
 import ProtectedRoute from "./Component/ProtectedRoute";
+import { ProfilProvider } from "./contexts/ProfilContext";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <UserProvider>
+        <ProfilProvider>
         <Routes>
           <Route path="/" element={<Accueil />} />
+         
 
           {/* Routes protégées */}
           <Route
             path="/sommaire"
             element={
               <ProtectedRoute>
-                <Sommaire />
+                {/* <Sommaire /> */}
+                <Test/>
               </ProtectedRoute>
             }
           />
@@ -35,7 +39,7 @@ function App() {
           {/* Redirection pour les routes inconnues */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-        </UserProvider>
+        </ProfilProvider>
       </AuthProvider>
     </Router>
   );

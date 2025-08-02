@@ -30,18 +30,15 @@ authApi.interceptors.response.use(
     if (error.response?.status === 401) {
       // Token expiré - le Context s'en occupera
       currentAccessToken = null;
-      window.location.href = "/login";
+     
     }
     return Promise.reject(error);
   }
 );
 
-export const loginAPI = async () => {
+export const loginAPI = async (credentials) => {
   try {
-    const response = await authApi.post("/auth/login", {
-      identifiant: "a",
-      password: "a",
-    });
+    const response = await authApi.post("/auth/login", credentials);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || "Échec de la connexion");

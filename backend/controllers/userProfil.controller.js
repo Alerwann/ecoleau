@@ -82,15 +82,18 @@ export const getAllProfils = async (req, res) => {
 
 export const getUserProfil = async (req, res) => {
   try {
-    const profil = await UserProfil.findOne(
-      { identifiantRH: req.params.identifiantRH },
-      "nom prenom managerName emploi"
-    );
+    const profil = await UserProfil.findOne({ 
+      identifiantRH: req.params.identifiantRH 
+    });
 
     if (!profil) {
-      return res.status(404).json({ message: "personne n'a cet identifiant" });
+      return res.status(404).json({ message: "Aucun profil trouvé avec cet identifiant" });
     }
-    res.status(200).json({message:"Profil trouvé", profil});
+    
+    res.status(200).json({
+      message: "Profil trouvé", 
+      profil
+    });
 
   } catch (error) {
     res.status(500).json({
@@ -135,6 +138,25 @@ export const updateUserProfil = async(req, res)=>{
     });
   }
 }
+
+export const getUserProfilByid = async (req, res) => {
+  try {
+    const { id } = req.params; // ← Pas _id, juste id
+    
+    const profil = await User.findById(id);
+    
+    if (!profil) {
+      return res.status(404).json({ message: "Profil introuvable" });
+    }
+
+    res.status(200).json({
+      message: "Profil trouvé",
+      profil
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 // delete
 
