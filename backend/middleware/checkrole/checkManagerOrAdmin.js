@@ -1,5 +1,5 @@
 
-export const checkManagerRole = (req, res, next) => {
+export const checkManagerOrAdmin = (req, res, next) => {
   if (!req.user) {
     return res.status(401).json({ error: 'Authentification requise' });
   }

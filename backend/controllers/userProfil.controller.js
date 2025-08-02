@@ -105,6 +105,14 @@ export const updateUserProfil = async(req, res)=>{
     const { identifiantRH } = req.params;
     const updates = req.body;
     
+      // Log des modifications importantes
+    const sensitiveFields = ['identifiantRH', 'dateEntree'];
+    const modifiedSensitive = sensitiveFields.filter(field => field in updates);
+    
+    if (modifiedSensitive.length > 0) {
+      console.log(`⚠️ AUDIT: Admin ${req.user.identifiant} a modifié les champs sensibles: ${modifiedSensitive.join(', ')} pour le profil ${identifiantRH}`);
+    }
+    
     const profil = await UserProfil.findOneAndUpdate(
       { identifiantRH },
       updates,
