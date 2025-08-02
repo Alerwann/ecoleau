@@ -8,10 +8,28 @@ const saltRounds = 10;
 
 
 const userSchema = new mongoose.Schema({
-  identifiant: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
-  nom : { type: String, required: true },
-  prenom : { type: String, required: true }
+   userId: { 
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: 'UserProfil',
+    type:String,
+    required: true,
+    unique: true
+  },
+  
+  identifiant: { type: String, unique: true, required: true, trim: true },
+
+  password: { type: String, required: true, minlength:8 },
+  
+  role:{type: String, required: true, enum: ['conseiller', 'manager', 'admin'], default:'conseiller'},
+   
+  isActive: {
+         type: Boolean,
+      default: true
+    }
+  },
+
+  {
+    timestamps: true 
   
 });
 
@@ -29,4 +47,8 @@ userSchema.pre('save', async function(next) {
     next(err);
   }
 });
+
+userSchema.index({ identifiant: 1 });
+
+
 export default mongoose.model('User', userSchema);

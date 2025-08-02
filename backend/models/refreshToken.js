@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 
 
-const refreshTokenSchema = new mongoose.Schema({
+const RefreshTokenSchema = new mongoose.Schema({
   token: {
     type: String,
     required: true,
@@ -31,7 +31,7 @@ const refreshTokenSchema = new mongoose.Schema({
   }
 });
 
-refreshTokenSchema.index({ token: 1 });
-refreshTokenSchema.index({ userId: 1, revoked: 1 }); // Pour getSessions
+RefreshTokenSchema.index({ token: 1 });
+RefreshTokenSchema.index({ userId: 1, revoked: 1 }); // Pour getSessions
 
-export default mongoose.model('RefreshToken', refreshTokenSchema);
+export default mongoose.model('RefreshToken', RefreshTokenSchema);

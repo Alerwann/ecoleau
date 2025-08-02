@@ -1,28 +1,29 @@
-import User from "../models/User.js";
+import User from "../models/User/User.js";
 
-export const create = async (req, res) => {
+
+export const createUser = async (req, res) => {
   try {
-    const { identifiant, password, nom, prenom } = req.body;
+    const { userId, password, identifiant , role} = req.body;
 
-    if (!identifiant || !password || !nom || !prenom) {
+    if (!userId || !password || !identifiant || !role) {
       return res.status(400).json({ message: "tous les champs sont requis" });
     }
     const newUser = new User({
       identifiant,
       password,
-      nom,
-      prenom,
+      userId,
+      role,
     });
     const savedUser = await newUser.save();
     // Puis vous pouvez directement modifier l'objet
 
     const userResponse = {
-      _id: savedUser._id,
-      nom: savedUser.nom,
-      prenom: savedUser.prenom,
+     userId : savedUser.userId,
+      identifiant: savedUser.identifiant,
+      role: savedUser.role,
       identifiant: savedUser.identifiant,
 
-      __v: savedUser.__v,
+      __v: savedUser.__v
     };
 
     res.status(201).json({
@@ -45,6 +46,9 @@ export const create = async (req, res) => {
     });
   }
 };
+
+
+
 
 export const users = async (req, res) => {
   try {

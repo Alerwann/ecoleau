@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+import User from "../models/User/User.js";
 
 import {
   JWT_EXPIRES_IN,
@@ -7,13 +7,12 @@ import {
   JWT_SECRET,
   REFRESH_TOKEN_EXPIRE_IN,
 } from "../config/jwt.js";
-import RefreshToken from "../models/refreshToken.js";
+import userAuthentification from "../models/refreshToken.js";
 import {
-  createRefreshToken,
-  deleteRefreshToken,
-  deleteAllRefreshTokensForUser,
-  verifyRefreshToken
-
+  createuserAuthentification,
+  deleteuserAuthentification,
+  deleteAlluserAuthentificationsForUser,
+  verifyuserAuthentification,
 } from "../services/tokenServices.js";
 
 export const login = async (req, res) => {
@@ -32,25 +31,25 @@ export const login = async (req, res) => {
       { expiresIn: JWT_EXPIRES_IN }
     );
 
-    const refreshToken = jwt.sign(
+    const userAuthentification = jwt.sign(
       { id: user._id, scope: "refresh" },
       REFRESH_TOKEN_SECRET,
       { expiresIn: REFRESH_TOKEN_EXPIRE_IN }
     );
 
-    await createRefreshToken(user._id, refreshToken, req);
+    await createuserAuthentification(user._id, userAuthentification, req);
 
     console.log("🍪 TENTATIVE DE CRÉATION COOKIE");
     console.log(
-      "RefreshToken à stocker:",
-      refreshToken.substring(0, 20) + "..."
+      "userAuthentification à stocker:",
+      userAuthentification.substring(0, 20) + "..."
     );
     console.log("NODE_ENV:", process.env.NODE_ENV);
 
-    res.cookie("refreshToken", refreshToken, {
+    res.cookie("userAuthentification", userAuthentification, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours en ms,
       // domain: "localhost",
     });
@@ -59,7 +58,8 @@ export const login = async (req, res) => {
     res.json({
       success: true,
       accessToken,
-      user: { id: user._id, identifiant: user.identifiant },debug: {cookieSet:true}
+      user: { id: user._id, identifiant: user.identifiant },
+      debug: { cookieSet: true },
     });
   } catch (err) {
     console.error("Erreur dans /login :", err);
@@ -68,23 +68,27 @@ export const login = async (req, res) => {
 };
 
 export const refreshToken = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+  const userAuthentification =
+    req.cookies.userAuthentification || req.body.userAuthentification;
 
   // 1. Vérification en base
-  if (!refreshToken || !(await verifyRefreshToken(refreshToken))) {
-    return res.status(403).json({ error: "RefreshToken invalide" });
+  if (
+    !userAuthentification ||
+    !(await verifyuserAuthentification(userAuthentification))
+  ) {
+    return res.status(403).json({ error: "userAuthentification invalide" });
   }
 
   try {
     // 2. Vérification JWT
-    const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+    const decoded = jwt.verify(userAuthentification, REFRESH_TOKEN_SECRET);
 
     // 3. Nouvel accessToken
 
     const user = await User.findById(decoded.id);
 
     if (!user) {
-      await tokenService.deleteRefreshToken(refreshToken);
+      await tokenService.deleteuserAuthentification(userAuthentification);
 
       return res.status(403).json({ error: "Utilisateur introuvable" });
     }
@@ -100,7 +104,7 @@ export const refreshToken = async (req, res) => {
       user: { id: user._id, identifiant: user.identifiant },
     });
   } catch (err) {
-    await tokenService.deleteRefreshToken(refreshToken); // Nettoie si token invalide
+    await tokenService.deleteuserAuthentification(userAuthentification); // Nettoie si token invalide
     res
       .status(403)
       .json({ error: "Session expirée, veuillez vous reconnecter" });
@@ -115,24 +119,24 @@ export const refreshToken = async (req, res) => {
 // }
 
 export const logout = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  const userAuthentification = req.cookies.userAuthentification;
 
-  if (refreshToken) {
+  if (userAuthentification) {
     try {
-      await deleteRefreshToken(refreshToken);
+      await deleteuserAuthentification(userAuthentification);
     } catch (error) {
       console.error("Erreur suppression refresh token:", error);
     }
   }
 
-  res.clearCookie("refreshToken");
+  res.clearCookie("userAuthentification");
   res.sendStatus(204);
 };
 
 export const logoutAll = async (req, res) => {
   try {
-    await deleteAllRefreshTokensForUser(req._id);
-    res.clearCookie("refreshToken");
+    await deleteAlluserAuthentificationsForUser(req._id);
+    res.clearCookie("userAuthentification");
     res.json({ message: "Toutes les sessions ont été invalidées" });
   } catch (error) {
     console.log("erreur dans la déconnexion de tous les utilisateur", error);
@@ -144,7 +148,7 @@ export const revokeSession = async (req, res) => {
   const { sessionId } = req.params; // ID de la session à supprimer
 
   try {
-    await RefreshToken.findOneAndUpdate(
+    await userAuthentification.findOneAndUpdate(
       {
         _id: sessionId, // La session spécifique
         userId: req._id, // Sécurité : seulement SES sessions
@@ -160,11 +164,13 @@ export const revokeSession = async (req, res) => {
 
 export const getSession = async (req, res) => {
   try {
-    const sessions = await RefreshToken.find({
-      userId: req._id,
-      revoked: false,
-      expiresAt: { $gt: new Date() },
-    }).select("ipAddress userAgent createdAt");
+    const sessions = await userAuthentification
+      .find({
+        userId: req._id,
+        revoked: false,
+        expiresAt: { $gt: new Date() },
+      })
+      .select("ipAddress userAgent createdAt");
 
     res.json(
       sessions.map((session) => ({
