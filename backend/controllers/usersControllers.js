@@ -46,10 +46,6 @@ export const createUser = async (req, res) => {
     });
   }
 };
-
-
-
-
 export const users = async (req, res) => {
   try {
     const users = await User.find({}, "identifiant nom prenom");
@@ -155,7 +151,7 @@ export const resetUserPassword = async (req, res) => {
 };
 
 
-// Contrôleur spécifique changement de rôle
+
 export const changeUserRole = async (req, res) => {
   const { identifiant } = req.params;
   const { newRole, reason } = req.body; // ← Obligation de justifier
@@ -250,7 +246,7 @@ export const changeOwnPassword = async (req, res) => {
 export const toggleUserActive = async (req, res) => {
   try {
     const { identifiant } = req.params;
-    // const { reason } = req.body; // Raison optionnelle
+    const { reason } = req.body; // Raison optionnelle
     
     const user = await User.findOne({ identifiant });
     if (!user) {
