@@ -17,6 +17,8 @@ export const getAccessToken = () => {
 
 // Intercepteur pour injecter le token
 authApi.interceptors.request.use((config) => {
+   console.log('🚀 Requête envoyée vers:', config.url);
+  console.log('🍪 withCredentials:', config.withCredentials);
   if (currentAccessToken) {
     config.headers.Authorization = `Bearer ${currentAccessToken}`;
   }
@@ -24,6 +26,7 @@ authApi.interceptors.request.use((config) => {
 });
 
 // Intercepteur pour rafraîchir le token
+
 authApi.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -58,13 +61,7 @@ export const userAuthentification = async () => {
   try {
      console.log('🔄 Tentative refresh token...');
     console.log('🍪 Cookies disponibles:', document.cookie);
-    const response = await authApi.post(
-      "/auth/refresh-token",
-      {},
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await authApi.post("/auth/refresh-token" );
     return response.data;
   } catch (error) {
     console.error("Erreur de rafraichissement", error);

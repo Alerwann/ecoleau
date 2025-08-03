@@ -7,20 +7,22 @@ import Error from "../../Component/Error";
 
 import { useAuth } from "../../contexts/Authcontext";
 
-import { useProfil} from "../../Hook/useProfil";
+import { useProfil} from "../../contexts/ProfilContext";
 
 function Sommaire() {
  
-  const { logout }= useAuth()
+  const { logout,  }= useAuth()
 
   const navigate = useNavigate();
 
   const {
     
-    currentUserDetails, 
-    loading, 
+    currentUserProfil, 
+    profilLoading, 
     error, 
   } = useProfil();
+  console.log("hello",currentUserProfil)
+
 
   const handlelogout = async () => {
     try {
@@ -31,7 +33,7 @@ function Sommaire() {
     navigate("/accueil");
   };
 
-  if (loading) {
+  if (profilLoading) {
     return <Loading />;
   }
 
@@ -39,7 +41,7 @@ function Sommaire() {
     return <Error message={error} title="Mon Profil" />;
   }
 
-  if (!currentUserDetails) {
+  if (!currentUserProfil) {
     return <div>Aucune donnée utilisateur</div>;
   }
 
@@ -51,10 +53,10 @@ function Sommaire() {
           <h1>Sommaire</h1>
 
        
-          {currentUserDetails ? (
+          {currentUserProfil ? (
             <div>
               <h2>
-                Bonjour {currentUserDetails.prenom} {currentUserDetails.nom}
+                Bonjour {currentUserProfil.prenom} {currentUserProfil.nom}
               </h2>
               <p>Bienvenue sur votre espace personnel</p>
             </div>

@@ -7,7 +7,7 @@ import authApi from './authServices';
 export const getOneUserProfil = async (identifiant) => {
   try {
     const response = await authApi.get(`/profils/getone/${identifiant}`);
-    return response.data;
+    return response.data.profil;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Erreur récupération profil');
   }

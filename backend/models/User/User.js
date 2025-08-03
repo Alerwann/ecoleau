@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
 
   password: { type: String, required: true, minlength:8 },
   
-  role:{type: String, required: true, enum: ['conseiller', 'manager', 'admin'], default:'conseiller'},
+  role:{type: String, required: true, enum: ['conseiller', 'manager', 'rh','it'], default:'conseiller'},
    
   isActive: {
          type: Boolean,

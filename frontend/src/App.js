@@ -11,7 +11,7 @@ import { AuthProvider } from "./contexts/Authcontext";
 import Sommaire from "./pages/Sommaire/Sommaire";
 import "./App.css";
 import Accueil from "./pages/Accueil/Accueil";
-import Test from "./pages/test";
+// import Test from "./pages/test";
 
 import ProtectedRoute from "./Component/ProtectedRoute";
 import { ProfilProvider } from "./contexts/ProfilContext";
@@ -30,8 +30,8 @@ function App() {
             path="/sommaire"
             element={
               <ProtectedRoute>
-                {/* <Sommaire /> */}
-                <Test/>
+                <Sommaire />
+                {/* <Test/> */}
               </ProtectedRoute>
             }
           />

@@ -68,20 +68,31 @@ export const login = async (req, res) => {
 };
 
 export const refreshToken = async (req, res) => {
+  console.log("🍪 Cookie reçu:", !!req.cookies.userAuthentification);
+
   const userAuthentification =
     req.cookies.userAuthentification || req.body.userAuthentification;
 
+  console.log("🔍 Token extrait:", !!userAuthentification);
+  console.log("🔍 Vérification en base...");
   // 1. Vérification en base
-  if (
-    !userAuthentification ||
-    !(await verifyuserAuthentification(userAuthentification))
-  ) {
+  const isValidInDB = await verifyuserAuthentification(userAuthentification);
+  console.log("🔍 Token valide en base:", isValidInDB);
+
+  if (!userAuthentification || !isValidInDB) {
+    console.log(
+      "❌ Token invalide - userAuth:",
+      !!userAuthentification,
+      "validDB:",
+      isValidInDB
+    );
     return res.status(403).json({ error: "userAuthentification invalide" });
   }
-
   try {
     // 2. Vérification JWT
+     console.log('🔍 Vérification JWT...');
     const decoded = jwt.verify(userAuthentification, REFRESH_TOKEN_SECRET);
+      console.log('✅ JWT décodé:', { id: decoded.id, scope: decoded.scope, exp: decoded.exp });
 
     // 3. Nouvel accessToken
 
@@ -104,6 +115,7 @@ export const refreshToken = async (req, res) => {
       user: { id: user._id, identifiant: user.identifiant },
     });
   } catch (err) {
+     console.log('❌ Erreur JWT:', err.message);
     await tokenService.deleteuserAuthentification(userAuthentification); // Nettoie si token invalide
     res
       .status(403)
