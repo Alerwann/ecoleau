@@ -1,21 +1,27 @@
 //context pour It
 //gestion de la collection user pour la création
 
-import { createContext, useState, useEffect, useContext} from "react";
-import {createUser, getAllUsers, resetPassword, toggleActive, changeRole} from '../services/userServices'
+import { createContext, useState, useContext} from "react";
+
+
+import {createUser, getAllUser, resetPassword, toggleActive, changeRole} from '../services/userServices'
 
 const UsersContext = createContext();
 
+ 
 
 export const UsersProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchAllUsers = async () => {
+
+  
+ 
+ const fetchAllUsers = async () => {
     setLoading(true);
     try {
-      const data = await getAllUsers();
+      const data = await getAllUser();
       setUsers(data.users);
     } catch (err) {
       setError(err.message);

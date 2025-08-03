@@ -58,7 +58,7 @@ export const login = async (req, res) => {
     res.json({
       success: true,
       accessToken,
-      user: { id: user._id, identifiant: user.identifiant },
+      user: { id: user._id, identifiant: user.identifiant , role: user.role},
       debug: { cookieSet: true },
     });
   } catch (err) {
@@ -112,7 +112,7 @@ export const refreshToken = async (req, res) => {
 
     res.json({
       accessToken: newAccessToken,
-      user: { id: user._id, identifiant: user.identifiant },
+      user: { id: user._id, identifiant: user.identifiant, role: user.role },
     });
   } catch (err) {
      console.log('❌ Erreur JWT:', err.message);
@@ -164,6 +164,7 @@ export const revokeSession = async (req, res) => {
       {
         _id: sessionId, // La session spécifique
         userId: req._id, // Sécurité : seulement SES sessions
+
       },
       { revoked: true } // Marque comme révoquée
     );

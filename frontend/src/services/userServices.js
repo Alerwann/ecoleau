@@ -7,7 +7,7 @@ const userApi = axios.create({
   withCredentials: true
 });
 
-export const create =async(userData)=>{
+export const createUser =async(userData)=>{
   try{
 
       const createData =await userApi.post("/createuser",userData);
