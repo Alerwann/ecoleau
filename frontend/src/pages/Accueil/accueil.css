@@ -1,7 +1,4 @@
-*{
-    padding: 0;
-    margin: 0;
-}
+
 .global
 {
     display: flex;
@@ -9,7 +6,7 @@
     align-items: center;
 }
 
-.title{
+/* .title{
    
     text-align: center;
     width: 100vw;
@@ -27,15 +24,15 @@
 
     
    
-}
-
+} */
+/* 
 .gros {
     font-size: 4rem;
 }
 
 .petit {
     font-size: 2rem;
-}
+} */
 
 img{
     height: 200px;
@@ -72,13 +69,13 @@ input{
     font-size: 1.5em;
 }
 
-button{
+/* button{
 padding: 10px 20px;
 border-radius: 10px;
 color: rgb(184, 74, 74);
 background-color: rgba(26, 139, 30, 0.5);
 font-weight: 900;
-}
+} */
 
 
 .buttoncontenair{
@@ -92,7 +89,7 @@ font-weight: 900;
   
 }
 
-.boutonval{
+/* .boutonval{
     font-size: 30px;
    }
 
@@ -100,7 +97,7 @@ font-weight: 900;
 
 .showButon{
      font-size: 30px;
-}
+} */
 
 @media (max-width:768px){
     .show{

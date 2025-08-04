@@ -13,6 +13,7 @@ import { checkRoles } from "../middleware/checkrole/checkRoles.js";
 
 import { authenticateToken } from "../middleware/authentification/authMiddleware.js";
 
+
 const router = express.Router();
 
 router.post("/createuser",authenticateToken, checkRoles("it"), createUser);
@@ -29,5 +30,8 @@ router.patch("/toggle-active/:identifiant", authenticateToken, checkRoles("it"),
 router.patch("/change-password", authenticateToken, changeOwnPassword);
 
 router.delete("/users/:identifiant", authenticateToken, checkRoles("it"), deleteUser);
+
+
+
 
 export default router;

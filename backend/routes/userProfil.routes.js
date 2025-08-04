@@ -7,6 +7,7 @@ import {
 } from "../controllers/userProfil.controller.js";
 import express from "express";
 import { authenticateToken } from "../middleware/authentification/authMiddleware.js";
+import { getProfilsWithoutAccount } from "../services/userProfilsServices.js";
 
 import { checkRoles } from "../middleware/checkrole/checkRoles.js";
 
@@ -25,5 +26,7 @@ router.patch(
   checkRoles("rh", "manager"),
   updateUserProfil
 );
+
+router.get('/without-account', authenticateToken,checkRoles("it"), getProfilsWithoutAccount);
 
 export default router;

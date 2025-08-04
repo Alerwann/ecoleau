@@ -1,0 +1,77 @@
+/* components/Layout/PageLayout.css */
+.page-layout {
+  min-height: 100vh;
+  background-color: var(--background-color);
+}
+
+.page-header {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: calc(var(--spacing-unit) * 3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.page-header__info h1 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.page-subtitle {
+  margin: calc(var(--spacing-unit) / 2) 0 0 0;
+  opacity: 0.9;
+  font-size: 1.1rem;
+}
+
+.page-header__user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 2);
+  color: none;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: calc(var(--spacing-unit) / 2);
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.user-role {
+  background: rgba(255,255,255,0.2);
+  padding: calc(var(--spacing-unit) / 2) var(--spacing-unit);
+  border-radius: var(--border-radius);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.page-content {
+  padding: calc(var(--spacing-unit) * 3);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.btn-danger.disabled {
+  background-color: #95a5a6 !important;
+  color: #7f8c8d !important;
+  cursor: not-allowed !important;
+  pointer-events: none; /* Empêche clics, survol, etc. */
+  transform: none !important;
+}
+
+.text-gradient {
+  background: linear-gradient(45deg, #da0e1f, #654eeb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent; /* Fallback pour navigateurs non-compatibles */
+}

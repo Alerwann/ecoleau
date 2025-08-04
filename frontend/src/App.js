@@ -7,16 +7,15 @@ import {
 
 import { AuthProvider } from "./contexts/Authcontext";
 import { ProfilProvider } from "./contexts/ProfilContext";
-import {UsersProvider} from "./contexts/UsersContext";
+import { UsersProvider } from "./contexts/UsersContext";
 
 import Sommaire from "./pages/Sommaire/Sommaire";
 import "./App.css";
 import Accueil from "./pages/Accueil/Accueil";
-import Test from "./pages/test";
-
+// import Test from "./pages/test";
+import ITRoutes from "./pages/it/itRoutes";
 import ProtectedRoute from "./Component/ProtectedRoute";
 import RoleBasedRoute from "./Component/RoleBaseRoute";
-
 
 function App() {
   return (
@@ -24,25 +23,30 @@ function App() {
       <AuthProvider>
         <ProfilProvider>
           <Routes>
-
             <Route path="/" element={<Accueil />} />
 
-       
-            <Route path="/sommaire" element={
+            <Route
+              path="/sommaire"
+              element={
                 <ProtectedRoute>
                   <Sommaire />
                 </ProtectedRoute>
               }
             />
 
-            <Route path="/it" element={
-              <RoleBasedRoute allowedRoles={['it']}>
-                <UsersProvider>
-                  <Test/>
-                  </UsersProvider>
-              </RoleBasedRoute>
-            }/>
-          
+            <Route
+              path="/it/*"
+              element={
+                <ProtectedRoute>
+                  <RoleBasedRoute allowedRoles={["it"]}>
+                    <UsersProvider>
+                      <ITRoutes />
+                    </UsersProvider>
+                  </RoleBasedRoute>
+                </ProtectedRoute>
+              }
+            />
+
             {/* Redirection pour les routes inconnues */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

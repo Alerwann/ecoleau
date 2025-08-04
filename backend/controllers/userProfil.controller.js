@@ -184,3 +184,23 @@ export const getUserProfilByid = async (req, res) => {
 //     });
 //   }
 // };
+
+
+export const getProfilwithouAccount =async(req, res)=>{
+  try{
+    const allProfils = await User.find({})
+
+    const existingUser = await User.find({}, 'userId');
+    const existingUserIds =existingUser.map(profil._id.toString()) 
+    const profilsWithoutAccount = allProfils.filter(
+      profil => !existingUserIds.includes(profil._id.toString())
+    );
+    
+    res.json({
+      message: `${profilsWithoutAccount.length} profils sans compte trouvés`,
+      profils: profilsWithoutAccount
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
