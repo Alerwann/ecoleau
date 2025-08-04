@@ -1,7 +1,25 @@
-// pages/IT/components/ProfilsList.jsx
-import React from 'react';
 
-function ProfilsList({ profils, selectedProfil, onSelectProfil }) {
+import "./listprofil.css";
+import { useNavigate } from "react-router-dom";
+import Createform from './CreateForm'
+import { useState } from "react";
+
+function ProfilsList({ profils }) {
+
+  const navigate = useNavigate()
+  const  [profilNom, setProfilNom]= useState();
+  const [profilPrenom,setProfilPrenom]=useState();
+
+  const handleClick =(nom,prenom)=>{
+  
+    
+    setProfilNom(nom)
+    setProfilPrenom(prenom)
+ 
+
+  } 
+
+
   if (profils.length === 0) {
     return (
       <div className="no-profils">
@@ -11,28 +29,31 @@ function ProfilsList({ profils, selectedProfil, onSelectProfil }) {
   }
 
   return (
-    <div className="profils-list">
-      {profils.map(profil => (
-        <div 
-          key={profil._id}
-          className={`profil-item ${selectedProfil?._id === profil._id ? 'selected' : ''}`}
-          onClick={() => onSelectProfil(profil)}
-        >
-          <div className="profil-item__header">
-            <h3>{profil.prenom} {profil.nom}</h3>
-            <span className="profil-item__id">{profil.identifiantRH}</span>
+    <div>
+      <div className="contenaire-list">
+        {profils.map((profil) => (
+          <div key={profil._id} className="card-profil">
+            <div className="profil-item__header">
+              <h3>
+                {profil.prenom} {profil.nom}
+              </h3>
+              <span className="profil-item__id">{profil.identifiantRH}</span>
+            </div>
+            <div>
+              <h2>Entré le : </h2>
+              <h4>{profil.dateEntree}</h4>
+            </div>
+            <button onClick={()=>{handleClick(profil.nom, profil.prenom)}} >Choisir</button>
           </div>
           
-          <div className="profil-item__info">
-            <p className="emploi">{profil.emploi}</p>
-            <p className="manager">Manager: {profil.managerNom || 'Non défini'}</p>
-          </div>
-          
-          <div className="profil-item__status">
-            <span className="status-badge no-account">Sans compte</span>
-          </div>
+        ))}
+
+        <div>
+          <h1>fomr</h1>
+          <Createform nom={profilNom} prenom={profilPrenom}></Createform>
         </div>
-      ))}
+      </div>
+ 
     </div>
   );
 }

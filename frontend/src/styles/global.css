@@ -5,7 +5,7 @@
   
   /* Variables de couleurs */
   --primary-color: #73ba9bff;
-  --secondary-color: #65afffff;
+  --secondary-color: rgba(117, 172, 230, 0.425);
   --danger-color: #e74c3c;
   --warning-color: #f39c12;
   --success-color: #27ae60;
@@ -51,7 +51,7 @@ body {
 /* Classes utilitaires globales */
 button {
   padding: calc(var(--spacing-unit) * 1.8) calc(var(--spacing-unit) * 3);
-  border: 2px solid #13505bff;;
+  border: 2px solid var(--text-color);
   border-radius: var(--border-radius);
   cursor: pointer;
   font-weight: 500;
@@ -59,12 +59,10 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: calc(var(--spacing-unit)*3);
-}
-
-button {
-  background-color: var(--primary-color);
+   background-color: var(--primary-color);
   color: var(--text-white);
 }
+
 
 button:hover {
   background-color: #2980b9;
@@ -116,4 +114,14 @@ button:hover {
   border-radius: var(--border-radius);
   border: 1px solid #c3e6c3;
   margin-bottom: calc(var(--spacing-unit) * 2);
+}
+
+.card-profil{
+   
+    background-color: var(--secondary-color);
+    margin-bottom: calc(var(--spacing-unit) * 3);
+    padding: calc(var(--spacing-unit) * 3);
+    border-radius: var(--border-radius);
+    border: 2px solid var(--text-color);
+    box-shadow: var(--shadow-heavy);
 }

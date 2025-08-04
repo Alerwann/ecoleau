@@ -22,6 +22,7 @@ export const UsersProvider = ({ children }) => {
     setLoading(true);
     try {
       const data = await getAllUser();
+      console.log('hello',data.users)
       setUsers(data.users);
     } catch (err) {
       setError(err.message);

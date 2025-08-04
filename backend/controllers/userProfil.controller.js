@@ -142,10 +142,11 @@ export const updateUserProfil = async(req, res)=>{
 
 export const getUserProfilByid = async (req, res) => {
   try {
-    const { id } = req.params; // ← Pas _id, juste id
-    
-    const profil = await User.findById(id);
-    
+    console.log('route existe')
+    const { id } = req.params; 
+      console.log('jai les paramettre',id)
+    const profil = await UserProfil.findById(id);
+    console.log(profil)
     if (!profil) {
       return res.status(404).json({ message: "Profil introuvable" });
     }
@@ -195,7 +196,7 @@ export const getProfilsWithoutAccount = async (req, res) => {
     console.log('🔍 Recherche des profils sans compte...');
     
     // 1. Récupérer tous les profils
-    const allProfils = await UserProfil.find({});
+    const allProfils = await UserProfil.find({}).sort({dateEntree : -1});
     console.log('📋 Profils totaux trouvés:', allProfils.length);
     
     // 2. Récupérer tous les User existants avec leur userId
@@ -204,9 +205,10 @@ export const getProfilsWithoutAccount = async (req, res) => {
     console.log('👥 Comptes User existants:', existingUserIds.length);
     
     // 3. Filtrer les profils qui n'ont pas de compte User
-    const profilsWithoutAccount = allProfils.filter(
+    const profilsWithoutAccount =allProfils.filter(
       profil => !existingUserIds.includes(profil._id.toString())
-    );
+    )
+    
     
     console.log('🆕 Profils sans compte:', profilsWithoutAccount.length);
     

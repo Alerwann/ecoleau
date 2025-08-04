@@ -15,39 +15,34 @@ export const AuthProvider = ({ children }) => {
   const [authComplete, setAuthComplete] = useState(false);
 
   const updateAccessToken = (token) => {
-    console.log("🔧 updateAccessToken appelé avec:", !!token);
+ 
 
     setAccessTokenState(token);
     setAccessToken(token); // Met à jour api.js
   };
 
-  // Au chargement : essayer de récupérer un token
+ 
   useEffect(() => {
     const initAuth = async () => {
-      console.log("🔄 InitAuth démarré");
+ 
 
       try {
         const response = await apiuserAuthentification();
 
-        console.log("✅ Refresh réussi:", response);
+       
 
         updateAccessToken(response.accessToken);
         setUser(response.user);
         setAuthComplete(true);
-        console.log(
-          "📊 Après mise à jour - user:",
-          !!response.user,
-          "token:",
-          !!response.accessToken
-        );
+       
       } catch (error) {
-        console.log("❌ Pas de session active:", error);
+       
         setAuthComplete(true);
       } finally {
         setLoading(false);
         
 
-        console.log("✅ Loading terminé");
+        
       }
     };
 
@@ -63,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     });
   }, [user, accessToken, loading]);
 
-  // ✅ CORRIGÉE dans AuthContext
+
   const login = async (identifiant, password) => {
     try {
       const data = await loginAPI({ identifiant, password });
@@ -71,7 +66,7 @@ export const AuthProvider = ({ children }) => {
       setUser(data.user);
       return data;
     } catch (error) {
-      console.error("❌ Erreur login:", error);
+    
       throw error;
     }
   };

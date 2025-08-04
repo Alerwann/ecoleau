@@ -3,7 +3,7 @@ import { useProfil } from "../../contexts/ProfilContext";
 import Loading from "../../Component/Loading";
 import Error from "../../Component/Error";
 import PageLayout from "../../Component/PageLayout/PageLayout";
-import'./it.css'
+
 
 function It() {
   const navigate = useNavigate()

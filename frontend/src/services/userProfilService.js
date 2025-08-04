@@ -26,8 +26,18 @@ export const getProfilsWithoutAccount = async () => {
   try {
     console.log('début du service')
     const response = await authApi.get('/profils/without-account');
+    
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.error || 'Erreur récupération profils');
   }
 };
+
+export const getUserProfilByID =async (id)=>{
+try{  const response = await authApi.get(`/profils/getonebyid/${id}`);
+  return response.data.profil;}
+   catch (error) {
+    throw new Error(error.response?.data?.message || 'Erreur récupération profil');}
+
+
+}
