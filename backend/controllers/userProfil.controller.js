@@ -1,4 +1,5 @@
 import UserProfil from "../models/User/UserProfil.js";
+import User from "../models/User/User.js";
 
 // create
 
@@ -186,21 +187,35 @@ export const getUserProfilByid = async (req, res) => {
 // };
 
 
-export const getProfilwithouAccount =async(req, res)=>{
-  try{
-    const allProfils = await User.find({})
 
-    const existingUser = await User.find({}, 'userId');
-    const existingUserIds =existingUser.map(profil._id.toString()) 
+
+
+export const getProfilsWithoutAccount = async (req, res) => {
+  try {
+    console.log('🔍 Recherche des profils sans compte...');
+    
+    // 1. Récupérer tous les profils
+    const allProfils = await UserProfil.find({});
+    console.log('📋 Profils totaux trouvés:', allProfils.length);
+    
+    // 2. Récupérer tous les User existants avec leur userId
+    const existingUsers = await User.find({}, 'userId');
+    const existingUserIds = existingUsers.map(user => user.userId?.toString()).filter(Boolean);
+    console.log('👥 Comptes User existants:', existingUserIds.length);
+    
+    // 3. Filtrer les profils qui n'ont pas de compte User
     const profilsWithoutAccount = allProfils.filter(
       profil => !existingUserIds.includes(profil._id.toString())
     );
+    
+    console.log('🆕 Profils sans compte:', profilsWithoutAccount.length);
     
     res.json({
       message: `${profilsWithoutAccount.length} profils sans compte trouvés`,
       profils: profilsWithoutAccount
     });
   } catch (error) {
+    console.error('❌ Erreur getProfilsWithoutAccount:', error);
     res.status(500).json({ error: error.message });
   }
 };

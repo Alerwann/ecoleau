@@ -116,19 +116,3 @@ export const toggleActive =async (identifiant, reason=null) =>{
   }
 }
 
-export const getProfilsWithoutAccount =async()=>{
-   try{
-    const usersData = await userApi.get(`/profils/without-account`)
-     console.log(usersData.data)
-    return usersData.data
-  }
-  catch(error){
-      if (error.response?.status === 404) {
-      throw new Error("aucun compte trouvé");
-    }
-      console.error('Erreur get API:', error);
-    throw error;
-  }
-}
-
-export default userApi

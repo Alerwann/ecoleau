@@ -1,6 +1,6 @@
 // hooks/useProfilsWithoutAccount.js
 import { useState, useEffect } from 'react';
-import { getProfilsWithoutAccount } from '../services/userServices';
+import { getProfilsWithoutAccount } from '../services/userProfilService';
 
 
 
