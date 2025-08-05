@@ -104,6 +104,8 @@ export const getUserProfil = async (req, res) => {
   }
 };
 
+
+
 export const updateUserProfil = async(req, res)=>{
    try {
     const { identifiantRH } = req.params;

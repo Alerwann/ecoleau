@@ -18,7 +18,7 @@ export const ProfilProvider = ({ children }) => {
 
   const { user, isAuthenticated, loading, authComplete } = useAuth();
 
-  console.log("🔍 ProfilContext reçoit:", {
+  console.log("🔍 ProfilContext reçoit:",user, {
     user: !!user,
     isAuthenticated,
     loading,
@@ -41,7 +41,9 @@ export const ProfilProvider = ({ children }) => {
 
   const getOneProfil = async (identifiantRH) => {
     try {
+      
       setProfilLoading(true);
+
       const response = await getOneUserProfil(identifiantRH);
       setProfils(response.profils);
       return response;
@@ -90,8 +92,9 @@ export const ProfilProvider = ({ children }) => {
 
       setProfilLoading(true);
       try {
+       console.log(user.userId)
+        const userProfil = await getProfilById(user.userId);
         
-        const userProfil = await getOneUserProfil(user.identifiant);
         setCurrentUserProfil(userProfil);
         
       } catch (err) {

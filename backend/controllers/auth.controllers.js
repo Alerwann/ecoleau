@@ -53,12 +53,12 @@ export const login = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours en ms,
       // domain: "localhost",
     });
-    console.log("✅ Cookie défini côté serveur");
+    console.log("✅ Cookie défini côté serveur", user);
 
     res.json({
       success: true,
       accessToken,
-      user: { id: user._id, identifiant: user.identifiant , role: user.role},
+      user: { id: user._id, identifiant: user.identifiant , role: user.role, userId: user.userId},
       debug: { cookieSet: true },
     });
   } catch (err) {
@@ -112,7 +112,7 @@ export const refreshToken = async (req, res) => {
 
     res.json({
       accessToken: newAccessToken,
-      user: { id: user._id, identifiant: user.identifiant, role: user.role },
+      user: { id: user._id, identifiant: user.identifiant, role: user.role, userId: user.userId },
     });
   } catch (err) {
      console.log('❌ Erreur JWT:', err.message);

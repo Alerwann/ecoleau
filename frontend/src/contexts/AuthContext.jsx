@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     console.log("📊 État Context FINAL:", {
+      user,
       hasUser: !!user,
       hasToken: !!accessToken,
       loading,

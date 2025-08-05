@@ -18,13 +18,6 @@ function It() {
     return <Error message={error} title="Mon Profil" />;
   }
 
-
-
-
-
-
-
-
   return (
     <PageLayout
       title="Dashboard IT"
