@@ -8,13 +8,7 @@ import { useAuth } from "../contexts/Authcontext";
 function RoleBasedRoute({ children, allowedRoles }) {
   const { user, isAuthenticated, loading } = useAuth();
 
-    console.log('🔍 RoleBasedRoute - Debug:', {
-    user,
-    userRole: user?.role,
-    isAuthenticated,
-    loading,
-    allowedRoles
-  });
+    
   
   // Attendre le chargement de l'auth
   if (loading) {

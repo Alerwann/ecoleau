@@ -9,10 +9,24 @@ function CreatForm({nom, prenom}) {
 
 
   const [identifiant, setIdentifiant]= useState()
+  const [userList, setuserList]=useState()
 
 
 
-
+const usersList =async ()=>{
+ 
+    try {
+      const data = await getAllUser();
+    
+      setuserList(data.identifiants)
+ 
+    
+    } catch (err) {
+     
+    } finally {
+     
+    }
+}
 
 
 
@@ -23,12 +37,24 @@ const creatIdentifiant = (nom,prenom, )=>{
   const code =Math.round( Math.random()*(999999-100000)+100000)
   setIdentifiant(`${firstNom}${firstPrenom}${code}`)
 
-const users=getAllUser()
-console.log(users)
-  
+ usersList()
+
+ console.log(userList)
+
+
+ 
+
 
 
 }
+
+
+
+
+
+
+
+
 
 
 

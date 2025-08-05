@@ -24,7 +24,7 @@ function Accueil() {
  
     try {
       const loginResult = await login(identifiant, password);
-      console.log("Connexion réussie !");
+      
       switch (loginResult.user.role) {
         case "it":
           navigate("/it");

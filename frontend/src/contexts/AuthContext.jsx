@@ -49,19 +49,19 @@ export const AuthProvider = ({ children }) => {
     initAuth();
   }, []);
 
-  useEffect(() => {
-    console.log("📊 État Context FINAL:", {
-      hasUser: !!user,
-      hasToken: !!accessToken,
-      loading,
-      isAuthenticated: !!user,
-    });
-  }, [user, accessToken, loading]);
+  // useEffect(() => {
+  //   console.log("📊 État Context FINAL:", {
+  //     hasUser: !!user,
+  //     hasToken: !!accessToken,
+  //     loading,
+  //     isAuthenticated: !!user,
+  //   });
+  // }, [user, accessToken, loading]);
 
 
-  const login = async (identifiant, password) => {
+  const login = async (identifiant, password, userId) => {
     try {
-      const data = await loginAPI({ identifiant, password });
+      const data = await loginAPI({ identifiant, password, userId });
       updateAccessToken(data.accessToken);
       setUser(data.user);
       return data;

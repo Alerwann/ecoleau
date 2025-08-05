@@ -11,7 +11,7 @@ export const createUser =async(userData)=>{
   try{
 
       const createData =await userApi.post("/createuser",userData);
-      console.log(createData)
+  
       return createData.data
   
   }catch(error){
@@ -35,18 +35,20 @@ export const createUser =async(userData)=>{
 export const getAllUser = async () => {
   try {
    const usersData= await userApi.get('/user/users');
-    console.log(usersData.data)
+
+ 
     return usersData.data
+    
   } catch (error) {
     console.error('Erreur get API:', error);
     throw error;
   }
 };
 
-export const getOneUser = async(identifiant)=>{
+export const getOneUser = async(_id)=>{
   try{
-    const usersData = await userApi.get(`/user/getone/${identifiant}`)
-     console.log(usersData.data)
+    const usersData = await userApi.get(`/user/getone/${_id}`)
+
     return usersData.data
   }
   catch(error){
@@ -65,7 +67,7 @@ export const changeRole= async(identifiant, newRole, reason)=>{
       newRole,  // ← Le nouveau rôle
       reason    // ← La justification
     });
-    console.log(roledata.data)
+ 
     return roledata.data
   }catch(error){
      if (error.response?.status === 404) {
@@ -80,7 +82,7 @@ export const changeRole= async(identifiant, newRole, reason)=>{
 export const resetPassword =async(identifiant)=>{
   try{
     const passresetData =await userApi.post(`/reset-password/${identifiant}`)
-    console.log(passresetData.data)
+   
     return passresetData.data;
   }
   catch(error){
@@ -100,7 +102,7 @@ export const toggleActive =async (identifiant, reason=null) =>{
   try{
      const body = reason ? { reason } : {};
     const toggleData = await userApi.patch(`/toggle-active/${identifiant}`,body)
-    console.log(toggleData)
+   
     return toggleData
   }
   catch(error){

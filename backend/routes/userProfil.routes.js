@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.get("/getAll", authenticateToken, checkRoles("rh", "it"), getAllProfils);
 
-router.get("/getone/:identifiantRH", getUserProfil);
+router.get("/getone/:id", getUserProfil);
 
 router.get("/getonebyid/:id", getUserProfilByid);
 

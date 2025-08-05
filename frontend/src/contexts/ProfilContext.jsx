@@ -18,12 +18,6 @@ export const ProfilProvider = ({ children }) => {
 
   const { user, isAuthenticated, loading, authComplete } = useAuth();
 
-  console.log("🔍 ProfilContext reçoit:", {
-    user: !!user,
-    isAuthenticated,
-    loading,
-    authComplete,
-  });
 
   const getAllProfils = async () => {
     try {
@@ -68,14 +62,7 @@ export const ProfilProvider = ({ children }) => {
   };
   useEffect(() => {
     const fetchUserProfil = async () => {
-      console.log("📊 État profil:", {
-        loading,
-        authComplete,
-        isAuthenticated,
-        hasUser: !!user,
-      }
-    );
-
+     
       // Attendre que l'auth soit complètement terminée
       if (loading || !authComplete) {
         
@@ -91,7 +78,7 @@ export const ProfilProvider = ({ children }) => {
       setProfilLoading(true);
       try {
         
-        const userProfil = await getOneUserProfil(user.identifiant);
+        const userProfil = await getUserProfilByID(user.userId);
         setCurrentUserProfil(userProfil);
         
       } catch (err) {

@@ -48,7 +48,9 @@ export const createUser = async (req, res) => {
 };
 export const users = async (req, res) => {
   try {
-    const users = await User.find({}, "identifiant nom prenom");
+    const users = await User.find({}, "role identifiant");
+
+    console.log(users , 'backend')
 
     res.status(200).json({
       count: users.length,
@@ -101,6 +103,7 @@ export const user = async (req, res) => {
       identifiant: req.params.identifiant,
       nom: result.nom,
       prenom:  result.prenom,
+      
     });
   } catch (error) {
     res.status(500).json({

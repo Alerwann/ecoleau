@@ -22,8 +22,14 @@ const UserProfilSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
+    dateNaissance :
+    {  type:Date,
+      trim:true,
+      required: true,
+     
+    },
     dateEntree: {
-      type:String,
+      type:Date,
       trim:true,
       required: true,
     },
@@ -32,7 +38,7 @@ const UserProfilSchema = new mongoose.Schema(
       required: false,
       trim: true
     },
-    emploi: {
+    role: {
       type: String,
       required: true,
       trim: true,

@@ -4,9 +4,9 @@
 import authApi from './authServices';
 
 
-export const getOneUserProfil = async (identifiant) => {
+export const getOneUserProfil = async (_id) => {
   try {
-    const response = await authApi.get(`/profils/getone/${identifiant}`);
+    const response = await authApi.get(`/profils/getone/${_id}`);
     return response.data.profil;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Erreur récupération profil');
@@ -24,7 +24,7 @@ export const getAllUserProfils = async () => {
 
 export const getProfilsWithoutAccount = async () => {
   try {
-    console.log('début du service')
+
     const response = await authApi.get('/profils/without-account');
     
     return response.data;

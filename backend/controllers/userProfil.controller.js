@@ -84,9 +84,10 @@ export const getAllProfils = async (req, res) => {
 export const getUserProfil = async (req, res) => {
   try {
     const profil = await UserProfil.findOne({ 
-      identifiantRH: req.params.identifiantRH 
+      _id: req.params.id
     });
 
+  
     if (!profil) {
       return res.status(404).json({ message: "Aucun profil trouvé avec cet identifiant" });
     }
