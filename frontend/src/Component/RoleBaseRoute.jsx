@@ -2,7 +2,7 @@
 import { Navigate } from "react-router-dom";
 import Loading from "./Loading";
 
-import { useAuth } from "../contexts/Authcontext";
+import { useAuth } from "../contexts/AuthContext";
 
 
 function RoleBasedRoute({ children, allowedRoles }) {
