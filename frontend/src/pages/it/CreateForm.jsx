@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 import Loading from "../../Component/Loading";
 
@@ -7,6 +7,7 @@ import { creatIdentifiant } from "../../Hook/creatIdentifiant";
 import BilanForm from "../../Component/EnregistrementForm";
 
 function CreatForm({ id, nom, prenom,role, choice }) {
+
   const [loading, setLoading] = useState(false);
   const [identifiantReq, setIdentifiantReq] = useState();
 
@@ -22,18 +23,19 @@ function CreatForm({ id, nom, prenom,role, choice }) {
     return <Loading />;
   }
 
-  // const Form =({creaEnd})=>{
-  //   if(creaEnd){
-  //     return <div>
-  //         <h1>
-  //       hello {nom} {prenom} <br />
-  //       id :{id}
-  //     </h1>
-  //     <h1>formulaire </h1>
-  //     </div>
+  
+  const Form =({creaEnd})=>{
+    if(creaEnd){
+      return <div>
+          <h1>
+        hello {nom} {prenom} <br />
+        id :{id}
+      </h1>
+      <h1>formulaire </h1>
+      </div>
       
-  //   }return <h1>attente de creation</h1>
-  // }
+    }return <h1>attente de creation</h1>
+  }
 
   const handleClickMdp = async () => {
     let identifant
@@ -64,11 +66,12 @@ function CreatForm({ id, nom, prenom,role, choice }) {
   console.log(passwordfinal,identifiantReq, "password et identifiant");
 
 
-
   return (
     <div>
-      <button onClick={() => handleClickMdp()}> Cliquez pour créer l'utilisateur : {nom } {prenom}</button>
-    <BilanForm userId={userId} identifant={identifiantReq} password={passwordfinal} role={role} />
+      <button onClick={() => handleClickMdp()}> Créer l'utilisateur : {nom } {prenom}</button>
+
+    
+    <Form/>
     </div>
   );
 }

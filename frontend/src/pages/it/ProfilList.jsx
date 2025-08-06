@@ -1,25 +1,36 @@
 
 import "./listprofil.css";
-import { useNavigate } from "react-router-dom";
-import Createform from './CreateForm'
+
+import CreateForm from './CreateForm'
+
 import { useState } from "react";
 
-function ProfilsList({ profils }) {
+function ProfilsList({ profils=[] }) {
 
-  const navigate = useNavigate()
+
   const  [profilNom, setProfilNom]= useState();
   const [profilPrenom,setProfilPrenom]=useState();
+  const [role, setRole]=useState()
   const[id, setId]=useState()
 
-  const handleClick =(_id,nom,prenom)=>{
+  const [choice, setChoice]=useState()
+
+  const handleClick =(_id,nom,prenom,role)=>{
   
-    setId(_id)
-    setProfilNom(nom)
-    setProfilPrenom(prenom)
+    setId(_id);
+    setProfilNom(nom);
+    setProfilPrenom(prenom);
+    setRole(role)
+    setChoice(true)
  
 
   } 
+function ChoiceComponent(){
+  if(!choice){
+   return <h1>Choisi un compte pour continuer</h1>
+  }return <CreateForm id={id} nom={profilNom} prenom={profilPrenom} choice={true} role={role}></CreateForm>
 
+}
 
   if (profils.length === 0) {
     return (
@@ -30,7 +41,7 @@ function ProfilsList({ profils }) {
   }
 
   return (
-    <div>
+ 
       <div className="contenaire-list">
         {profils.map((profil) => (
           <div key={profil._id} className="card-profil">
@@ -44,18 +55,21 @@ function ProfilsList({ profils }) {
               <h2>Entré le : </h2>
               <h4>{profil.dateEntree}</h4>
             </div>
-            <button onClick={()=>{handleClick(profil._id, profil.nom, profil.prenom)}} >Choisir</button>
+            <button onClick={()=>{handleClick(profil._id, profil.nom, profil.prenom, profil.role)}} >Choisir</button>
           </div>
           
         ))}
-
-          <h1>formulaire de creation</h1>
-          {/* <Createform id={id} nom={profilNom} prenom={profilPrenom}></Createform> */}
+          <div>
+                {/* <h1>formulaire de creation</h1> */}
+                <ChoiceComponent />
           
+          
+          </div>
+      
         
       </div>
  
-    </div>
+   
   );
 }
 
