@@ -8,9 +8,9 @@ const userApi = axios.create({
 });
 
 export const createUser =async(userData)=>{
-  try{
+  try{console.log('début createUser')
 
-      const createData =await userApi.post("/createuser",userData);
+      const createData =await userApi.post("/user/createuser",userData);
       console.log(createData)
       return createData.data
   
