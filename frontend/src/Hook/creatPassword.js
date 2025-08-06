@@ -1,57 +1,82 @@
 export const creatPassword = () => {
-  const charmin = "azertyuiopqsdfghjklmwxcvbn";
-  const num = "1234567890";
-  const charmaj = "AZERTYUIOPQSDFGHJKLMWXCVBN";
-  const charSpeciaux = "?./!:;,+*@";
+  const charMin = "azertyuiopqsdfghjklmwxcvbn";
+  const charNum = "1234567890";
+  const charMaj = "AZERTYUIOPQSDFGHJKLMWXCVBN";
+  const charSpe = "?./!:;,+*";
 
-  const globalchar = `${charmin}${num}${charmaj}${charSpeciaux}`;
+  const globalchar = `${charMin}${charNum}${charMaj}${charSpe}`;
   console.log(globalchar);
 
-  const nbcharSpeciaux = 2;
+  const nbCharSpe = 2;
   const nbMaj = 2;
   const nbNum = 1;
   const nbMin = 1;
 
-  const longueur = 12;
+  const longueur = 8;
 
   const tabGlobal = [];
+  let tabPassword=""
 
-  const tabPassword = [];
+  // let j=0;
 
-  const longueurRest = longueur - nbMaj - nbcharSpeciaux - nbNum;
+  let i = 0;
 
-  for (let i = 0; i < nbNum; i++) {
-    let numberIndex = Math.round(Math.random() * num.length);
+  let PasswordTemp = [];
 
-    tabGlobal.push(num.charAt(numberIndex));
+  while (tabGlobal.length !== longueur) {
+    console.log("début de la création du mot de passe");
+
+    if (i < nbMaj) {
+      let nbMajIndex = Math.round(Math.random() * charMaj.length);
+
+      tabGlobal.push(charMaj.charAt(nbMajIndex));
+    }
+    if (i < nbMin) {
+      let nbMinIndex = Math.round(Math.random() * nbMin.length);
+      tabGlobal.push(charMin.charAt(nbMinIndex));
+    }
+    if (i < nbNum) {
+      let nbNumIndex = Math.round(Math.random() * charNum.length);
+      tabGlobal.push(charNum.charAt(nbNumIndex));
+    }
+    if (i < nbCharSpe) {
+      let nbCharSpeIndex = Math.round(Math.random() * charSpe.length);
+      tabGlobal.push(charSpe.charAt(nbCharSpeIndex));
+    }
+
+    let nbAutreIndex = Math.round(Math.random() * globalchar.length);
+    tabGlobal.push(globalchar.charAt(nbAutreIndex));
+    PasswordTemp = tabGlobal.join("");
+
+    i++;
   }
+console.log(PasswordTemp, 'avant while')
 
-  for (let i = 0; i < nbMaj; i++) {
-    let numberIndex = Math.round(Math.random() * charmaj.length);
+while(PasswordTemp.length>0){
 
-    tabGlobal.push(charmaj.charAt(numberIndex));
-  }
+  console.log ('debut longuer:',PasswordTemp.length)
+  let aleatInd = Math.round(Math.random()*(PasswordTemp.length-1))
 
-  for (let i = 0; i < nbcharSpeciaux; i++) {
-    let numberIndex = Math.round(Math.random() * charSpeciaux.length);
+  console.log(PasswordTemp[aleatInd],'case ajouté')
 
-    tabGlobal.push(charSpeciaux.charAt(numberIndex));
-  }
+  let ajout = PasswordTemp[aleatInd]
 
-  for (let i = 0; i < nbMin; i++) {
-    let numberIndex = Math.round(Math.random() * globalchar.length);
-    tabGlobal.push(charmin.charAt(numberIndex))
-  }
+  console.log(ajout, 'ajout')
 
-  for (let i = 0; i < longueurRest; i++) {
-    let numberIndex = Math.round(Math.random() * globalchar.length);
-    tabGlobal.push(globalchar.charAt(numberIndex));
-  }
+  tabPassword=tabPassword.concat("",ajout)
+  console.log(tabPassword, 'evolution du mot de pass')
 
-  for (let i = 0; i < longueur; i++) {
-    let numberIndex = Math.round(Math.random() * 8);
-    const listechar = tabGlobal.join("");
-    tabPassword.push(listechar.charAt(numberIndex));
-  }
-  return tabPassword.join("");
+let essai = PasswordTemp.replace(`${ajout}`,"").trim()
+PasswordTemp=essai;
+
+
+
+
+console.log(aleatInd,essai, 'essai')
+
+}
+
+return tabPassword
+
+
 };
