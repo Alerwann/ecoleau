@@ -1,13 +1,12 @@
 import "./listprofil.css";
 
-import CreateForm from "./CreateForm";
-
 import { creatPassword } from "../../Hook/creatPassword";
 import { creatIdentifiant } from "../../Hook/creatIdentifiant";
 
 import { useState } from "react";
 
 import AfficheFormComponent from "../../Component/AfficheFormComponent";
+import Loading from "../../Component/Loading";
 
 function ProfilsList({ profils = [] }) {
   const [loading, setLoading] = useState(false);
@@ -19,21 +18,14 @@ function ProfilsList({ profils = [] }) {
 
   const [creaEnd, setCreaEnd] = useState(false);
 
-  // const handleClick =(_id,nom,prenom,role)=>{
-
-  //   setId(_id);
-  //   setProfilNom(nom);
-  //   setProfilPrenom(prenom);
-  //   setRole(role)
-  //   setChoice(true)
-
-  // }
+  if (loading) {
+    <Loading />;
+  }
 
   const handleClickMdp = async (id, nom, prenom, role) => {
     let identifant;
 
-    setLoading(true)
-  
+    setLoading(true);
 
     try {
       identifant = await creatIdentifiant(nom, prenom);
@@ -42,7 +34,7 @@ function ProfilsList({ profils = [] }) {
     }
 
     setUserId(id);
-    console.log(role,'role')
+    console.log(role, "role");
     setUserRole(role);
     const password = creatPassword();
     console.log(password, "apres createpassword");
@@ -55,7 +47,7 @@ function ProfilsList({ profils = [] }) {
     setLoading(false);
   };
 
-  console.log(userRole, 'apres la validation')
+  console.log(userRole, "apres la validation");
 
   if (profils.length === 0) {
     return (
@@ -94,13 +86,12 @@ function ProfilsList({ profils = [] }) {
         </div>
       ))}
       <div>
-    
         <AfficheFormComponent
           creaEnd={creaEnd}
           userId={userId}
           identifiant={identifiantReq}
           password={passwordfinal}
-          role= {userRole}
+          role={userRole}
         />
       </div>
     </div>
