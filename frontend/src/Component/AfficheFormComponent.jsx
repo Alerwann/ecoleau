@@ -4,7 +4,7 @@ import { createUser } from "../services/userServices"
 function AfficheFormComponent({creaEnd, userId, identifiant, password, role}){
 
     useEffect(()=>{
-        
+
     })
 
 
@@ -20,9 +20,8 @@ const onClickValidate =async()=>{
 
 
 
-  if(!creaEnd){
-   return <h1>Choisi un compte pour continuer</h1>
-  }
+  if(creaEnd){
+  
   return  <div>
           
             <h2> Identifant : {identifiant}</h2>  
@@ -33,6 +32,6 @@ const onClickValidate =async()=>{
 
         </div>
 
-}
+}}
 
 export default AfficheFormComponent
