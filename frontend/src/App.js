@@ -5,7 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider } from "./contexts/Authcontext";
 import { ProfilProvider } from "./contexts/ProfilContext";
 import { UsersProvider } from "./contexts/UsersContext";
 

@@ -1,0 +1,17 @@
+
+function BilanForm({userId, identifiant, password, role}){
+
+    return(
+        <div>
+            <h2> Identifant : {identifiant}</h2>  
+            <h2> Mot de passe : {password}</h2>  
+            <h2> Role : {role}</h2>  
+
+            <button>valider le compte</button>
+
+        </div>
+    )
+
+}
+
+export default BilanForm

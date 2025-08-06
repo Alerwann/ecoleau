@@ -18,7 +18,7 @@ const router = express.Router();
 
 router.post("/createuser",authenticateToken, checkRoles("it"), createUser);
 
-router.get("/users", authenticateToken, checkRoles("it"), users);
+router.get("/users", users);
 
 router.get("/getone/:identifiant", authenticateToken, checkRoles("it"), user);
 

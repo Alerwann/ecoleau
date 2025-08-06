@@ -6,7 +6,7 @@ import {
   logoutAPI,
 } from "../services/authServices";
 
-const AuthContext = createContext();
+const Authcontext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider
+    <Authcontext.Provider
       value={{
         user,
 
@@ -97,15 +97,15 @@ export const AuthProvider = ({ children }) => {
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </Authcontext.Provider>
   );
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(Authcontext);
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
-export default AuthContext;
+export default Authcontext;

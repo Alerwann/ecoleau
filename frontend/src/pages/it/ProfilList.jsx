@@ -9,10 +9,11 @@ function ProfilsList({ profils }) {
   const navigate = useNavigate()
   const  [profilNom, setProfilNom]= useState();
   const [profilPrenom,setProfilPrenom]=useState();
+  const[id, setId]=useState()
 
-  const handleClick =(nom,prenom)=>{
+  const handleClick =(_id,nom,prenom)=>{
   
-    
+    setId(_id)
     setProfilNom(nom)
     setProfilPrenom(prenom)
  
@@ -43,15 +44,15 @@ function ProfilsList({ profils }) {
               <h2>Entré le : </h2>
               <h4>{profil.dateEntree}</h4>
             </div>
-            <button onClick={()=>{handleClick(profil.nom, profil.prenom)}} >Choisir</button>
+            <button onClick={()=>{handleClick(profil._id, profil.nom, profil.prenom)}} >Choisir</button>
           </div>
           
         ))}
 
-        <div>
-          <h1>fomr</h1>
-          <Createform nom={profilNom} prenom={profilPrenom}></Createform>
-        </div>
+          <h1>formulaire de creation</h1>
+          {/* <Createform id={id} nom={profilNom} prenom={profilPrenom}></Createform> */}
+          
+        
       </div>
  
     </div>

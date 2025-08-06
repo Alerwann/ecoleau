@@ -9,7 +9,9 @@ function It() {
   const navigate = useNavigate()
 
 
-  const { profilLoading, error } = useProfil();
+  const { profilLoading, error, } = useProfil();
+
+
 
   if (profilLoading) {
     return <Loading />;
@@ -26,7 +28,7 @@ function It() {
       <div className="dashboard-grid">
         <div className="card">
           <h2>Utilisateurs</h2>
-          {/* <p>{users.length} comptes</p> */}
+          {/* <p>{profils.length} comptes</p> */}
         </div>
 
         <div className="card">

@@ -1,52 +1,76 @@
 import { useEffect, useState } from "react";
 
-import { useUsers } from "../../contexts/UsersContext";
-import { getAllUser } from "../../services/userServices";
+import Loading from "../../Component/Loading";
+
+import { creatPassword } from "../../Hook/creatPassword";
+import { creatIdentifiant } from "../../Hook/creatIdentifiant";
+import BilanForm from "../../Component/EnregistrementForm";
+
+function CreatForm({ id, nom, prenom,role, choice }) {
+  const [loading, setLoading] = useState(false);
+  const [identifiantReq, setIdentifiantReq] = useState();
+
+  const [passwordfinal, setPassordfinal] = useState();
+
+  const [userId, setUserId] =useState();
+  const [userRole, setUserRole]=useState()
+
+  const [creaEnd, setCreaEnd]= useState(false)
 
 
+  if (loading) {
+    return <Loading />;
+  }
 
-function CreatForm({nom, prenom}) {
-
-
-  const [identifiant, setIdentifiant]= useState()
-
-
-
-
-
-
-
-const creatIdentifiant = (nom,prenom, )=>{
-
-  const firstNom = `${nom}`.charAt(0).toUpperCase()
-  const firstPrenom = `${prenom}`.charAt(0).toLocaleUpperCase()
-  const code =Math.round( Math.random()*(999999-100000)+100000)
-  setIdentifiant(`${firstNom}${firstPrenom}${code}`)
-
-const users=getAllUser()
-console.log(users)
-  
-
-
-}
-
-
-
-
-
-
-
-
-  return(
-    <div>
-      <h1>hello {nom} {prenom}</h1>
-      <button onClick={()=>creatIdentifiant(nom,prenom)}> creer identifiant</button>
-      <h2>{identifiant? `${identifiant}`:'n\'est pas identifier'}</h2>
+  // const Form =({creaEnd})=>{
+  //   if(creaEnd){
+  //     return <div>
+  //         <h1>
+  //       hello {nom} {prenom} <br />
+  //       id :{id}
+  //     </h1>
+  //     <h1>formulaire </h1>
+  //     </div>
       
+  //   }return <h1>attente de creation</h1>
+  // }
 
+  const handleClickMdp = async () => {
+    let identifant
+ 
+    setLoading(true)
+ 
+
+    setUserId(id)
+    setUserRole(role)
+
+    console.log(role, 'role handleclick')
+    const password = creatPassword();
+    setPassordfinal(password);
+
+    try{identifant=await creatIdentifiant(nom,prenom)}
+
+    catch(error){console.log('erruer handle clicj')}
+
+
+    console.log(identifant, 'fin des hooks')
+    
+    
+    setIdentifiantReq(identifant)
+    setCreaEnd(true)
+    setLoading(false)
+
+  };
+  console.log(passwordfinal,identifiantReq, "password et identifiant");
+
+
+
+  return (
+    <div>
+      <button onClick={() => handleClickMdp()}> Cliquez pour créer l'utilisateur : {nom } {prenom}</button>
+    <BilanForm userId={userId} identifant={identifiantReq} password={passwordfinal} role={role} />
     </div>
-  )
-
+  );
 }
 
 export default CreatForm;

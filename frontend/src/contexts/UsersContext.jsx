@@ -24,6 +24,7 @@ export const UsersProvider = ({ children }) => {
       const data = await getAllUser();
     
       setUsers(data.users);
+      console.log('context users',users)
     } catch (err) {
       setError(err.message);
     } finally {
