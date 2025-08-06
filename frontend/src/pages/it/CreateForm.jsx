@@ -4,7 +4,7 @@ import Loading from "../../Component/Loading";
 
 import { creatPassword } from "../../Hook/creatPassword";
 import { creatIdentifiant } from "../../Hook/creatIdentifiant";
-import BilanForm from "../../Component/EnregistrementForm";
+
 
 function CreatForm({ id, nom, prenom,role, choice }) {
 
