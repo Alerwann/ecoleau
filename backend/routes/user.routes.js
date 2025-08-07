@@ -1,13 +1,13 @@
 import express from "express";
 import {
   createUser,
-  users,
   deleteUser,
   user,
   resetUserPassword,
   changeOwnPassword,
   changeUserRole,
-  toggleUserActive
+  toggleUserActive,
+  userList
 } from "../controllers/usersControllers.js";
 import { checkRoles } from "../middleware/checkrole/checkRoles.js";
 
@@ -18,9 +18,9 @@ const router = express.Router();
 
 router.post("/createuser",authenticateToken, checkRoles("it"), createUser);
 
-router.get("/users", users);
+router.get("/userlist", userList);
 
-router.get("/getone/:identifiant", authenticateToken, checkRoles("it"), user);
+router.get("/getone/:identifiant",  user);
 
 router.post("/reset-password/:identifiant", authenticateToken, checkRoles("it"), resetUserPassword);
 router.patch("/change-role/:identifiant", authenticateToken, checkRoles("it"), changeUserRole);

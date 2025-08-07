@@ -124,4 +124,12 @@ button:hover {
     border-radius: var(--border-radius);
     border: 2px solid var(--text-color);
     box-shadow: var(--shadow-heavy);
+
+    
+     display: grid;
+     grid-template-columns: 2fr 2fr 1fr ;
+    
+    align-items: center;
+    
+
 }

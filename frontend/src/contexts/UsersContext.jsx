@@ -115,7 +115,7 @@ export const UsersProvider = ({ children }) => {
       setUserLoading(true);
       try {
         console.log(user.userId);
-        const userProfil = await getOneUser(user.userId);
+        const userProfil = await getOneUser(user.identifiant);
 
         setCurrentUser(userProfil);
       } catch (err) {

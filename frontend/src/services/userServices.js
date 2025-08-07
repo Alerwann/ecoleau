@@ -33,8 +33,7 @@ export const getAllUser = async () => {
     console.log(usersData.data)
     return usersData.data
   } catch (error) {
-    console.error('Erreur get API:', error);
-    throw error;
+    throw new Error(error.response?.data?.message || 'Erreur récupération profils');
   }
 };
 

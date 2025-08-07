@@ -47,15 +47,17 @@ export const createUser = async (req, res) => {
     });
   }
 };
-export const users = async (req, res) => {
+export const userList = async (req, res) => {
   try {
-    const users = await User.find({}, "identifiant nom prenom");
+    const users = await User.find({}, "identifiant userId role isActive");
+    console.log(users),'users'
 
     res.status(200).json({
       count: users.length,
       identifiants: users.map((user) => user.identifiant),
-      nom: users.map((user) => user.nom),
-      prenom: users.map((user) => user.prenom),
+      userId: users.map((user) => user.userId),
+      role: users.map((user) => user.role),
+      isActive: users.map((user)=> user.isActive)
     });
   } catch (error) {
     res.status(500).json({
@@ -95,13 +97,16 @@ export const user = async (req, res) => {
       "identifiant"
     );
 
+    // const result = await User.findById(req.params._id)
+
     if (!result) {
       return res.status(404).json({ message: "personne n'a cet identifiant" });
     }
+    
     res.status(200).json({
-      identifiant: req.params.identifiant,
-      nom: result.nom,
-      prenom:  result.prenom,
+      userId: req.params.userId,
+     identifiant: result.identifiant,
+      role:  result.role,
     });
   } catch (error) {
     res.status(500).json({

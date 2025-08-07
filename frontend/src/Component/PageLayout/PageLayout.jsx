@@ -1,5 +1,5 @@
 
-import { useCurrentUser } from "../../Hook/userCurrentUser";
+import { useCurrentUser } from "../../Hook/profilCurrentUser";
 import Loading from "../Loading";
 import './PageLayout.css'
 

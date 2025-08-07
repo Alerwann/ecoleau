@@ -29,6 +29,7 @@ export const ProfilProvider = ({ children }) => {
     try {
       setProfilLoading(true);
       const response = await getAllUserProfils(); // ← Service profils
+      console.log(response,'get all response')
       setProfils(response.profils);
       return response;
     } catch (error) {
@@ -85,7 +86,7 @@ export const ProfilProvider = ({ children }) => {
       }
 
       if (!isAuthenticated || !user?.identifiant) {
-       
+       console.log('pas authentifier et pas user identifiant')
         setCurrentUserProfil(null);
         return;
       }
@@ -108,6 +109,8 @@ export const ProfilProvider = ({ children }) => {
 
     fetchUserProfil();
   }, [user, isAuthenticated, loading, authComplete]); // ← Ajoutez authComplete dans les dépendances
+
+
   return (
     <ProfilContext.Provider
       value={{

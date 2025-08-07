@@ -1,11 +1,12 @@
 // hooks/useCurrentUser.js
 import { useAuth } from '../contexts/Authcontext';
-import { useProfil } from '../contexts/ProfilContext';
+import { useUsers } from '../contexts/UsersContext';
 
-export const useCurrentUser = () => {
+export const useCurrent = () => {
   const { user, isAuthenticated, loading: authLoading, logout } = useAuth();
-  const { currentUserProfil, profilLoading } = useProfil();
+  const { currentUser, userLoading, users } = useUsers();
 
+  console.log(currentUser, users, 'info dans useCurrent')
   return {
     // Données auth
     identifiant: user?.identifiant,
@@ -13,19 +14,18 @@ export const useCurrentUser = () => {
     isAuthenticated,
     
     // Données profil
-    nom: currentUserProfil?.nom,
-    prenom: currentUserProfil?.prenom,
-    emploi: currentUserProfil?.emploi,
-    managerNom: currentUserProfil?.managerNom,
+   userId : currentUser?.userId,
+
     
     // États
-    loading: authLoading || profilLoading,
+    loading: authLoading || userLoading,
     
     // Actions
     logout,
     
     // Données complètes
     user,
-    profil: currentUserProfil
+    Users :users
+    
   };
 };

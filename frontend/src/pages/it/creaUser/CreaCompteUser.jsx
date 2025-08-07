@@ -1,21 +1,12 @@
-import PageLayout from "../../Component/PageLayout/PageLayout";
-import { useProfilsWithoutAccount } from "../../Hook/userProfilsWithoutAccount";
+import PageLayout from "../../../Component/PageLayout/PageLayout";
+import { useProfilsWithoutAccount } from "../../../Hook/userProfilsWithoutAccount";
 
-import Loading from "../../Component/Loading";
-import Error from "../../Component/Error";
+import Loading from "../../../Component/Loading";
+import Error from "../../../Component/Error";
 import ProfilsList from "./ProfilList";
 
-
 function CreaCompteUser() {
-
-
-
-
   const { profils, loading, error } = useProfilsWithoutAccount();
-
-
-
-
 
   if (loading) {
     return <Loading />;
@@ -23,10 +14,6 @@ function CreaCompteUser() {
   if (error) {
     return <Error message={error} title="Mon Profil" />;
   }
-
-
-
-
 
   return (
     <PageLayout
