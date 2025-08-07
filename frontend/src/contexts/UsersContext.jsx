@@ -7,11 +7,12 @@ import { useAuth } from "./Authcontext";
 import {
   createUser,
   getAllUser,
-  getOneUser,
+  // getOneUser,
   resetPassword,
   toggleActive,
   changeRole,
 } from "../services/userServices";
+import { set } from "mongoose";
 
 const UsersContext = createContext();
 
@@ -25,24 +26,35 @@ export const UsersProvider = ({ children }) => {
     authComplete,
   });
 
-  const [users, setUsers] = useState([]);
+
   const [userLoading, setUserLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
+  
 
-  const fetchAllUsers = async () => {
-    setUserLoading(true);
-    try {
-      const data = await getAllUser();
-
-      setUsers(data.users);
-      console.log("context users", users);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setUserLoading(false);
+ const [users, setUsers] = useState([]);
+  const fetchAllUsers=async()=>{
+    try{
+     
+      setUserLoading(true)
+      const response = await getAllUser();
+      console.log(response, 'response')
+      setUsers(response)
+      return response
     }
-  };
+    catch(error)
+    {setError(error.message);
+      return [];}
+      finally {
+      setUserLoading(false);
+      
+    
+    } 
+ 
+  }
+   useEffect(()=>{
+      console.log('users mis à jour', users)
+    }, [users])
+
 
   const createNewUser = async (userData) => {
     try {
@@ -93,46 +105,46 @@ export const UsersProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      console.log("📊 État profil:", {
-        loading,
-        authComplete,
-        isAuthenticated,
-        hasUser: !!user,
-      });
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     console.log("📊 État profil:", {
+  //       loading,
+  //       authComplete,
+  //       isAuthenticated,
+  //       hasUser: !!user,
+  //     });
 
-      // Attendre que l'auth soit complètement terminée
-      if (loading || !authComplete) {
-        return;
-      }
+  //     // Attendre que l'auth soit complètement terminée
+  //     if (loading || !authComplete) {
+  //       return;
+  //     }
 
-      if (!isAuthenticated || !user?.identifiant) {
-        setCurrentUser(null);
-        return;
-      }
+  //     if (!isAuthenticated || !user?.identifiant) {
+  //       setCurrentUser(null);
+  //       return;
+  //     }
 
-      setUserLoading(true);
-      try {
-        console.log(user.userId);
-        const userProfil = await getOneUser(user.identifiant);
+  //     setUserLoading(true);
+  //     try {
+  //       console.log(user.userId);
+  //       const userProfil = await getOneUser(user.identifiant);
 
-        setCurrentUser(userProfil);
-      } catch (err) {
-        setError(err.message);
-        setCurrentUser(null);
-      } finally {
-        setUserLoading(false);
-      }
-    };
+  //       setCurrentUser(userProfil);
+  //     } catch (err) {
+  //       setError(err.message);
+  //       setCurrentUser(null);
+  //     } finally {
+  //       setUserLoading(false);
+  //     }
+  //   };
 
-    fetchUser();
-  }, [user, isAuthenticated, loading, authComplete]);
+  //   fetchUser();
+  // }, [user, isAuthenticated, loading, authComplete]);
   return (
     <UsersContext.Provider
       value={{
         authUser: user,
-        currentUser,
+      
         users,
         userLoading,
         error,

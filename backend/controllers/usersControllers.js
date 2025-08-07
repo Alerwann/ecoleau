@@ -49,10 +49,11 @@ export const createUser = async (req, res) => {
 };
 export const userList = async (req, res) => {
   try {
-    const users = await User.find({}, "identifiant userId role isActive");
-    console.log(users),'users'
+    const users = await User.find().select("identifiant userId role isActive").sort({identifiant:1}) ;
+    console.log(users,'users')
 
     res.status(200).json({
+      message:'récupéré avec succes',
       count: users.length,
       identifiants: users.map((user) => user.identifiant),
       userId: users.map((user) => user.userId),

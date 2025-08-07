@@ -29,12 +29,13 @@ export const createUser =async(userData)=>{
 
 export const getAllUser = async () => {
   try {
-   const usersData= await authApi.get('/user/users');
-    console.log(usersData.data)
+    console.log("debut de service getAlluser")
+   const usersData= await authApi.get('/user/userList');
+    console.log(usersData.data, 'donnée récupéré')
     return usersData.data
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Erreur récupération profils');
-  }
+  }finally{console.log('fin getalluser')}
 };
 
 export const getOneUser = async(identifiant)=>{

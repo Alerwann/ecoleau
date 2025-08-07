@@ -69,6 +69,11 @@ export const ProfilProvider = ({ children }) => {
       setProfilLoading(false);
     }
   };
+
+
+
+
+  
   useEffect(() => {
     const fetchUserProfil = async () => {
       console.log("📊 État profil:", {
