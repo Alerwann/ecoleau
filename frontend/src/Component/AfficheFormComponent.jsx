@@ -1,21 +1,19 @@
-import { useEffect } from "react"
-import { createUser } from "../services/userServices"
+
+import {useUsers} from "../contexts/UsersContext"
 
 function AfficheFormComponent({creaEnd, userId, identifiant, password, role}){
 
-    useEffect(()=>{
-
-    })
+    const {createNewUser} =useUsers()
 
 
 const onClickValidate =async()=>{
 
-    try{await createUser({userId,password,identifiant,role})
+    try{await createNewUser({userId,password,identifiant,role})
         console.log('enregister')}
     catch(error){
         console.log('erreur lors de la création', error)
     }
-  
+  window.location.reload()
 }
 
 

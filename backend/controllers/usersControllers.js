@@ -3,6 +3,7 @@ import User from "../models/User/User.js";
 
 export const createUser = async (req, res) => {
   try {
+    console.log(req, 'recu')
     const { userId, password, identifiant , role} = req.body;
 
     if (!userId || !password || !identifiant || !role) {

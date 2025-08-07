@@ -5,8 +5,12 @@ import User from '../../models/User/User.js';
 
 export const authenticateToken = async (req, res, next) => {
   try {
+
+    console.log(req.headers, 'header')
     // 1. Récupérer le token (privilégier header pour API)
     const token = req.headers.authorization?.split(' ')[1] || req.cookies.accessToken;
+
+    console.log(token, 'token')
     
     if (!token) {
       return res.status(401).json({ error: 'Token manquant' });

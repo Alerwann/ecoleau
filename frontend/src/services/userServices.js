@@ -1,16 +1,11 @@
-import axios from 'axios';
+import authApi from './authServices';
 
 
-
-const userApi = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-  withCredentials: true
-});
 
 export const createUser =async(userData)=>{
   try{console.log('début createUser')
 
-      const createData =await userApi.post("/user/createuser",userData);
+      const createData =await authApi.post("/user/createuser",userData);
       console.log(createData)
       return createData.data
   
@@ -34,7 +29,7 @@ export const createUser =async(userData)=>{
 
 export const getAllUser = async () => {
   try {
-   const usersData= await userApi.get('/user/users');
+   const usersData= await authApi.get('/user/users');
     console.log(usersData.data)
     return usersData.data
   } catch (error) {
@@ -45,7 +40,7 @@ export const getAllUser = async () => {
 
 export const getOneUser = async(identifiant)=>{
   try{
-    const usersData = await userApi.get(`/user/getone/${identifiant}`)
+    const usersData = await authApi.get(`/user/getone/${identifiant}`)
      console.log(usersData.data)
     return usersData.data
   }
@@ -61,7 +56,7 @@ export const getOneUser = async(identifiant)=>{
 
 export const changeRole= async(identifiant, newRole, reason)=>{
   try{
-    const roledata = await userApi.patch(`/change-role/${identifiant}`,{
+    const roledata = await authApi.patch(`/change-role/${identifiant}`,{
       newRole,  // ← Le nouveau rôle
       reason    // ← La justification
     });
@@ -79,7 +74,7 @@ export const changeRole= async(identifiant, newRole, reason)=>{
 
 export const resetPassword =async(identifiant)=>{
   try{
-    const passresetData =await userApi.post(`/reset-password/${identifiant}`)
+    const passresetData =await authApi.post(`/reset-password/${identifiant}`)
     console.log(passresetData.data)
     return passresetData.data;
   }
@@ -99,7 +94,7 @@ export const resetPassword =async(identifiant)=>{
 export const toggleActive =async (identifiant, reason=null) =>{
   try{
      const body = reason ? { reason } : {};
-    const toggleData = await userApi.patch(`/toggle-active/${identifiant}`,body)
+    const toggleData = await authApi.patch(`/toggle-active/${identifiant}`,body)
     console.log(toggleData)
     return toggleData
   }
