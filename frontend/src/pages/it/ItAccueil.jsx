@@ -14,47 +14,74 @@ function It() {
   const navigate = useNavigate();
   const { profilLoading, error, nom , prenom, identifiant, role} = useCurrentUser();
 
+  
+
 
   const { fetchAllUsers } = useUsers();
   const [listUser, setListUser] = useState();
   const [listUserObtenu, setListUserObtenu]=useState(false)
+  
 
-  useEffect(() => {
-    console.log(listUser, "liste des users jj", );
-    console.log(nom, 'identifiant')
-  }, [listUser,nom ,prenom]);
+
+
 
 
   const OnclicktgeAllUser = async () => {
-    try {
+    console.log(listUserObtenu)
+    if(listUserObtenu===false){
+       try {
       const liste = await fetchAllUsers();
       setListUser(liste);
     } catch (error) {
       console.error(error, "on va y arriver");
     }finally{setListUserObtenu(true)}
+    }
+    else setListUserObtenu(false)
+   
   };
 
   function ListUserShow(){
     if(listUserObtenu!==false){
+      console.log(listUser.count)
+      for(let i=0; i<listUser.count; i++){
+       console.log(listUser.identifiants[i], listUser.role[i],listUser.isActive[i])
+       // tentative de faire un table de chaque [utilisateur1(actif, role), utilisateur2{actif,role}]
+      }
+
       return (
-        <div className="tabusers">
-          <div>
-          {  listUser.identifiants.map(((identifants
+       <div> deplier
+
+            {/* <table>
+        <tr>
+              <td>
+          {  listUser.identifiants.map((identifants
             )=>
                 <h1>{identifants}</h1>
 
-            ))}
-          </div>
-          <div>
-           { listUser.role.map(((role
+            )}
+          </td>
+          <td>
+           { listUser.role.map((role
             )=>
                 <h1>{role}</h1>
 
-            ))}
-          </div>
+            )}
+          </td>
+   
+            </tr>
+       </table>  */}
+       </div>
+   
             
           
-        </div>
+          
+
+         
+            
+          
+        
+     
+        
       )
     }
 
