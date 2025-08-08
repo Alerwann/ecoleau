@@ -1,14 +1,15 @@
 import { useNavigate,  } from "react-router-dom";
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import Loading from "../../Component/Loading";
 import Error from "../../Component/Error";
-
 import PageLayout from "../../Component/PageLayout/PageLayout";
 import { useCurrentUser } from "../../Hook/profilCurrentUser";
 
 import { useUsers } from "../../contexts/UsersContext";
 
-import './itcss.css'
+import ListUserShow from "../../Component/Listshow";
+
+
 
 function It() {
   const navigate = useNavigate();
@@ -20,9 +21,18 @@ function It() {
   const { fetchAllUsers } = useUsers();
   const [listUser, setListUser] = useState();
   const [listUserObtenu, setListUserObtenu]=useState(false)
-  
 
 
+function ListUser(){
+if(listUserObtenu === true){
+  return(<ListUserShow listUsers={[listUser]}/>)
+
+
+}else{
+  return(<h3>replié</h3>)
+}
+
+}
 
 
 
@@ -40,54 +50,7 @@ function It() {
    
   };
 
-  function ListUserShow(){
-    if(listUserObtenu!==false){
-      console.log(listUser.count)
-      for(let i=0; i<listUser.count; i++){
-       console.log(listUser.identifiants[i], listUser.role[i],listUser.isActive[i])
-       // tentative de faire un table de chaque [utilisateur1(actif, role), utilisateur2{actif,role}]
-      }
 
-      return (
-       <div> deplier
-
-            {/* <table>
-        <tr>
-              <td>
-          {  listUser.identifiants.map((identifants
-            )=>
-                <h1>{identifants}</h1>
-
-            )}
-          </td>
-          <td>
-           { listUser.role.map((role
-            )=>
-                <h1>{role}</h1>
-
-            )}
-          </td>
-   
-            </tr>
-       </table>  */}
-       </div>
-   
-            
-          
-          
-
-         
-            
-          
-        
-     
-        
-      )
-    }
-
-
-
-  }
 
 
   if (profilLoading) {
@@ -103,23 +66,30 @@ function It() {
       subtitle="Gestion des comptes utilisateurs"
     >
       <div className="dashboard-grid">
-        <div className="card">
+        <div className="card profil">
           <h2>{nom} {prenom} </h2>
-          <p>identifiant : {identifiant}</p>
-          <p>Role : {role}</p>
+
+          <h2>Identifiant : {identifiant}</h2>
+          
+            <h2>Role : {role}</h2>
+        
         </div>
 
-        <div className="card">
-          <h2>Actions rapides</h2>
-          <button onClick={() => navigate("/it/create")}>
+        <div className="card action">
+          <div><h2>Actions rapides</h2></div>
+          
+          <div className="choiceButton">
+             <button onClick={() => navigate("/it/create")}>
             Créer un compte
           </button>
           <button onClick={() => OnclicktgeAllUser()}>
             liste de utilisateur
           </button>
+          </div>
+         
         </div>
         <div>
-          <ListUserShow/>
+          <ListUser />
         </div>
       </div>
     </PageLayout>

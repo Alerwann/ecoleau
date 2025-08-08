@@ -57,7 +57,7 @@ function ProfilsList({ profils = [] }) {
   return (
     <div className="contenaire-list">
       {profils.map((profil) => (
-        <div key={profil._id} className="card-profil">
+        <div key={profil._id} className="card user">
           <div className="profil-item__header">
             <h3>
               {profil.prenom} {profil.nom}
