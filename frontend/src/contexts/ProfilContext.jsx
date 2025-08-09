@@ -74,46 +74,29 @@ export const ProfilProvider = ({ children }) => {
 
 
   
-  useEffect(() => {
-    const fetchUserProfil = async () => {
-      console.log("📊 État profil:", {
-        loading,
-        authComplete,
-        isAuthenticated,
-        hasUser: !!user,
-      }
-    );
+// ✅ Dans ProfilContext.jsx - Éviter les appels multiples
+useEffect(() => {
+  let isCancelled = false;
+  
+  const fetchUserProfil = async () => {
+    if (loading || !authComplete || !isAuthenticated) return;
 
-      // Attendre que l'auth soit complètement terminée
-      if (loading || !authComplete) {
-        
-        return;
-      }
-
-      if (!isAuthenticated || !user?.identifiant) {
-       console.log('pas authentifier et pas user identifiant')
-        setCurrentUserProfil(null);
-        return;
-      }
-
-      setProfilLoading(true);
-      try {
-       console.log(user.userId)
-        const userProfil = await getProfilById(user.userId);
-        
+    setProfilLoading(true);
+    try {
+      const userProfil = await getUserProfilByID(user.userId);
+      if (!isCancelled) {  // ← Évite les race conditions
         setCurrentUserProfil(userProfil);
-        
-      } catch (err) {
-        
-        setError(err.message);
-        setCurrentUserProfil(null);
-      } finally {
-        setProfilLoading(false);
       }
-    };
+    } catch (err) {
+      if (!isCancelled) setError(err.message);
+    } finally {
+      if (!isCancelled) setProfilLoading(false);
+    }
+  };
 
-    fetchUserProfil();
-  }, [user, isAuthenticated, loading, authComplete]); // ← Ajoutez authComplete dans les dépendances
+  fetchUserProfil();
+  return () => { isCancelled = true; }; // ← Cleanup
+}, [user, isAuthenticated, authComplete, loading]);
 
 
   return (

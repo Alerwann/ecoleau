@@ -58,7 +58,12 @@ export const login = async (req, res) => {
     res.json({
       success: true,
       accessToken,
-      user: { id: user._id, identifiant: user.identifiant , role: user.role, userId: user.userId},
+      user: {
+        id: user._id,
+        identifiant: user.identifiant,
+        role: user.role,
+        userId: user.userId,
+      },
       debug: { cookieSet: true },
     });
   } catch (err) {
@@ -90,9 +95,13 @@ export const refreshToken = async (req, res) => {
   }
   try {
     // 2. Vérification JWT
-     console.log('🔍 Vérification JWT...');
+    console.log("🔍 Vérification JWT...");
     const decoded = jwt.verify(userAuthentification, REFRESH_TOKEN_SECRET);
-      console.log('✅ JWT décodé:', { id: decoded.id, scope: decoded.scope, exp: decoded.exp });
+    console.log("✅ JWT décodé:", {
+      id: decoded.id,
+      scope: decoded.scope,
+      exp: decoded.exp,
+    });
 
     // 3. Nouvel accessToken
 
@@ -112,10 +121,15 @@ export const refreshToken = async (req, res) => {
 
     res.json({
       accessToken: newAccessToken,
-      user: { id: user._id, identifiant: user.identifiant, role: user.role, userId: user.userId },
+      user: {
+        id: user._id,
+        identifiant: user.identifiant,
+        role: user.role,
+        userId: user.userId,
+      },
     });
   } catch (err) {
-     console.log('❌ Erreur JWT:', err.message);
+    console.log("❌ Erreur JWT:", err.message);
     await tokenService.deleteuserAuthentification(userAuthentification); // Nettoie si token invalide
     res
       .status(403)
@@ -164,7 +178,6 @@ export const revokeSession = async (req, res) => {
       {
         _id: sessionId, // La session spécifique
         userId: req._id, // Sécurité : seulement SES sessions
-
       },
       { revoked: true } // Marque comme révoquée
     );

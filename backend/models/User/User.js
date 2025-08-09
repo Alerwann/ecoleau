@@ -9,9 +9,9 @@ const saltRounds = 10;
 
 const userSchema = new mongoose.Schema({
    userId: { 
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: 'UserProfil',
-   type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'UserProfil',
+ 
     unique: true, 
     required: true,
   

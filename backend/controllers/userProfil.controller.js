@@ -5,7 +5,7 @@ import User from "../models/User/User.js";
 
 export const createUserProfil = async (req, res) => {
   try {
-    const { identifiantRH, nom, prenom, dateEntree, managerName, emploi } =
+    const { identifiantRH, nom, prenom, dateEntree,dateNaissance, managerName, role } =
       req.body;
 
     if (
@@ -13,8 +13,8 @@ export const createUserProfil = async (req, res) => {
       !nom ||
       !prenom ||
       !dateEntree ||
-      
-      !emploi
+      !dateNaissance||      
+      !role
     ) {
       return res.status(400).json({ message: "tous les champs sont requis" });
     }
