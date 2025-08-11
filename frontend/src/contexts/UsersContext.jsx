@@ -57,14 +57,24 @@ export const UsersProvider = ({ children }) => {
 
 
   const createNewUser = async (userData) => {
-    try {
-      const newUser = await createUser(userData);
-      setUsers((prev) => [...prev, newUser]);
-      return newUser;
-    } catch (err) {
-      setError(err.message);
-      throw err;
-    }
+  try {
+    const newUser = await createUser(userData);
+    
+    setUsers((prev) => {
+      // Vérification que prev est bien un tableau
+      if (!Array.isArray(prev)) {
+        console.warn('prev n\'est pas un tableau, initialisation avec le nouvel utilisateur');
+        return [newUser];
+      }
+      return [...prev, newUser];
+    });
+    
+    return newUser;
+  } catch (err) {
+    setError(err.message);
+    throw err;
+  }
+
   };
 
   // Actions spécialisées IT

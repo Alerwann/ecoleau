@@ -28,8 +28,6 @@ if(listUserObtenu === true){
   return(<ListUserShow listUsers={[listUser]}/>)
 
 
-}else{
-  return(<h3>replié</h3>)
 }
 
 }

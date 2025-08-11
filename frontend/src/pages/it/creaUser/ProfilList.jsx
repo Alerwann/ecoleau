@@ -1,4 +1,4 @@
-import { creatIdentifiant, creatPassword } from "../../../Hook/hookCreaUser";
+import { creatIdentifiant, creatPassword } from "../../../Hook/hookCreaUser"
 
 import { useState } from "react";
 

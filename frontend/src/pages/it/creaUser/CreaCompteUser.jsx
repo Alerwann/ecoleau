@@ -1,17 +1,16 @@
 import PageLayout from "../../../Component/PageLayout/PageLayout";
 import { useProfilsWithoutAccount } from "../../../Hook/userProfilsWithoutAccount";
-import{useNavigate} from 'react-router'
+
 import Loading from "../../../Component/Loading";
 import Error from "../../../Component/Error";
 import ProfilsList from "./ProfilList";
+import BackButton from '../../../Component/BackButton'
 
 function CreaCompteUser() {
   const { profils, loading, error } = useProfilsWithoutAccount();
-  const navigate =useNavigate()
 
-  const onclickRetour =()=>{
-    navigate('/it')
-  }
+
+  
 
   if (loading) {
     return <Loading />;
@@ -36,7 +35,7 @@ function CreaCompteUser() {
         </div>
 
         <div className="bouton-nav">
-          <button onClick={onclickRetour}> Retour</button>
+          <BackButton chemin='/it'/>
         </div>
       </div>
     </PageLayout>

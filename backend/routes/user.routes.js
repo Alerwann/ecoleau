@@ -16,7 +16,7 @@ import { authenticateToken } from "../middleware/authentification/authMiddleware
 
 const router = express.Router();
 
-router.post("/createuser", createUser);
+router.post("/createuser", authenticateToken, checkRoles("it"), createUser);
 
 router.get("/userlist", userList);
 

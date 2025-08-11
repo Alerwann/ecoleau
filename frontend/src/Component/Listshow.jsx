@@ -1,8 +1,16 @@
-function listUserShow(listUsers) {
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import BackButton from "./BackButton";
+
+function ListUserShow(listUsers) {
+  const navigate=useNavigate()
+
   let Actif = "";
   let tabUsers = [];
   const listUser = listUsers.listUsers[0];
+
   console.log(listUser, "entree component", listUser.count);
+
   for (let i = 0; i < listUser.count; i++) {
     console.log(
       listUser.identifiants[i],
@@ -23,6 +31,9 @@ function listUserShow(listUsers) {
     };
     tabUsers.push(User);
   }
+  const toggled = (user) => {
+   navigate('/it/toggle',{state: { userData: user}})
+  };
 
   return (
     <div>
@@ -37,13 +48,13 @@ function listUserShow(listUsers) {
           <div>
             <h3>Actif : {user.isActive}</h3>
           </div>
-   
-            <button>Suspendre l'accès</button>
-            <button>Modifier</button>
+
+          <button onClick={() => toggled({isActive:user.isActive, identifiant:user.identifiant,  })}>Suspendre l'accès</button>
+          <button>Mofifier la personne</button>
         </div>
       ))}
     </div>
   );
 }
 
-export default listUserShow;
+export default ListUserShow;
