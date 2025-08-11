@@ -2,9 +2,9 @@
 import { useNavigate } from "react-router-dom";
 
 
-function ListUserShow({ listUsers = [] }) {
+function ListUserShow({ listUsers  }) {
   const navigate=useNavigate()
- if (!listUsers || listUsers.length === 0) {
+if (!listUsers) {
     return <div>Aucune donnée disponible</div>;
   }
   let Actif = "";
@@ -13,30 +13,30 @@ function ListUserShow({ listUsers = [] }) {
 
   console.log(listUser, "entree component", listUser.count);
 
-  for (let i = 0; i < listUser.count; i++) {
-    console.log(
-      listUser.identifiants[i],
-      listUser.role[i],
-      listUser.isActive[i]
-    );
-    if (listUser.isActive) {
-      Actif = "oui";
-    } else {
-      Actif = "non";
-    }
+  // for (let i = 0; i < listUser.count; i++) {
+  //   console.log(
+  //     listUser.identifiants[i],
+  //     listUser.role[i],
+  //     listUser.isActive[i]
+  //   );
+  //   if (listUser.isActive) {
+  //     Actif = "oui";
+  //   } else {
+  //     Actif = "non";
+  //   }
 
-    let User = {
-      identifiant: `${listUser.identifiants[i]}`,
-      role: `${listUser.role[i]}`,
-      isActive: Actif,
-      userId: `${listUser.userId[i]}`,
-    };
-    tabUsers.push(User);
-  }
+  //   let User = {
+  //     identifiant: `${listUser.identifiants[i]}`,
+  //     role: `${listUser.role[i]}`,
+  //     isActive: Actif,
+  //     userId: `${listUser.userId[i]}`,
+  //   };
+  //   tabUsers.push(User);
+  // }
   const toggled = (user) => {
    navigate('/it/desactivation',{state: { userData: user}})
   };
-
+if (listUsers.identifiants) {
   return (
     <div>
       <p>Premier utilisateur : {listUsers[0]?.identifiant}</p>
@@ -58,6 +58,6 @@ function ListUserShow({ listUsers = [] }) {
       ))}
     </div>
   );
-}
+}}
 
 export default ListUserShow;

@@ -40,12 +40,21 @@ if(listUserObtenu === true&& listUser){
 const OnclicktgeAllUser = async () => {
   if (listUserObtenu === false) {
     try {
-      const liste = await fetchAllUsers();
-      console.log('Type de liste:', typeof liste);
-      console.log('Contenu de liste:', liste);
-      setListUser(liste);
+      const response = await fetchAllUsers();
+     
+        const usersArray = response.identifiants.map((identifiant, index) => ({
+        identifiant: identifiant,
+        userId: response.userId[index],
+        role: response.role[index],
+        isActive: response.isActive[index], // Si cette propriété existe
+      
+      }));
+      
+    
+      
+       setListUser(usersArray); 
     } catch (error) {
-      console.error(error, "on va y arriver");
+      console.error(error);
     } finally {
       setListUserObtenu(true);
     }
