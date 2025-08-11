@@ -94,7 +94,7 @@ export const resetPassword =async(identifiant)=>{
 export const toggleActive =async (identifiant, reason=null) =>{
   try{
      const body = reason ? { reason } : {};
-    const toggleData = await authApi.patch(`/toggle-active/${identifiant}`,body)
+    const toggleData = await authApi.patch(`/user/toggle-active/${identifiant}`,body)
     console.log(toggleData)
     return toggleData
   }

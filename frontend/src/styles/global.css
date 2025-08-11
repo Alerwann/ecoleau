@@ -65,7 +65,6 @@ button {
   font-size: calc(var(--spacing-unit) * 3);
   background-color: var(--primary-color);
   color: var(--text-white);
-  
 }
 
 button:hover {
@@ -129,26 +128,30 @@ button:hover {
   justify-content: center;
 }
 
-.card.action{
-display:flex ;
-flex-direction: column;
-align-items: center;
+.card.action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .card.user {
   background-color: var(--secondary-color);
   display: flex;
   flex-direction: row;
   align-items: center;
-   justify-content: space-around ;
- 
+  justify-content: space-around;
 }
 
-.choiceButton{
-  display: flex ;
+.choiceButton {
+  display: flex;
   width: 100%;
   flex-direction: row;
   align-items: center;
-    justify-content: space-around ;
+  justify-content: space-around;
+}
 
-
+.formulaire-desact{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
 }

@@ -81,7 +81,7 @@ if(listUserObtenu === true){
             Créer un compte
           </button>
           <button onClick={() => OnclicktgeAllUser()}>
-            liste de utilisateur
+            Liste des utilisateurs
           </button>
           </div>
          

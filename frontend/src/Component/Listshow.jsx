@@ -32,7 +32,7 @@ function ListUserShow(listUsers) {
     tabUsers.push(User);
   }
   const toggled = (user) => {
-   navigate('/it/toggle',{state: { userData: user}})
+   navigate('/it/desactivation',{state: { userData: user}})
   };
 
   return (
