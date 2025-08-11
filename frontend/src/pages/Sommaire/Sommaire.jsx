@@ -4,7 +4,7 @@ import PageLayout from "../../Component/PageLayout/PageLayout";
 import Loading from "../../Component/Loading";
 import Error from "../../Component/Error";
 
-import { useAuth } from "../../contexts/Authcontext";
+import { useAuth } from "../../contexts/AuthContext";
 
 
 

@@ -1,7 +1,7 @@
 // contexts/ProfilContext.jsx
 import { createContext, useState, useEffect, useContext } from "react";
 
-import { useAuth } from "./Authcontext";
+import { useAuth } from "./AuthContext";
 import {
   getOneUserProfil,
   getAllUserProfils,

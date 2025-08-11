@@ -1,5 +1,5 @@
 // hooks/useCurrentUser.js
-import { useAuth } from '../contexts/Authcontext';
+import { useAuth } from '../contexts/AuthContext';
 import { useProfil } from '../contexts/ProfilContext';
 
 export const useCurrentUser = () => {
@@ -15,7 +15,7 @@ export const useCurrentUser = () => {
     // Données profil
     nom: currentUserProfil?.nom,
     prenom: currentUserProfil?.prenom,
-    role: currentUserProfil?.role,
+    // role: currentUserProfil?.role,
     managerNom: currentUserProfil?.managerNom,
     
     // États

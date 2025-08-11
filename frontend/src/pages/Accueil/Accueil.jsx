@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./accueil.css";
 import idimg from "../../assets/idimg.webp";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/Authcontext";
+import { useAuth } from "../../contexts/AuthContext";
 import PageLayout from "../../Component/PageLayout/PageLayout";
 import { usePasswordDisplay } from "../../Hook/useTogglePassword";
 

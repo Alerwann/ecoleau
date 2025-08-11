@@ -2,7 +2,7 @@
 //gestion de la collection user pour la création
 
 import { createContext, useState, useContext, useEffect } from "react";
-import { useAuth } from "./Authcontext";
+import { useAuth } from "./AuthContext";
 
 import {
   createUser,
@@ -12,7 +12,7 @@ import {
   toggleActive,
   changeRole,
 } from "../services/userServices";
-import { set } from "mongoose";
+// import { set } from "mongoose";
 
 const UsersContext = createContext();
 
