@@ -49,7 +49,7 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-userSchema.index({ identifiant: 1 });
+// userSchema.index({ identifiant: 1 });
 
 
 export default mongoose.model('User', userSchema);
