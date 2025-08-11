@@ -1,5 +1,5 @@
 import { useNavigate,  } from "react-router-dom";
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import Loading from "../../Component/Loading";
 import Error from "../../Component/Error";
 import PageLayout from "../../Component/PageLayout/PageLayout";
@@ -41,18 +41,17 @@ const OnclicktgeAllUser = async () => {
   if (listUserObtenu === false) {
     try {
       const response = await fetchAllUsers();
-     
-        const usersArray = response.identifiants.map((identifiant, index) => ({
+      
+      // Transformation complète
+      const usersArray = response.identifiants.map((identifiant, index) => ({
         identifiant: identifiant,
         userId: response.userId[index],
         role: response.role[index],
-        isActive: response.isActive[index], // Si cette propriété existe
-      
+        isActive: response.isActive[index] ? "oui" : "non" // Conversion boolean → string
       }));
       
-    
+      setListUser(usersArray);
       
-       setListUser(usersArray); 
     } catch (error) {
       console.error(error);
     } finally {
@@ -64,7 +63,11 @@ const OnclicktgeAllUser = async () => {
 };
 
 
-
+  useEffect(() => {
+    if (listUserObtenu) {
+      OnclicktgeAllUser(); // Recharger la liste
+    }
+  }, []);
 
   if (profilLoading) {
     return <Loading />;

@@ -1,63 +1,56 @@
-
 import { useNavigate } from "react-router-dom";
 
-
-function ListUserShow({ listUsers  }) {
-  const navigate=useNavigate()
-if (!listUsers) {
+function ListShow({ listUsers }) {
+  const navigate = useNavigate();
+  
+  if (!listUsers) {
     return <div>Aucune donnée disponible</div>;
   }
-  let Actif = "";
-  let tabUsers = [];
-  const listUser = listUsers.listUsers[0];
 
-  console.log(listUser, "entree component", listUser.count);
+  // Vérifier si c'est l'objet du backend ou un tableau transformé
+  let usersToDisplay = [];
+  
+  if (Array.isArray(listUsers)) {
+    // Si c'est déjà un tableau (de ItAccueil après transformation)
+    usersToDisplay = listUsers;
+  } else if (listUsers.identifiants) {
+    // Si c'est l'objet brut du backend, transformer ici
+    usersToDisplay = listUsers.identifiants.map((identifiant, index) => ({
+      identifiant: identifiant,
+      userId: listUsers.userId[index],
+      role: listUsers.role[index],
+      isActive: listUsers.isActive[index] ? "oui" : "non"
+    }));
+  }
 
-  // for (let i = 0; i < listUser.count; i++) {
-  //   console.log(
-  //     listUser.identifiants[i],
-  //     listUser.role[i],
-  //     listUser.isActive[i]
-  //   );
-  //   if (listUser.isActive) {
-  //     Actif = "oui";
-  //   } else {
-  //     Actif = "non";
-  //   }
-
-  //   let User = {
-  //     identifiant: `${listUser.identifiants[i]}`,
-  //     role: `${listUser.role[i]}`,
-  //     isActive: Actif,
-  //     userId: `${listUser.userId[i]}`,
-  //   };
-  //   tabUsers.push(User);
-  // }
   const toggled = (user) => {
-   navigate('/it/desactivation',{state: { userData: user}})
+    navigate('/it/desactivation', { state: { userData: user } });
   };
-if (listUsers.identifiants) {
+
   return (
     <div>
-      <p>Premier utilisateur : {listUsers[0]?.identifiant}</p>
-      {tabUsers.map((user) => (
-        <div key={user.identifiant} className="card user ">
+      <p>Nombre d'utilisateurs : {usersToDisplay.length}</p>
+      {usersToDisplay.map((user, index) => (
+        <div key={user.identifiant || index} className="card user">
           <div>
             <h3>Identifiant : {user.identifiant}</h3>
-
-            <h3>Role : {user.role} </h3>
-            <h3>Id d'utilisateur : {user.userId} </h3>
+            <h3>Role : {user.role}</h3>
+            <h3>Id d'utilisateur : {user.userId}</h3>
           </div>
           <div>
             <h3>Actif : {user.isActive}</h3>
           </div>
-
-          <button onClick={() => toggled({isActive:user.isActive, identifiant:user.identifiant,  })}>Suspendre l'accès</button>
-          <button>Mofifier la personne</button>
+          <button 
+            onClick={() => toggled({
+              isActive: user.isActive, 
+              identifiant: user.identifiant
+            })}
+          >
+            Suspendre l'accès
+          </button>
+          <button>Modifier la personne</button>
         </div>
       ))}
     </div>
   );
-}}
-
-export default ListUserShow;
+}export default ListShow
