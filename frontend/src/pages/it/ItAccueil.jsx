@@ -14,39 +14,45 @@ import ListUserShow from "../../Component/Listshow";
 function It() {
   const navigate = useNavigate();
   const { profilLoading, error, nom , prenom, identifiant, role} = useCurrentUser();
-
+  const { users, fetchAllUsers } = useUsers();
+  const [listUser, setListUser] =useState([])
   
 
 
-  const { fetchAllUsers } = useUsers();
-  const [listUser, setListUser] = useState();
+ 
+  // const [listUser, setListUser] = useState();
   const [listUserObtenu, setListUserObtenu]=useState(false)
 
 
+
+
 function ListUser(){
-if(listUserObtenu === true){
-  return(<ListUserShow listUsers={[listUser]}/>)
+if(listUserObtenu === true&& listUser){
+  return(<ListUserShow listUsers={users} />)
 
+
+}return(null)
 
 }
 
-}
 
 
-
-  const OnclicktgeAllUser = async () => {
-    console.log(listUserObtenu)
-    if(listUserObtenu===false){
-       try {
+const OnclicktgeAllUser = async () => {
+  if (listUserObtenu === false) {
+    try {
       const liste = await fetchAllUsers();
+      console.log('Type de liste:', typeof liste);
+      console.log('Contenu de liste:', liste);
       setListUser(liste);
     } catch (error) {
       console.error(error, "on va y arriver");
-    }finally{setListUserObtenu(true)}
+    } finally {
+      setListUserObtenu(true);
     }
-    else setListUserObtenu(false)
-   
-  };
+  } else {
+    setListUserObtenu(false);
+  }
+};
 
 
 

@@ -2,9 +2,11 @@
 import { useNavigate } from "react-router-dom";
 
 
-function ListUserShow(listUsers) {
+function ListUserShow({ listUsers = [] }) {
   const navigate=useNavigate()
-
+ if (!listUsers || listUsers.length === 0) {
+    return <div>Aucune donnée disponible</div>;
+  }
   let Actif = "";
   let tabUsers = [];
   const listUser = listUsers.listUsers[0];
@@ -37,6 +39,7 @@ function ListUserShow(listUsers) {
 
   return (
     <div>
+      <p>Premier utilisateur : {listUsers[0]?.identifiant}</p>
       {tabUsers.map((user) => (
         <div key={user.identifiant} className="card user ">
           <div>
