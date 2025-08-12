@@ -47,7 +47,7 @@ const OnclicktgeAllUser = async () => {
         identifiant: identifiant,
         userId: response.userId[index],
         role: response.role[index],
-        isActive: response.isActive[index] ? "oui" : "non" // Conversion boolean → string
+        isActive: response.isActive[index] ? "oui" : "non" 
       }));
       
       setListUser(usersArray);

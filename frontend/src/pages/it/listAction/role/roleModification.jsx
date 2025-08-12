@@ -19,8 +19,13 @@ function RoleModification({ role, identifiant }) {
     setSuccessMessage("");
     setErrorMessage("")
 
-      if (!motif.trim()) {
+      if (!motif.trim) {
       setErrorMessage("Le motif est obligatoire");
+      return;
+    }
+
+    if (!newRole) {
+      setErrorMessage("Veuillez sélectionner un rôle");
       return;
     }
 
