@@ -9,7 +9,7 @@ function Modification() {
   console.log(user);
 
   return (
-    <PageLayout title="Modification :" subtitle="État de session">
+    <PageLayout title="Modification :" subtitle="Rôle de l'utilisateur">
       <RoleModification role={user.role} identifiant={user.identifiant} />
     </PageLayout>
   );
