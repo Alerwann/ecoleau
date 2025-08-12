@@ -2,7 +2,7 @@ import PageLayout from "../../../Component/PageLayout/PageLayout";
 import Action from "./Action";
 import { useLocation } from "react-router-dom";
 
-function ModifLayout() {
+function ModificationUser() {
   const location = useLocation();
 
   const user = location.state?.userData;
@@ -22,4 +22,4 @@ function ModifLayout() {
     </PageLayout>
   );
 }
-export default ModifLayout;
+export default ModificationUser;

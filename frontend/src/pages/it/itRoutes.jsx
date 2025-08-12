@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import It from "./ItAccueil";
 import CreaCompteUser from "./creaUser/CreaCompteUser";
 
-import ModifLayout from "./listAction/ModificationLayout";
+import ModificationUser from "./listAction/ModificationUser";
 
 function ITRoutes() {
   return (
@@ -11,7 +11,7 @@ function ITRoutes() {
       <Route index element={<It />} />
       <Route path="/create" element={<CreaCompteUser />} />
    
-      <Route path="/modification" element={<ModifLayout/>}/>
+      <Route path="/modification" element={<ModificationUser/>}/>
     </Routes>
   );
 }

@@ -2,9 +2,10 @@ import { useState } from "react";
 import { toggleacces } from "../../../Hook/toggledacces";
 import Loading from "../../../Component/Loading";
 import BackButton from "../../../Component/BackButton";
-import { roleModif } from "../../../Hook/rolemodif";
 import { useNavigate } from "react-router-dom";
 import { changeRole } from "../../../services/userServices";
+
+import { useModification } from "../../../Hook/toggledacces";
 
 function Action({ identifiant, action, role, isActive }) {
   const navigate = useNavigate();
@@ -16,33 +17,24 @@ function Action({ identifiant, action, role, isActive }) {
   const [disabledstatut, setDisabledStatut] = useState(false);
   const [newRole, setNewRole] = useState(role);
 
+  const { toggleAccess, toggleRole } = useModification(
+    setSuccessMessage,
+    setErrorMessage,
+    setDisabledStatut
+  );
+
   const soumition = async (e) => {
     e.preventDefault();
     setLoading(true);
     setSuccessMessage("");
     setErrorMessage("");
-
+    setLoading(true);
     try {
       if (action === "acces") {
-        await toggleacces(identifiant, isActive, motif);
-        if (isActive === "oui") {
-          setSuccessMessage(
-            `Utilisateur ${identifiant} désactivé avec succès !`
-          );
-        } else {
-          setSuccessMessage(`Utilisateur ${identifiant} activé avec succès !`);
-        }
-        setDisabledStatut(true);
-        setTimeout(() => {
-          navigate("/it");
-        }, 2000);
+        await toggleAccess(identifiant, motif, isActive);
       }
 
       if (action === "role") {
-        
-        setSuccessMessage("");
-        setErrorMessage("");
-
         if (!motif.trim()) {
           setErrorMessage("Le motif est obligatoire");
           return;
@@ -57,24 +49,33 @@ function Action({ identifiant, action, role, isActive }) {
           setErrorMessage("Le nouveau rôle doit être différent du rôle actuel");
           return;
         }
-        setLoading(true);
-        await changeRole(identifiant, newRole, motif);
-        setSuccessMessage(`Le role a été modifier en ${newRole}`);
-        setDisabledStatut(true);
-        setTimeout(() => {
-          navigate("/it");
-        }, 2000);
+
+        await toggleRole(identifiant, motif, newRole);
       }
-    } catch (error) {
-      console.log(error, "modification impossible");
-      if (error.response?.status === 404) {
-        console.log("Utilisateur introuvable");
-      } else if (error.response?.status === 500) {
-        console.log("Erreur serveur");
-      } else {
-        console.log("Désactivation impossible:", error.message);
+    } catch (error) {}finally{setLoading(false)}
+
+    if (action === "acces") {
+      await toggleAccess(identifiant, motif, isActive);
+    }
+
+    if (action === "role") {
+      if (!motif.trim()) {
+        setErrorMessage("Le motif est obligatoire");
+        return;
       }
-    } finally {
+
+      if (!newRole) {
+        setErrorMessage("Veuillez sélectionner un rôle");
+        return;
+      }
+
+      if (newRole === role) {
+        setErrorMessage("Le nouveau rôle doit être différent du rôle actuel");
+        return;
+      }
+      setLoading(true);
+      await toggleRole(identifiant, motif, newRole);
+
       setLoading(false);
     }
   };
@@ -95,7 +96,9 @@ function Action({ identifiant, action, role, isActive }) {
           <textarea
             name="motif"
             id="motif"
-            placeholder={action === "role" ? "Motif obligatoire" : "Motif (facultatif)"}
+            placeholder={
+              action === "role" ? "Motif obligatoire" : "Motif (facultatif)"
+            }
             rows={5}
             cols={70}
             onChange={(e) => setMotif(e.target.value)}
