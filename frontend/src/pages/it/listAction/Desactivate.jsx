@@ -10,11 +10,12 @@ function Desactivate() {
  
   return (
     <PageLayout
-      title="Écol'eau"
-      subtitle="On prend soin de l'environement et pas que..."
+      title="Modification :"
+      subtitle="État de session"
     >
       <Toggle isActive={user.isActive} identifiant={user.identifiant}/>
     </PageLayout>
   );
 }
 export default Desactivate;
+

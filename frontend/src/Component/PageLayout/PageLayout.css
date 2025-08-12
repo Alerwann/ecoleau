@@ -60,13 +60,7 @@
   margin: 0 auto;
 }
 
-.btn-danger.disabled {
-  background-color: #95a5a6 !important;
-  color: #7f8c8d !important;
-  cursor: not-allowed !important;
-  pointer-events: none; /* Empêche clics, survol, etc. */
-  transform: none !important;
-}
+
 
 .text-gradient {
   background: linear-gradient(45deg, #da0e1f, #654eeb);

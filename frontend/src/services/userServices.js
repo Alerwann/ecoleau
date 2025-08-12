@@ -91,12 +91,12 @@ export const resetPassword =async(identifiant)=>{
   }
 }
 
-export const toggleActive =async (identifiant, reason=null) =>{
+export const toggleActive =async (identifiant, motif=null) =>{
   try{
-     const body = reason ? { reason } : {};
+     const body = motif ? { motif } : {};
     const toggleData = await authApi.patch(`/user/toggle-active/${identifiant}`,body)
     console.log(toggleData)
-    return toggleData
+    return toggleData.data
   }
   catch(error){
     if (error.response?.status === 404) {

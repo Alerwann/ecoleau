@@ -261,6 +261,7 @@ export const toggleUserActive = async (req, res) => {
     }
     
     const newStatus = !user.isActive;
+    
     const action = newStatus ? 'activé' : 'désactivé';
     
     // Mise à jour

@@ -29,7 +29,7 @@ function PageLayout({ children, title, subtitle, disabledstatut=false }) {
            
           
           {/* <span className="user-role">{role?.toUpperCase()}</span> */}
-          <button onClick={logout} className={`btn-danger ${disabledstatut ? 'disabled' : ''}`}>
+          <button onClick={logout} className={`btn-valide ${disabledstatut ? 'disable' : ''}`}>
           Déconnexion</button>
        
       </header>

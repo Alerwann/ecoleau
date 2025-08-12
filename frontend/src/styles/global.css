@@ -149,9 +149,31 @@ button:hover {
   justify-content: space-around;
 }
 
-.formulaire-desact{
+.formulaire-desact {
   display: flex;
   flex-direction: column;
   align-items: center;
-  
+}
+
+.btn-valide.disable {
+  background-color: #95a5a6 !important;
+  color: #7f8c8d !important;
+  cursor: not-allowed !important;
+  pointer-events: none; /* Empêche clics, survol, etc. */
+  transform: none !important;
+}
+
+.authcontenair {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.successMessage {
+  background-color: "#d4edda";
+  color: "#155724";
+  padding: "10px";
+  border-radius: "5px";
+  margin-bottom: "20px";
+  border: "1px solid #c3e6cb";
 }

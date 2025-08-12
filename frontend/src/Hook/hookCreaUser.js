@@ -9,7 +9,10 @@ export const creatIdentifiant = async (nom, prenom) => {
   while (verif === true) {
     try {
       verif = await verifIdentifiant(identTemp);
-    } catch (error) {}
+    } catch (error) {
+       console.error("Erreur vérification:", error);
+      break; // Éviter boucle infinie
+    }
 
     console.log(verif);
   }
@@ -18,18 +21,15 @@ export const creatIdentifiant = async (nom, prenom) => {
 };
 
 export const verifIdentifiant = async (identTemp) => {
-  let profilsuser = [];
-  let tabIdentifiants = [];
+
   try {
-    profilsuser = await getAllUser();
+    const users = await getAllUser();
+    return users.some(user => user.identifiant === identTemp);
   } catch (error) {
     console.log(error, "impossible d'avoir la liste");
+    throw error;
   }
-  tabIdentifiants = profilsuser.identifiants;
 
-  const verif = tabIdentifiants.includes(identTemp);
-
-  return verif;
 };
 
 export const creatPassword = () => {
