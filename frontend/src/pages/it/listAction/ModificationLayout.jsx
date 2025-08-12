@@ -1,6 +1,6 @@
 import PageLayout from "../../../Component/PageLayout/PageLayout";
-import Error from "../../../Component/Error";
-import RoleModification from "./role/roleModification";
+// import Error from "../../../Component/Error";
+// import RoleModification from "./role/roleModification";
 import Action from "./Action";
 import { useLocation } from "react-router-dom";
 
@@ -16,6 +16,9 @@ function ModifLayout() {
     <PageLayout title="Modification :" subtitle="Rôle de l'utilisateur">
      <Action 
      identifiant = {user.identifiant}
+     action ={user.action}
+     role={user.role}
+     isActive={user.isActive}
      />
      
     </PageLayout>

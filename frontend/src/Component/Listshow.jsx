@@ -45,7 +45,7 @@ const modification =(user)=>{
             onClick={() => modification({
               isActive: user.isActive, 
               identifiant: user.identifiant,
-              action:'role'
+              action:'acces'
             })}
           >
            Modifier l'accès
@@ -54,7 +54,7 @@ const modification =(user)=>{
           onClick={()=>modification({
             identifiant: user.identifiant,
             role: user.role,
-            action: 'acces'
+            action: 'role'
           })}
           >Modifier le role</button>
         </div>

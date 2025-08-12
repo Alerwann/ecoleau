@@ -6,9 +6,8 @@ import { roleModif } from "../../../Hook/rolemodif";
 import { useNavigate } from "react-router-dom";
 import { changeRole } from "../../../services/userServices";
 
-function Action(identifiant, action, role, isActive) {
-
-  const navigate= useNavigate()
+function Action({identifiant, action, role, isActive}) {
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -17,62 +16,61 @@ function Action(identifiant, action, role, isActive) {
   const [disabledstatut, setDisabledStatut] = useState(false);
   const [newRole, setNewRole] = useState(role);
 
-  setLoading(true);
-  setSuccessMessage("");
-
   const soumition = async (e) => {
     e.preventDefault();
-
-    if ((action === "acces")) {
-
-      try{
+    setLoading(true);
+    setSuccessMessage("");
+    if (action === "acces") {
+      try {
         await toggleacces(identifiant, isActive, motif);
-      if (isActive === "oui") {
-        setSuccessMessage(`Utilisateur ${identifiant} désactivé avec succès !`);
-      } else {
-        setSuccessMessage(`Utilisateur ${identifiant} activé avec succès !`);
+        if (isActive === "oui") {
+          setSuccessMessage(
+            `Utilisateur ${identifiant} désactivé avec succès !`
+          );
+        } else {
+          setSuccessMessage(`Utilisateur ${identifiant} activé avec succès !`);
+        }
+        setDisabledStatut(true);
+        setTimeout(() => {
+          navigate("/it");
+        }, 2000);
+      } catch (error) {
+        console.log(error, "désactivation impossible");
+        if (error.response?.status === 404) {
+          console.log("Utilisateur introuvable");
+        } else if (error.response?.status === 500) {
+          console.log("Erreur serveur");
+        } else {
+          console.log("Désactivation impossible:", error.message);
+        }
+      } finally {
+        setLoading(false);
       }
-      setDisabledStatut(true);
-      setTimeout(() => {
-        navigate("/it");
-      }, 2000);}catch (error) {
-      console.log(error, "désactivation impossible");
-      if (error.response?.status === 404) {
-        console.log("Utilisateur introuvable");
-      } else if (error.response?.status === 500) {
-        console.log("Erreur serveur");
-      } else {
-        console.log("Désactivation impossible:", error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
-      
     }
 
-    if ((action === "role")) {
-      try{ 
-        setLoading(true)
-        await roleModif(identifiant,role,newRole, motif);
+    if (action === "role") {
+      try {
+        setLoading(true);
+        await roleModif(identifiant, role, newRole, motif);
         setSuccessMessage("");
-    setErrorMessage("")
+        setErrorMessage("");
 
-      if (!motif.trim) {
-      setErrorMessage("Le motif est obligatoire");
-      return;
-    }
+        if (!motif.trim) {
+          setErrorMessage("Le motif est obligatoire");
+          return;
+        }
 
-    if (!newRole) {
-      setErrorMessage("Veuillez sélectionner un rôle");
-      return;
-    }
+        if (!newRole) {
+          setErrorMessage("Veuillez sélectionner un rôle");
+          return;
+        }
 
-    if (newRole === role) {
-      setErrorMessage("Le nouveau rôle doit être différent du rôle actuel");
-      return;
-    }
+        if (newRole === role) {
+          setErrorMessage("Le nouveau rôle doit être différent du rôle actuel");
+          return;
+        }
 
-     try {
+        try {
           await changeRole(identifiant, newRole, motif);
           setSuccessMessage(`Le role a été modifier en ${newRole}`);
           setDisabledStatut(true);
@@ -91,11 +89,7 @@ function Action(identifiant, action, role, isActive) {
         } finally {
           setLoading(false);
         }
-      
-      }
-      catch(error){}
-
-     
+      } catch (error) {}
     }
   };
 
