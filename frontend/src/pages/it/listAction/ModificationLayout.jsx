@@ -1,5 +1,4 @@
 import PageLayout from "../../../Component/PageLayout/PageLayout";
-import Toggle from "./access/Toggle";
 import Error from "../../../Component/Error";
 import RoleModification from "./role/roleModification";
 import Action from "./Action";
@@ -10,16 +9,14 @@ function ModifLayout() {
 
   const user = location.state?.userData;
   console.log(user);
-function ModifChoice(){
-switch(user.action){
-  case 'role': return(<Action />);  case 'acces' : return(<RoleModification/>);  default : return(<Error/>);}
 
-}
 
 
   return (
     <PageLayout title="Modification :" subtitle="Rôle de l'utilisateur">
-     <ModifChoice/>
+     <Action 
+     identifiant = {user.identifiant}
+     />
      
     </PageLayout>
   );
