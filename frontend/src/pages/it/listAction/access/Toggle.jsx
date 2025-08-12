@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-import { toggleActive } from "../../../services/userServices";
+import { toggleActive } from "../../../../services/userServices";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../../Component/Loading";
-import BackButton from "../../../Component/BackButton";
+import Loading from "../../../../Component/Loading";
+import BackButton from "../../../../Component/BackButton";
 
 function Toggle({ isActive, identifiant }) {
   const [motif, setMotif] = useState("");
@@ -49,8 +49,6 @@ function Toggle({ isActive, identifiant }) {
 
   return (
     <div className="authcontenair">
-    
-
       <form onSubmit={handleSubmit} className="formulaire-desact">
         <label htmlFor="motif">
           <h2>
@@ -59,7 +57,6 @@ function Toggle({ isActive, identifiant }) {
           </h2>
 
           <textarea
-            
             name="motif"
             id="motif"
             placeholder="Motif(facultatif)"
@@ -76,7 +73,7 @@ function Toggle({ isActive, identifiant }) {
           Modifier
         </button>
       </form>
-        {successMessage && (
+      {successMessage && (
         <div className="successMessage">✅ {successMessage}</div>
       )}
       <BackButton chemin="/it" />

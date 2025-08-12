@@ -54,11 +54,11 @@ export const getOneUser = async(identifiant)=>{
 }
 
 
-export const changeRole= async(identifiant, newRole, reason)=>{
+export const changeRole= async(identifiant, newRole, motif)=>{
   try{
-    const roledata = await authApi.patch(`/change-role/${identifiant}`,{
+    const roledata = await authApi.patch(`/user/change-role/${identifiant}`,{
       newRole,  // ← Le nouveau rôle
-      reason    // ← La justification
+      motif    // ← La justification
     });
     console.log(roledata.data)
     return roledata.data
@@ -66,6 +66,7 @@ export const changeRole= async(identifiant, newRole, reason)=>{
      if (error.response?.status === 404) {
       throw new Error("Utilisateur introuvable");
     }
+    if(error.response?.status ===400){console.log('pb de nom de role')}
       console.error('Erreur get API:', error);
     throw error;
   }

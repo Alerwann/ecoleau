@@ -24,8 +24,13 @@ function ListShow({ listUsers }) {
   }
 
   const toggled = (user) => {
-    navigate('/it/desactivation', { state: { userData: user } });
+    navigate('/it/accessmodification', { state: { userData: user } });
   };
+
+  const modifRole =(user)=>{
+    navigate('/it/rolemodification', {state: {userData: user}})
+  }
+
 
   return (
     <div>
@@ -46,9 +51,14 @@ function ListShow({ listUsers }) {
               identifiant: user.identifiant
             })}
           >
-            Suspendre l'accès
+           Modifier l'accès
           </button>
-          <button>Modifier la personne</button>
+          <button
+          onClick={()=>modifRole({
+            identifiant: user.identifiant,
+            role: user.role
+          })}
+          >Modifier le role</button>
         </div>
       ))}
     </div>

@@ -161,9 +161,9 @@ export const resetUserPassword = async (req, res) => {
 
 export const changeUserRole = async (req, res) => {
   const { identifiant } = req.params;
-  const { newRole, reason } = req.body; // ← Obligation de justifier
+  const { newRole, motif} = req.body; // ← Obligation de justifier
   
-  if (!reason) {
+  if (!motif) {
     return res.status(400).json({ error: 'Raison obligatoire pour changement de rôle' });
   }
   
@@ -176,7 +176,7 @@ export const changeUserRole = async (req, res) => {
   console.log(`🔄 CHANGEMENT DE RÔLE:`);
   console.log(`👤 Utilisateur: ${identifiant}`);
   console.log(`🎭 Nouveau rôle: ${newRole}`);
-  console.log(`📝 Raison: ${reason}`);
+  console.log(`📝 Raison: ${motif}`);
   console.log(`👮 Par: ${req.user.identifiant}`);
   console.log(`⏰ Date: ${new Date().toISOString()}`);
   
@@ -189,7 +189,7 @@ export const changeUserRole = async (req, res) => {
   res.json({ 
     message: "Rôle modifié avec succès", 
     user: updatedUser,
-    auditLog: `Rôle changé vers ${newRole} - Raison: ${reason}`
+    auditLog: `Rôle changé vers ${newRole} - Raison: ${motif}`
   });
 };
 
