@@ -24,10 +24,7 @@ function RoleModification({ role, identifiant }) {
       return;
     }
 
-    if (!newRole) {
-      setErrorMessage("Veuillez sélectionner un rôle");
-      return;
-    }
+  
 
     if (newRole === role) {
       setErrorMessage("Le nouveau rôle doit être différent du rôle actuel");

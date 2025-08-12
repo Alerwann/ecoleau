@@ -6,7 +6,7 @@ import { roleModif } from "../../../Hook/rolemodif";
 import { useNavigate } from "react-router-dom";
 import { changeRole } from "../../../services/userServices";
 
-function Action({identifiant, action, role, isActive}) {
+function Action({ identifiant, action, role, isActive }) {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -20,8 +20,10 @@ function Action({identifiant, action, role, isActive}) {
     e.preventDefault();
     setLoading(true);
     setSuccessMessage("");
-    if (action === "acces") {
-      try {
+    setErrorMessage("");
+
+    try {
+      if (action === "acces") {
         await toggleacces(identifiant, isActive, motif);
         if (isActive === "oui") {
           setSuccessMessage(
@@ -34,28 +36,14 @@ function Action({identifiant, action, role, isActive}) {
         setTimeout(() => {
           navigate("/it");
         }, 2000);
-      } catch (error) {
-        console.log(error, "désactivation impossible");
-        if (error.response?.status === 404) {
-          console.log("Utilisateur introuvable");
-        } else if (error.response?.status === 500) {
-          console.log("Erreur serveur");
-        } else {
-          console.log("Désactivation impossible:", error.message);
-        }
-      } finally {
-        setLoading(false);
       }
-    }
 
-    if (action === "role") {
-      try {
-        setLoading(true);
-        await roleModif(identifiant, role, newRole, motif);
+      if (action === "role") {
+        
         setSuccessMessage("");
         setErrorMessage("");
 
-        if (!motif.trim) {
+        if (!motif.trim()) {
           setErrorMessage("Le motif est obligatoire");
           return;
         }
@@ -69,27 +57,25 @@ function Action({identifiant, action, role, isActive}) {
           setErrorMessage("Le nouveau rôle doit être différent du rôle actuel");
           return;
         }
-
-        try {
-          await changeRole(identifiant, newRole, motif);
-          setSuccessMessage(`Le role a été modifier en ${newRole}`);
-          setDisabledStatut(true);
-          setTimeout(() => {
-            navigate("/it");
-          }, 2000);
-        } catch (error) {
-          console.log(error, "modification impossible");
-          if (error.response?.status === 404) {
-            console.log("Utilisateur introuvable");
-          } else if (error.response?.status === 500) {
-            console.log("Erreur serveur");
-          } else {
-            console.log("Désactivation impossible:", error.message);
-          }
-        } finally {
-          setLoading(false);
-        }
-      } catch (error) {}
+        setLoading(true);
+        await changeRole(identifiant, newRole, motif);
+        setSuccessMessage(`Le role a été modifier en ${newRole}`);
+        setDisabledStatut(true);
+        setTimeout(() => {
+          navigate("/it");
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error, "modification impossible");
+      if (error.response?.status === 404) {
+        console.log("Utilisateur introuvable");
+      } else if (error.response?.status === 500) {
+        console.log("Erreur serveur");
+      } else {
+        console.log("Désactivation impossible:", error.message);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -102,14 +88,14 @@ function Action({identifiant, action, role, isActive}) {
       <form className="formulaire-desact" onSubmit={(e) => soumition(e)}>
         <label htmlFor="motif">
           <h2>
-            Pourquoi voulez vous modifier :{action} <br /> de l'agent{" "}
+            Pourquoi voulez vous modifier :{action} <br /> de l'agent
             {identifiant}:<br />
           </h2>
 
           <textarea
             name="motif"
             id="motif"
-            placeholder="Motif"
+            placeholder={action === "role" ? "Motif obligatoire" : "Motif (facultatif)"}
             rows={5}
             cols={70}
             onChange={(e) => setMotif(e.target.value)}
