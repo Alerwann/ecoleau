@@ -5,15 +5,22 @@ import User from "../models/User/User.js";
 
 export const createUserProfil = async (req, res) => {
   try {
-    const { identifiantRH, nom, prenom, dateEntree,dateNaissance, managerName, role } =
-      req.body;
+    const {
+      identifiantRH,
+      nom,
+      prenom,
+      dateEntree,
+      dateNaissance,
+      managerName,
+      role,
+    } = req.body;
 
     if (
       !identifiantRH ||
       !nom ||
       !prenom ||
       !dateEntree ||
-      !dateNaissance||      
+      !dateNaissance ||
       !role
     ) {
       return res.status(400).json({ message: "tous les champs sont requis" });
@@ -63,16 +70,14 @@ export const createUserProfil = async (req, res) => {
 export const getAllProfils = async (req, res) => {
   try {
     const profils = await UserProfil.find()
-    .select('identifiantRH nom prenom managerName emploi dateEntree')
-    .sort({nom:1})
+      .select("identifiantRH nom prenom managerName emploi dateEntree")
+      .sort({ nom: 1 });
 
-
-  res.status(200).json({
+    res.status(200).json({
       message: "Profils récupérés avec succès",
       count: profils.length,
-      profils // ← Structure simple et claire
+      profils, // ← Structure simple et claire
     });
-
   } catch (error) {
     res.status(500).json({
       message: "Erreur lors de la récupération",
@@ -83,19 +88,20 @@ export const getAllProfils = async (req, res) => {
 
 export const getUserProfil = async (req, res) => {
   try {
-    const profil = await UserProfil.findOne({ 
-      identifiantRH: req.params.identifiantRH 
+    const profil = await UserProfil.findOne({
+      identifiantRH: req.params.identifiantRH,
     });
 
     if (!profil) {
-      return res.status(404).json({ message: "Aucun profil trouvé avec cet identifiant" });
+      return res
+        .status(404)
+        .json({ message: "Aucun profil trouvé avec cet identifiant" });
     }
-    
-    res.status(200).json({
-      message: "Profil trouvé", 
-      profil
-    });
 
+    res.status(200).json({
+      message: "Profil trouvé",
+      profil,
+    });
   } catch (error) {
     res.status(500).json({
       message: "Erreur lors de la récupération",
@@ -104,21 +110,27 @@ export const getUserProfil = async (req, res) => {
   }
 };
 
-
-
-export const updateUserProfil = async(req, res)=>{
-   try {
+export const updateUserProfil = async (req, res) => {
+  try {
     const { identifiantRH } = req.params;
     const updates = req.body;
-    
-      // Log des modifications importantes
-    const sensitiveFields = ['identifiantRH', 'dateEntree'];
-    const modifiedSensitive = sensitiveFields.filter(field => field in updates);
-    
+
+    // Log des modifications importantes
+    const sensitiveFields = ["identifiantRH", "dateEntree"];
+    const modifiedSensitive = sensitiveFields.filter(
+      (field) => field in updates
+    );
+
     if (modifiedSensitive.length > 0) {
-      console.log(`⚠️ AUDIT: Admin ${req.user.identifiant} a modifié les champs sensibles: ${modifiedSensitive.join(', ')} pour le profil ${identifiantRH}`);
+      console.log(
+        `⚠️ AUDIT: Admin ${
+          req.user.identifiant
+        } a modifié les champs sensibles: ${modifiedSensitive.join(
+          ", "
+        )} pour le profil ${identifiantRH}`
+      );
     }
-    
+
     const profil = await UserProfil.findOneAndUpdate(
       { identifiantRH },
       updates,
@@ -131,31 +143,30 @@ export const updateUserProfil = async(req, res)=>{
 
     res.status(200).json({
       message: "Profil mis à jour avec succès",
-      profil
+      profil,
     });
-    
   } catch (error) {
     res.status(500).json({
       message: "Erreur lors de la mise à jour",
-      error: error.message
+      error: error.message,
     });
   }
-}
+};
 
 export const getUserProfilByid = async (req, res) => {
   try {
-    console.log('route existe')
-    const { id } = req.params; 
-      console.log('jai les paramettre',id)
+    console.log("route existe");
+    const { id } = req.params;
+    console.log("jai les paramettre", id);
     const profil = await UserProfil.findById(id);
-    console.log(profil)
+    console.log(profil);
     if (!profil) {
       return res.status(404).json({ message: "Profil introuvable" });
     }
 
     res.status(200).json({
       message: "Profil trouvé",
-      profil
+      profil,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -189,37 +200,45 @@ export const getUserProfilByid = async (req, res) => {
 //   }
 // };
 
-
-
-
-
 export const getProfilsWithoutAccount = async (req, res) => {
   try {
-    console.log('🔍 Recherche des profils sans compte...');
-    
+    console.log("🔍 Recherche des profils sans compte...");
+
     // 1. Récupérer tous les profils
-    const allProfils = await UserProfil.find({}).sort({dateEntree : -1});
-    console.log('📋 Profils totaux trouvés:', allProfils.length);
+    const allProfils = await UserProfil.find({}).sort({ dateEntree: -1 });
+    console.log("📋 Profils totaux trouvés:", allProfils.length);
+
+    // 2. Récupérer tous les User existants avec leur rhId
+    const existingUsers = await User.find({}, "rhId");
+    const existingRhIds = existingUsers
+      .map((user) => user.rhId)
+      .filter(Boolean); // Filtre les valeurs null/undefined
     
-    // 2. Récupérer tous les User existants avec leur userId
-    const existingUsers = await User.find({}, 'userId');
-    const existingUserIds = existingUsers.map(user => user.userId?.toString()).filter(Boolean);
-    console.log('👥 Comptes User existants:', existingUserIds.length);
-    
+    console.log("👥 Comptes User existants:", existingRhIds.length);
+    console.log("🔍 RhIds existants:", existingRhIds);
+
     // 3. Filtrer les profils qui n'ont pas de compte User
-    const profilsWithoutAccount =allProfils.filter(
-      profil => !existingUserIds.includes(profil._id.toString())
-    )
+    // 🎯 MAINTENANT on compare identifiantRH avec rhId
+    const profilsWithoutAccount = allProfils.filter(
+      (profil) => !existingRhIds.includes(profil.identifiantRH)
+    );
+
+    console.log("🆕 Profils sans compte:", profilsWithoutAccount.length);
     
-    
-    console.log('🆕 Profils sans compte:', profilsWithoutAccount.length);
-    
+    // Debug : afficher quelques exemples
+    console.log("📝 Exemples de profils sans compte:", 
+      profilsWithoutAccount.slice(0, 3).map(p => ({ 
+        nom: p.nom, 
+        identifiantRH: p.identifiantRH 
+      }))
+    );
+
     res.json({
       message: `${profilsWithoutAccount.length} profils sans compte trouvés`,
-      profils: profilsWithoutAccount
+      profils: profilsWithoutAccount,
     });
   } catch (error) {
-    console.error('❌ Erreur getProfilsWithoutAccount:', error);
+    console.error("❌ Erreur getProfilsWithoutAccount:", error);
     res.status(500).json({ error: error.message });
   }
 };

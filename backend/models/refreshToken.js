@@ -1,37 +1,35 @@
-import mongoose from 'mongoose';
-
-
+import mongoose from "mongoose";
 
 const RefreshTokenSchema = new mongoose.Schema({
   token: {
     type: String,
     required: true,
   },
-  userId: {
+  rhId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    ref: "User",
+    required: true,
   },
   ipAddress: {
     type: String,
-    default: 'Unknown'
+    default: "Unknown",
   },
   userAgent: {
     type: String,
-    default: 'Unknown'
+    default: "Unknown",
   },
   revoked: {
     type: Boolean,
-    default: false
+    default: false,
   },
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: '7d'
-  }
+    expires: "7d",
+  },
 });
 
 RefreshTokenSchema.index({ token: 1 });
-RefreshTokenSchema.index({ userId: 1, revoked: 1 }); // Pour getSessions
+RefreshTokenSchema.index({ rhId: 1, revoked: 1 }); // Pour getSessions
 
-export default mongoose.model('RefreshToken', RefreshTokenSchema);
+export default mongoose.model("RefreshToken", RefreshTokenSchema);

@@ -17,6 +17,8 @@ import ITRoutes from "./pages/it/itRoutes";
 import ProtectedRoute from "./Component/routes/ProtectedRoute";
 import RoleBasedRoute from "./Component/routes/RoleBaseRoute";
 
+import RHRoutes from "./pages/RH/rhRoutes";
+
 function App() {
   return (
     <Router>
@@ -45,6 +47,18 @@ function App() {
                   </RoleBasedRoute>
                 </ProtectedRoute>
               }
+            />
+
+
+            <Route
+            path="/rh/*"
+            element={
+              <RoleBasedRoute allowedRoles={["rh"]}>
+                <UsersProvider>
+                  < RHRoutes/>
+                </UsersProvider>
+              </RoleBasedRoute>
+            }
             />
 
             {/* Redirection pour les routes inconnues */}

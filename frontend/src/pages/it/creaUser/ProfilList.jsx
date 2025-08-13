@@ -1,4 +1,7 @@
-import { creatIdentifiant, creatPassword } from "../../../fonctionUtilitaire/hookCreaUser";
+import {
+  creatIdentifiant,
+  creatPassword,
+} from "../../../fonctionUtilitaire/hookCreaUser";
 
 import { useState } from "react";
 
@@ -7,7 +10,7 @@ import Loading from "../../../Component/general/Loading";
 
 function ProfilsList({ profils = [] }) {
   const [loading, setLoading] = useState(false);
-  const [userId, setUserId] = useState();
+  const [rhId, setrhId] = useState();
   const [userRole, setUserRole] = useState();
   const [identifiantReq, setIdentifiantReq] = useState();
 
@@ -30,7 +33,7 @@ function ProfilsList({ profils = [] }) {
       console.log("erruer handle click");
     }
 
-    setUserId(id);
+    setrhId(id);
     console.log(role, "role");
     setUserRole(role);
     const password = creatPassword();
@@ -85,7 +88,7 @@ function ProfilsList({ profils = [] }) {
       <div>
         <AfficheFormComponent
           creaEnd={creaEnd}
-          userId={userId}
+          rhId={rhId}
           identifiant={identifiantReq}
           password={passwordfinal}
           role={userRole}

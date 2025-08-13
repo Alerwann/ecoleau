@@ -18,7 +18,7 @@ export const ProfilProvider = ({ children }) => {
 
   const { user, isAuthenticated, loading, authComplete } = useAuth();
 
-  console.log("🔍 ProfilContext reçoit:",user, {
+  console.log("🔍 ProfilContext reçoit:", user, {
     user: !!user,
     isAuthenticated,
     loading,
@@ -29,7 +29,7 @@ export const ProfilProvider = ({ children }) => {
     try {
       setProfilLoading(true);
       const response = await getAllUserProfils(); // ← Service profils
-      console.log(response,'get all response')
+      console.log(response, "get all response");
       setProfils(response.profils);
       return response;
     } catch (error) {
@@ -42,7 +42,6 @@ export const ProfilProvider = ({ children }) => {
 
   const getOneProfil = async (identifiantRH) => {
     try {
-      
       setProfilLoading(true);
 
       const response = await getOneUserProfil(identifiantRH);
@@ -70,34 +69,32 @@ export const ProfilProvider = ({ children }) => {
     }
   };
 
+  // ✅ Dans ProfilContext.jsx - Éviter les appels multiples
+  useEffect(() => {
+    let isCancelled = false;
 
+    const fetchUserProfil = async () => {
+      if (loading || !authComplete || !isAuthenticated) return;
 
-
-  
-// ✅ Dans ProfilContext.jsx - Éviter les appels multiples
-useEffect(() => {
-  let isCancelled = false;
-  
-  const fetchUserProfil = async () => {
-    if (loading || !authComplete || !isAuthenticated) return;
-
-    setProfilLoading(true);
-    try {
-      const userProfil = await getUserProfilByID(user.userId);
-      if (!isCancelled) {  // ← Évite les race conditions
-        setCurrentUserProfil(userProfil);
+      setProfilLoading(true);
+      try {
+        const userProfil = await getOneUserProfil(user.rhId);
+        if (!isCancelled) {
+          // ← Évite les race conditions
+          setCurrentUserProfil(userProfil);
+        }
+      } catch (err) {
+        if (!isCancelled) setError(err.message);
+      } finally {
+        if (!isCancelled) setProfilLoading(false);
       }
-    } catch (err) {
-      if (!isCancelled) setError(err.message);
-    } finally {
-      if (!isCancelled) setProfilLoading(false);
-    }
-  };
+    };
 
-  fetchUserProfil();
-  return () => { isCancelled = true; }; // ← Cleanup
-}, [user, isAuthenticated, authComplete, loading]);
-
+    fetchUserProfil();
+    return () => {
+      isCancelled = true;
+    }; // ← Cleanup
+  }, [user, isAuthenticated, authComplete, loading]);
 
   return (
     <ProfilContext.Provider
@@ -109,7 +106,7 @@ useEffect(() => {
         error,
         getAllProfils,
         getOneProfil,
-        getProfilById
+        getProfilById,
       }}
     >
       {children}

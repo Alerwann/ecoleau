@@ -1,11 +1,11 @@
 import userAuthentification from "../models/refreshToken.js";
 
 // Ajoute un userAuthentification en base
-export const createuserAuthentification = async (userId, token, req) => {
+export const createuserAuthentification = async (rhId, token, req) => {
   try {
     await userAuthentification.create({
       token,
-      userId,
+      rhId,
       ipAddress: req.ip || req.connection.remoteAddress,
       userAgent: req.get("User-Agent"),
     });
@@ -26,6 +26,6 @@ export const deleteuserAuthentification = async (token) => {
   await userAuthentification.deleteOne({ token });
 };
 // Supprime tous les userAuthentifications d'un utilisateur
-export const deleteAlluserAuthentificationsForUser = async (userId) => {
-  await userAuthentification.deleteMany({ userId });
+export const deleteAlluserAuthentificationsForUser = async (rhId) => {
+  await userAuthentification.deleteMany({ rhId });
 };

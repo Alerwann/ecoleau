@@ -12,7 +12,7 @@ import {
   toggleActive,
   changeRole,
 } from "../services/userServices";
-// import { set } from "mongoose";
+
 
 const UsersContext = createContext();
 
@@ -26,55 +26,49 @@ export const UsersProvider = ({ children }) => {
     authComplete,
   });
 
-
   const [userLoading, setUserLoading] = useState(false);
   const [error, setError] = useState(null);
-  
 
- const [users, setUsers] = useState([]);
-  const fetchAllUsers=async()=>{
-    try{
-     
-      setUserLoading(true)
+  const [users, setUsers] = useState([]);
+  const fetchAllUsers = async () => {
+    try {
+      setUserLoading(true);
       const response = await getAllUser();
-      console.log(response, 'response')
-      setUsers(response)
-      return response
-    }
-    catch(error)
-    {setError(error.message);
-      return [];}
-      finally {
+      console.log(response, "response");
+      setUsers(response);
+      return response;
+    } catch (error) {
+      setError(error.message);
+      return [];
+    } finally {
       setUserLoading(false);
-      
-    
-    } 
- 
-  }
-   useEffect(()=>{
-      console.log('users mis à jour', users)
-    }, [users])
-
+    }
+  };
+  useEffect(() => {
+    console.log("users mis à jour", users);
+  }, [users]);
 
   const createNewUser = async (userData) => {
-  try {
-    const newUser = await createUser(userData);
-    
-    setUsers((prev) => {
-      // Vérification que prev est bien un tableau
-      if (!Array.isArray(prev)) {
-        console.warn('prev n\'est pas un tableau, initialisation avec le nouvel utilisateur');
-        return [newUser];
-      }
-      return [...prev, newUser];
-    });
-    
-    return newUser;
-  } catch (err) {
-    setError(err.message);
-    throw err;
-  }
+    console.log('entree dans createNew user')
+    try {
+      const newUser = await createUser(userData);
 
+      setUsers((prev) => {
+        // Vérification que prev est bien un tableau
+        if (!Array.isArray(prev)) {
+          console.warn(
+            "prev n'est pas un tableau, initialisation avec le nouvel utilisateur"
+          );
+          return [newUser];
+        }
+        return [...prev, newUser];
+      });
+
+      return newUser;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
   };
 
   // Actions spécialisées IT
@@ -136,7 +130,7 @@ export const UsersProvider = ({ children }) => {
 
   //     setUserLoading(true);
   //     try {
-  //       console.log(user.userId);
+  //       console.log(user.rhId);
   //       const userProfil = await getOneUser(user.identifiant);
 
   //       setCurrentUser(userProfil);
@@ -154,7 +148,7 @@ export const UsersProvider = ({ children }) => {
     <UsersContext.Provider
       value={{
         authUser: user,
-      
+
         users,
         userLoading,
         error,

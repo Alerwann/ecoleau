@@ -19,15 +19,15 @@ function It() {
 
   // const [listUser, setListUser] = useState();
   const [listUserObtenu, setListUserObtenu] = useState(false);
-   const itButtons = [
+  const itButtons = [
     {
       label: "Créer un compte",
-      onClick: () => navigate("/it/create")
+      onClick: () => navigate("/it/create"),
     },
     {
-      label: "Liste des utilisateurs", 
-      onClick: () => OnclicktgetAllUser()
-    }
+      label: "Liste des utilisateurs",
+      onClick: () => OnclicktgetAllUser(),
+    },
   ];
 
   function ListUser() {
@@ -45,7 +45,7 @@ function It() {
         // Transformation complète
         const usersArray = response.identifiants.map((identifiant, index) => ({
           identifiant: identifiant,
-          userId: response.userId[index],
+          rhId: response.rhId[index],
           role: response.role[index],
           isActive: response.isActive[index] ? "oui" : "non",
         }));
@@ -61,9 +61,6 @@ function It() {
     }
   };
 
-
-
-
   if (profilLoading) {
     return <Loading />;
   }
@@ -77,15 +74,11 @@ function It() {
       subtitle={getSubtitle("gestion")}
       service="Service technique"
     >
-      <ActionCard 
-          title="Actions rapides"
-          buttons={itButtons}
-        />
+      <ActionCard title="Actions rapides" buttons={itButtons} />
 
       <div>
         <ListUser />
       </div>
-   
     </PageLayout>
   );
 }

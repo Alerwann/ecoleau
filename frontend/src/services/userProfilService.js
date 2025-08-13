@@ -4,9 +4,9 @@
 import authApi from './authServices';
 
 
-export const getOneUserProfil = async (identifiant) => {
+export const getOneUserProfil = async (identifiantRH) => {
   try {
-    const response = await authApi.get(`/profils/getone/${identifiant}`);
+    const response = await authApi.get(`/profils/getone/${identifiantRH}`);
     return response.data.profil;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Erreur récupération profil');

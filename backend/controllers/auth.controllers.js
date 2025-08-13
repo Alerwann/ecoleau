@@ -62,7 +62,7 @@ export const login = async (req, res) => {
         id: user._id,
         identifiant: user.identifiant,
         role: user.role,
-        userId: user.userId,
+        rhId: user.rhId,
       },
       debug: { cookieSet: true },
     });
@@ -125,7 +125,7 @@ export const refreshToken = async (req, res) => {
         id: user._id,
         identifiant: user.identifiant,
         role: user.role,
-        userId: user.userId,
+        rhId: user.rhId,
       },
     });
   } catch (err) {
@@ -177,7 +177,7 @@ export const revokeSession = async (req, res) => {
     await userAuthentification.findOneAndUpdate(
       {
         _id: sessionId, // La session spécifique
-        userId: req._id, // Sécurité : seulement SES sessions
+        rhId: req._identifiantRH, // Sécurité : seulement SES sessions
       },
       { revoked: true } // Marque comme révoquée
     );
@@ -192,7 +192,7 @@ export const getSession = async (req, res) => {
   try {
     const sessions = await userAuthentification
       .find({
-        userId: req._id,
+        rhId: req._id,
         revoked: false,
         expiresAt: { $gt: new Date() },
       })
