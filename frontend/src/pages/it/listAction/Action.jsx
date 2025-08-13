@@ -1,15 +1,11 @@
 import { useState } from "react";
-import { toggleacces } from "../../../Hook/toggledacces";
-import Loading from "../../../Component/Loading";
-import BackButton from "../../../Component/BackButton";
-import { useNavigate } from "react-router-dom";
-import { changeRole } from "../../../services/userServices";
 
-import { useModification } from "../../../Hook/toggledacces";
+import Loading from "../../../Component/general/Loading";
+import BackButton from "../../../Component/general/BackButton";
+
+import { useModification } from "../../../Hook/useModification";
 
 function Action({ identifiant, action, role, isActive }) {
-  const navigate = useNavigate();
-
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -52,7 +48,10 @@ function Action({ identifiant, action, role, isActive }) {
 
         await toggleRole(identifiant, motif, newRole);
       }
-    } catch (error) {}finally{setLoading(false)}
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
 
     if (action === "acces") {
       await toggleAccess(identifiant, motif, isActive);

@@ -1,8 +1,8 @@
 
 import PageLayout from "../../Component/PageLayout/PageLayout";
 
-import Loading from "../../Component/Loading";
-import Error from "../../Component/Error";
+import Loading from "../../Component/general/Loading";
+import Error from "../../Component/general/Error";
 
 import { useAuth } from "../../contexts/AuthContext";
 

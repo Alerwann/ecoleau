@@ -1,5 +1,5 @@
 // hooks/useCurrentUser.js
-import { useAuth } from '../contexts/Authcontext';
+import { useAuth } from '../contexts/AuthContext';
 import { useUsers } from '../contexts/UsersContext';
 
 export const useCurrent = () => {

@@ -1,9 +1,9 @@
-import { creatIdentifiant, creatPassword } from "../../../Hook/hookCreaUser"
+import { creatIdentifiant, creatPassword } from "../../../fonctionUtilitaire/hookCreaUser";
 
 import { useState } from "react";
 
 import AfficheFormComponent from "../../../Component/AfficheFormComponent";
-import Loading from "../../../Component/Loading";
+import Loading from "../../../Component/general/Loading";
 
 function ProfilsList({ profils = [] }) {
   const [loading, setLoading] = useState(false);

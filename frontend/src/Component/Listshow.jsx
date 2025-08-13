@@ -1,3 +1,5 @@
+// A refactoriser pour que la liste des profils fonctionne
+
 import { useNavigate } from "react-router-dom";
 
 function ListShow({ listUsers }) {
@@ -7,14 +9,14 @@ function ListShow({ listUsers }) {
     return <div>Aucune donnée disponible</div>;
   }
 
-  // Vérifier si c'est l'objet du backend ou un tableau transformé
+
   let usersToDisplay = [];
   
   if (Array.isArray(listUsers)) {
-    // Si c'est déjà un tableau (de ItAccueil après transformation)
+   
     usersToDisplay = listUsers;
   } else if (listUsers.identifiants) {
-    // Si c'est l'objet brut du backend, transformer ici
+   
     usersToDisplay = listUsers.identifiants.map((identifiant, index) => ({
       identifiant: identifiant,
       userId: listUsers.userId[index],

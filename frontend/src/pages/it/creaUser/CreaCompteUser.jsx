@@ -1,10 +1,10 @@
 import PageLayout from "../../../Component/PageLayout/PageLayout";
 import { useProfilsWithoutAccount } from "../../../Hook/userProfilsWithoutAccount";
 
-import Loading from "../../../Component/Loading";
-import Error from "../../../Component/Error";
+import Loading from "../../../Component/general/Loading";
+import Error from "../../../Component/general/Error";
 import ProfilsList from "./ProfilList";
-import BackButton from '../../../Component/BackButton'
+import BackButton from '../../../Component/general/BackButton'
 
 function CreaCompteUser() {
   const { profils, loading, error } = useProfilsWithoutAccount();

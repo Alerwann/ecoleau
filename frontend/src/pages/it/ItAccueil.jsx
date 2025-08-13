@@ -1,9 +1,9 @@
 import { useNavigate,  } from "react-router-dom";
 import {useState, useEffect} from 'react'
-import Loading from "../../Component/Loading";
-import Error from "../../Component/Error";
+import Loading from "../../Component/general/Loading";
+import Error from "../../Component/general/Error";
 import PageLayout from "../../Component/PageLayout/PageLayout";
-import { useCurrentUser } from "../../Hook/profilCurrentUser";
+import { useCurrentUser } from "../../Hook/useCurrentUser";
 
 import { useUsers } from "../../contexts/UsersContext";
 

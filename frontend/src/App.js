@@ -14,8 +14,8 @@ import "./App.css";
 import Accueil from "./pages/Accueil/Accueil";
 // import Test from "./pages/test";
 import ITRoutes from "./pages/it/itRoutes";
-import ProtectedRoute from "./Component/ProtectedRoute";
-import RoleBasedRoute from "./Component/RoleBaseRoute";
+import ProtectedRoute from "./Component/routes/ProtectedRoute";
+import RoleBasedRoute from "./Component/routes/RoleBaseRoute";
 
 function App() {
   return (

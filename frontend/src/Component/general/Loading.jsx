@@ -1,5 +1,5 @@
 // components/Loading.jsx
-import loadingGif from '../assets/logoanime.gif'; // Votre GIF
+import loadingGif from '../../assets/logoanime.gif'; // Votre GIF
 
 function Loading() {
   return (
