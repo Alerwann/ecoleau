@@ -31,6 +31,7 @@ router.patch("/change-password", authenticateToken, changeOwnPassword);
 
 router.delete("/users/:identifiant", authenticateToken, checkRoles("it"), deleteUser);
 
+router.put('/change-password', authenticateToken, changeOwnPassword);
 
 
 

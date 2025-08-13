@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema(
   {
     rhId: {
       type: String,
-      
 
       unique: true,
       required: true,
@@ -15,7 +14,13 @@ const userSchema = new mongoose.Schema(
 
     identifiant: { type: String, unique: true, required: true, trim: true },
 
-    password: { type: String, required: true, minlength: 8 },
+    password: String,
+    isTemporaryPassword: { type: Boolean, default: false },
+    
+    mustChangePassword: { type: Boolean, default: false },
+
+    firstLogin: { type: Boolean, default: true },
+
 
     role: {
       type: String,

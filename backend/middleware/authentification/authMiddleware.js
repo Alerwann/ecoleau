@@ -5,6 +5,7 @@ import User from "../../models/User/User.js";
 export const authenticateToken = async (req, res, next) => {
   try {
     console.log(req.headers, "header");
+    
     // 1. Récupérer le token (privilégier header pour API)
     const token =
       req.headers.authorization?.split(" ")[1] || req.cookies.accessToken;
@@ -24,12 +25,16 @@ export const authenticateToken = async (req, res, next) => {
       return res.status(401).json({ error: "Utilisateur invalide ou inactif" });
     }
 
-    // 4. Vérifier le scope (si vous l'utilisez)
-    if (decoded.scope !== "access") {
-      return res
-        .status(403)
-        .json({ error: "Token non autorisé pour cette action" });
-    }
+    // 4. Vérification de besoin de changement de mot de passe
+
+    if (user.mustChangePassword && req.path !== '/change-password') {
+  return res.status(403).json({
+    requirePasswordChange: true,
+    message: "Vous devez changer votre mot de passe",
+  });
+}
+
+
 
     // 5. Ajouter les infos utilisateur à req
     req.user = {
@@ -37,6 +42,9 @@ export const authenticateToken = async (req, res, next) => {
       identifiant: user.identifiant,
       role: user.role,
       rhId: user.rhId,
+      // 🎯 BONUS : ajouter les flags utiles pour le frontend
+      mustChangePassword: user.mustChangePassword,
+      firstLogin: user.firstLogin,
     };
 
     next();
