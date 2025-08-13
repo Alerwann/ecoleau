@@ -1,5 +1,5 @@
 import { useNavigate,  } from "react-router-dom";
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 import Loading from "../../Component/general/Loading";
 import Error from "../../Component/general/Error";
 import PageLayout from "../../Component/PageLayout/PageLayout";
@@ -37,7 +37,7 @@ if(listUserObtenu === true&& listUser){
 
 
 
-const OnclicktgeAllUser = async () => {
+const OnclicktgetAllUser = async () => {
   if (listUserObtenu === false) {
     try {
       const response = await fetchAllUsers();
@@ -62,12 +62,6 @@ const OnclicktgeAllUser = async () => {
   }
 };
 
-
-  useEffect(() => {
-    if (listUserObtenu) {
-      OnclicktgeAllUser(); // Recharger la liste
-    }
-  }, []);
 
   if (profilLoading) {
     return <Loading />;
@@ -98,7 +92,7 @@ const OnclicktgeAllUser = async () => {
              <button onClick={() => navigate("/it/create")}>
             Créer un compte
           </button>
-          <button onClick={() => OnclicktgeAllUser()}>
+          <button onClick={() => OnclicktgetAllUser()}>
             Liste des utilisateurs
           </button>
           </div>
