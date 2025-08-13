@@ -6,6 +6,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import PageLayout from "../../Component/PageLayout/PageLayout";
 import { usePasswordDisplay } from "../../Hook/useTogglePassword";
 
+
 function Accueil() {
   const [identifiant, setIdentifiant] = useState("");
   const [error, setError] = useState("");
@@ -15,17 +16,19 @@ function Accueil() {
 
   const { login } = useAuth();
 
+
   const { password, setPassword, showPassword, togglePasswordVisibility } =
     usePasswordDisplay();
 
   const handleSubmit = async (e) => {
+    console.log('👀user concerné')
     e.preventDefault();
     setError(""); // Reset error
  
     try {
-      const loginResult = await login(identifiant, password);
-      console.log("Connexion réussie !");
-      switch (loginResult.user.role) {
+     const data =await login(identifiant, password);
+ 
+      switch (data.user.role) {
         case "it":
           navigate("/it");
           break;
@@ -41,15 +44,16 @@ function Accueil() {
         default:
           console.error(
             "🚨 SÉCURITÉ - Rôle non reconnu:",
-            loginResult.user.role
+            data.user.role
           );
-          console.error("🚨 Utilisateur:", loginResult.user.identifiant);
+          console.error("🚨 Utilisateur:", data.user.identifiant);
           alert(
-            `Rôle non autorisé: ${loginResult.user.role}. Contactez l'administrateur.`
+            `Rôle non autorisé: ${data.user.role}. Contactez l'administrateur.`
           );
           navigate("/"); // Retour login
           navigate("/");
       }
+      
     } catch (err) {
       console.error("Erreur login:", err);
       setError(err.message || "Erreur de connexion");
@@ -88,6 +92,7 @@ function Accueil() {
         title="Écol'eau"
         subtitle="On prend soin de l'environement et pas que..."
         disabledstatut={"attente de connexion"}
+        nom =""
       >
         <div className="authcontenair">
           <img src={idimg} alt="icon pour identification" />

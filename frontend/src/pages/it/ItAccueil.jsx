@@ -17,7 +17,7 @@ function It() {
   const { users, fetchAllUsers } = useUsers();
   const [listUser, setListUser] = useState([]);
 
-  // const [listUser, setListUser] = useState();
+  
   const [listUserObtenu, setListUserObtenu] = useState(false);
   const itButtons = [
     {
@@ -73,6 +73,8 @@ function It() {
       title="Dashboard IT"
       subtitle={getSubtitle("gestion")}
       service="Service technique"
+      affichenom={true}
+     
     >
       <ActionCard title="Actions rapides" buttons={itButtons} />
 

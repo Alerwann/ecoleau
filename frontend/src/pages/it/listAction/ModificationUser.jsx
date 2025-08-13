@@ -14,6 +14,7 @@ function ModificationUser() {
       title="Modification :"
       subtitle={getSubtitle(user.action)}
       service="Service technique"
+      affichenom={true}
     >
       <Action
         identifiant={user.identifiant}

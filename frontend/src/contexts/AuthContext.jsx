@@ -6,43 +6,34 @@ import {
   logoutAPI,
 } from "../services/authServices";
 
+import { useNavigate } from "react-router-dom";
+
 const Authcontext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [accessToken, setAccessTokenState] = useState(null);
   const [loading, setLoading] = useState(true);
   const [authComplete, setAuthComplete] = useState(false);
 
   const updateAccessToken = (token) => {
- 
-
     setAccessTokenState(token);
     setAccessToken(token); // Met à jour api.js
   };
 
- 
   useEffect(() => {
     const initAuth = async () => {
- 
-
       try {
         const response = await apiuserAuthentification();
-
-       
 
         updateAccessToken(response.accessToken);
         setUser(response.user);
         setAuthComplete(true);
-       
       } catch (error) {
-       
         setAuthComplete(true);
       } finally {
         setLoading(false);
-        
-
-        
       }
     };
 
@@ -59,15 +50,21 @@ export const AuthProvider = ({ children }) => {
     });
   }, [user, accessToken, loading]);
 
-
   const login = async (identifiant, password) => {
     try {
       const data = await loginAPI({ identifiant, password });
+
+      if (data.requirePasswordChange) {
+        // Redirection forcée vers changement
+        navigate("/change-password");
+        return { requirePasswordChange: true };
+      }
+
+      // Login normal
       updateAccessToken(data.accessToken);
       setUser(data.user);
       return data;
     } catch (error) {
-    
       throw error;
     }
   };

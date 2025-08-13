@@ -22,6 +22,7 @@ function CreaCompteUser() {
       title="Création de compte"
       subtitle={getSubtitle("creationUser")}
       service="Service Technique"
+      affichenom={true}
     >
       <div className="corp-contenaire">
         <div className="listeuser">

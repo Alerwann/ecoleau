@@ -22,22 +22,30 @@ authApi.interceptors.request.use((config) => {
   if (currentAccessToken) {
     config.headers.Authorization = `Bearer ${currentAccessToken}`;
   }
+  
   return config;
 });
 
 // Intercepteur pour rafraîchir le token
 
 authApi.interceptors.response.use(
-  (response) => response,
+  (response) => response, // ✅ Laisser passer toutes les réponses réussies
   async (error) => {
     if (error.response?.status === 401) {
       // Token expiré - le Context s'en occupera
       currentAccessToken = null;
-     
     }
+    
+    // 🎯 Redirection SEULEMENT si c'est une vraie erreur 403
+    // if (error.response?.status === 403 && error.response?.data?.requirePasswordChange) {
+    //   console.log("🔄 Redirection vers changement de mot de passe");
+    //   window.location.href = '/change-password';
+    // }
+    
     return Promise.reject(error);
   }
 );
+
 
 export const loginAPI = async (credentials) => {
   try {
@@ -66,6 +74,18 @@ export const userAuthentification = async () => {
   } catch (error) {
     console.error("Erreur de rafraichissement", error);
     throw error;
+  }
+};
+
+export const changePasswordAPI = async (currentPassword, newPassword) => {
+  try {
+    const response = await authApi.put("/auth/change-password", {
+      currentPassword,
+      newPassword
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.error || "Erreur lors du changement de mot de passe");
   }
 };
 

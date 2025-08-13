@@ -1,10 +1,15 @@
 import User from "../models/User/User.js";
 
 export const createUser = async (req, res) => {
-  console.log('debut back createUsser')
+  console.log("debut back createUsser");
   try {
-  
-    const { rhId, password, identifiant, role } = req.body;
+    const {
+      rhId,
+      password,
+      identifiant,
+      role,
+   
+    } = req.body;
 
     if (!rhId || !password || !identifiant || !role) {
       return res.status(400).json({ message: "tous les champs sont requis" });
@@ -14,6 +19,7 @@ export const createUser = async (req, res) => {
       password,
       rhId,
       role,
+     
     });
     const savedUser = await newUser.save();
     // Puis vous pouvez directement modifier l'objet
@@ -206,13 +212,16 @@ export const changeOwnPassword = async (req, res) => {
     }
 
     // Récupérer l'utilisateur
-    const user = await User.findOne({ identifiant: rhIdentifiant }, {
-    password: hashedNewPassword,
-    mustChangePassword: false,
-    isTemporaryPassword: false, // 🎯 Plus temporaire
-    firstLogin: false,          // 🎯 Plus le premier login
-    lastPasswordChange: new Date(),
-  });
+    const user = await User.findOne(
+      { identifiant: rhIdentifiant },
+      {
+        password: hashedNewPassword,
+        mustChangePassword: false,
+        isTemporaryPassword: false, // 🎯 Plus temporaire
+        firstLogin: false, // 🎯 Plus le premier login
+        lastPasswordChange: new Date(),
+      }
+    );
     if (!user) {
       return res.status(404).json({ error: "Utilisateur introuvable" });
     }
@@ -227,13 +236,15 @@ export const changeOwnPassword = async (req, res) => {
     }
 
     // Validation du nouveau mot de passe
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-if (!passwordRegex.test(newPassword)) {
-  return res.status(400).json({
-    error: "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial (@$!%*?&)"
-  });
-}
+    if (!passwordRegex.test(newPassword)) {
+      return res.status(400).json({
+        error:
+          "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial (@$!%*?&)",
+      });
+    }
 
     // Hash et mise à jour
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);

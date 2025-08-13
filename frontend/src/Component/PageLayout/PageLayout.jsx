@@ -8,8 +8,10 @@ function PageLayout({
   subtitle,
   disabledstatut = false,
   service,
+  affichenom
+ 
 }) {
-  const { nom, prenom, loading, logout } = useCurrentUser();
+  const {   nom, prenom,loading, logout } = useCurrentUser();
 
   if (loading) {
     return <Loading />;
@@ -18,7 +20,8 @@ function PageLayout({
     <div className="page-layout">
       <header className="page-header">
         <span className="user-name text-gradient">
-          {nom} {prenom}{" "}
+          {affichenom && <p>{nom} {prenom}</p>}
+          
         </span>
 
         <div className="page-header__user">

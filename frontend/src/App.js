@@ -18,6 +18,7 @@ import ProtectedRoute from "./Component/routes/ProtectedRoute";
 import RoleBasedRoute from "./Component/routes/RoleBaseRoute";
 
 import RHRoutes from "./pages/RH/rhRoutes";
+import ChangePassword from "./pages/Accueil/ChangePassword";
 
 function App() {
   return (
@@ -26,6 +27,15 @@ function App() {
         <ProfilProvider>
           <Routes>
             <Route path="/" element={<Accueil />} />
+
+            <Route
+              path="/change-password"
+              element={
+                <ProtectedRoute allowPasswordChange={true}>
+                  <ChangePassword />
+                </ProtectedRoute>
+              }
+            />
 
             <Route
               path="/sommaire"
@@ -49,16 +59,15 @@ function App() {
               }
             />
 
-
             <Route
-            path="/rh/*"
-            element={
-              <RoleBasedRoute allowedRoles={["rh"]}>
-                <UsersProvider>
-                  < RHRoutes/>
-                </UsersProvider>
-              </RoleBasedRoute>
-            }
+              path="/rh/*"
+              element={
+                <RoleBasedRoute allowedRoles={["rh"]}>
+                  <UsersProvider>
+                    <RHRoutes />
+                  </UsersProvider>
+                </RoleBasedRoute>
+              }
             />
 
             {/* Redirection pour les routes inconnues */}
