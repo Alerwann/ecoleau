@@ -56,7 +56,7 @@ function Accueil() {
 
       if (err.message === "Trop de tentatives. Veuillez réessayer plus tard.") {
         setIsDisabled(true);
-        setTimeLeft(300);
+        // setTimeLeft(0);
 
         const timer = setInterval(() => {
           setTimeLeft((prev) => {

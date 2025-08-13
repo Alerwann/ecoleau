@@ -74,7 +74,7 @@ function ProfilsList({ profils = [] }) {
           <button
             onClick={() => {
               handleClickMdp(
-                profil._id,
+                profil.identifiantRH,
                 profil.nom,
                 profil.prenom,
                 profil.role

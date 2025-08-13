@@ -11,7 +11,7 @@ function AfficheFormComponent({ creaEnd, rhId, identifiant, password, role }) {
     } catch (error) {
       console.log("erreur lors de la création", error);
     }
-    window.location.reload();
+    // window.location.reload();
   };
 
   if (creaEnd) {
