@@ -21,9 +21,21 @@ function Action({ identifiant, action, role, isActive }) {
 
   const soumition = async (e) => {
     e.preventDefault();
-    setLoading(true);
+
     setSuccessMessage("");
     setErrorMessage("");
+
+    if (action === "role") {
+      if (!motif.trim()) {
+        setErrorMessage("Le motif est obligatoire");
+        return;
+      }
+      if (newRole === role) {
+        setErrorMessage("Le nouveau rôle doit être différent du rôle actuel");
+        return;
+      }
+    }
+
     setLoading(true);
     try {
       if (action === "acces") {
@@ -31,50 +43,12 @@ function Action({ identifiant, action, role, isActive }) {
       }
 
       if (action === "role") {
-        if (!motif.trim()) {
-          setErrorMessage("Le motif est obligatoire");
-          return;
-        }
-
-        if (!newRole) {
-          setErrorMessage("Veuillez sélectionner un rôle");
-          return;
-        }
-
-        if (newRole === role) {
-          setErrorMessage("Le nouveau rôle doit être différent du rôle actuel");
-          return;
-        }
-
         await toggleRole(identifiant, motif, newRole);
       }
     } catch (error) {
+      console.error("Erreur dans soumition:", error);
+      setErrorMessage("Une erreur inattendue s'est produite");
     } finally {
-      setLoading(false);
-    }
-
-    if (action === "acces") {
-      await toggleAccess(identifiant, motif, isActive);
-    }
-
-    if (action === "role") {
-      if (!motif.trim()) {
-        setErrorMessage("Le motif est obligatoire");
-        return;
-      }
-
-      if (!newRole) {
-        setErrorMessage("Veuillez sélectionner un rôle");
-        return;
-      }
-
-      if (newRole === role) {
-        setErrorMessage("Le nouveau rôle doit être différent du rôle actuel");
-        return;
-      }
-      setLoading(true);
-      await toggleRole(identifiant, motif, newRole);
-
       setLoading(false);
     }
   };
