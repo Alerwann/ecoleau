@@ -4,13 +4,11 @@ import { useProfilsWithoutAccount } from "../../../Hook/userProfilsWithoutAccoun
 import Loading from "../../../Component/general/Loading";
 import Error from "../../../Component/general/Error";
 import ProfilsList from "./ProfilList";
-import BackButton from '../../../Component/general/BackButton'
+import BackButton from "../../../Component/general/BackButton";
 
+import { getSubtitle } from "../../../fonctionUtilitaire/getSubtitle";
 function CreaCompteUser() {
   const { profils, loading, error } = useProfilsWithoutAccount();
-
-
-  
 
   if (loading) {
     return <Loading />;
@@ -22,7 +20,8 @@ function CreaCompteUser() {
   return (
     <PageLayout
       title="Création de compte"
-      subtitle="Basé sur la liste des comptes en attente"
+      subtitle={getSubtitle("creationUser")}
+      service="Service Technique"
     >
       <div className="corp-contenaire">
         <div className="listeuser">
@@ -35,7 +34,7 @@ function CreaCompteUser() {
         </div>
 
         <div className="bouton-nav">
-          <BackButton chemin='/it'/>
+          <BackButton chemin="/it" />
         </div>
       </div>
     </PageLayout>

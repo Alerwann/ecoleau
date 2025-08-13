@@ -2,7 +2,13 @@ import { useCurrentUser } from "../../Hook/useCurrentUser";
 import Loading from "../general/Loading";
 import "./PageLayout.css";
 
-function PageLayout({ children, title, subtitle, disabledstatut = false }) {
+function PageLayout({
+  children,
+  title,
+  subtitle,
+  disabledstatut = false,
+  service,
+}) {
   const { nom, prenom, loading, logout } = useCurrentUser();
 
   if (loading) {
@@ -11,18 +17,19 @@ function PageLayout({ children, title, subtitle, disabledstatut = false }) {
   return (
     <div className="page-layout">
       <header className="page-header">
-        <div className="page-header__info">
-          <h1>{title}</h1>
-          {subtitle && <p>{subtitle}</p>}
-        </div>
+        <span className="user-name text-gradient">
+          {nom} {prenom}{" "}
+        </span>
 
         <div className="page-header__user">
           <span>
-            <h1 className="text-gradient">Bonne journée</h1>
+            <h1 className="text-gradient">{service}</h1>
           </span>
-          <span className="user-name text-gradient">
-            {nom} {prenom}
-          </span>
+          
+            <h1 className="page-header__info">{title}</h1>
+            
+            {subtitle && <p>{subtitle}</p>}
+          
         </div>
 
         {/* <span className="user-role">{role?.toUpperCase()}</span> */}
