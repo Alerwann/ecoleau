@@ -2,14 +2,18 @@
 import ActionCard from "../../Component/ActionCard"
 import PageLayout from "../../Component/PageLayout/PageLayout"
 import { getSubtitle } from "../../fonctionUtilitaire/getSubtitle"
+import { useNavigate } from "react-router-dom"
 
 
 
 function RhAccueil(){
+
+const navigate = useNavigate()
+
 const rhButton =[
     {
       label: "Mettre a jour les profils",
-      onClick: () => console.log('importer')
+      onClick: () => navigate('/rh/upload')
     },
     {
       label: "Télécharger model excel",
