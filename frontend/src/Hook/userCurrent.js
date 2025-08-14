@@ -6,7 +6,7 @@ export const useCurrent = () => {
   const { user, isAuthenticated, loading: authLoading, logout } = useAuth();
   const { currentUser, userLoading, users } = useUsers();
 
-  console.log(currentUser, users, "info dans useCurrent");
+  console.log(currentUser, users, "👀info dans useCurrent");
   return {
     // Données auth
     identifiant: user?.identifiant,
