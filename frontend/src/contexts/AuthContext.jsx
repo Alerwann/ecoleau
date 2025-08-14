@@ -50,24 +50,43 @@ export const AuthProvider = ({ children }) => {
     });
   }, [user, accessToken, loading]);
 
-  const login = async (identifiant, password) => {
-    try {
-      const data = await loginAPI({ identifiant, password });
-
-      if (data.requirePasswordChange) {
-        // Redirection forcée vers changement
-        navigate("/change-password");
-        return { requirePasswordChange: true };
-      }
-
-      // Login normal
+const login = async (identifiant, password) => {
+  try {
+    const data = await loginAPI({ identifiant, password });
+    
+    console.log("🔍 User data reçu:", data.user);
+    
+    // 🎯 VÉRIFICATION IMMÉDIATE après login réussi
+    if (data.user.mustChangePassword) {
+      console.log("🔄 Redirection immédiate - Changement obligatoire");
+      
+      // Stocker les données avant redirection (important !)
       updateAccessToken(data.accessToken);
       setUser(data.user);
-      return data;
-    } catch (error) {
-      throw error;
+      
+      // Redirection immédiate
+      navigate('/change-password');
+      return { requirePasswordChange: true };
     }
-  };
+
+    // Login normal - navigation selon le rôle
+    updateAccessToken(data.accessToken);
+    setUser(data.user);
+    
+    // Navigation normale selon le rôle
+    switch (data.user.role) {
+      case "it": navigate("/it"); break;
+      case "rh": navigate("/rh"); break;
+      case "manager": navigate("/manager"); break;
+      case "conseiller": navigate("/sommaire"); break;
+      default: navigate("/"); break;
+    }
+    
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
 
   const logout = async () => {
     try {

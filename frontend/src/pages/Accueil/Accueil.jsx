@@ -26,33 +26,9 @@ function Accueil() {
     setError(""); // Reset error
  
     try {
-     const data =await login(identifiant, password);
+    await login(identifiant, password);
  
-      switch (data.user.role) {
-        case "it":
-          navigate("/it");
-          break;
-        case "rh":
-          navigate("/rh");
-          break;
-        case "manager":
-          navigate("/manager");
-          break;
-        case "conseiller":
-          navigate("/sommaire");
-          break;
-        default:
-          console.error(
-            "🚨 SÉCURITÉ - Rôle non reconnu:",
-            data.user.role
-          );
-          console.error("🚨 Utilisateur:", data.user.identifiant);
-          alert(
-            `Rôle non autorisé: ${data.user.role}. Contactez l'administrateur.`
-          );
-          navigate("/"); // Retour login
-          navigate("/");
-      }
+  
       
     } catch (err) {
       console.error("Erreur login:", err);

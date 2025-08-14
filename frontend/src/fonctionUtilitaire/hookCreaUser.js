@@ -36,7 +36,7 @@ export const creatPassword = () => {
   const charMin = "azertyuiopqsdfghjklmwxcvbn";
   const charNum = "1234567890";
   const charMaj = "AZERTYUIOPQSDFGHJKLMWXCVBN";
-  const charSpe = "?./!:;,+*";
+  const charSpe = "?.@!:;,&+*";
 
   const globalchar = `${charMin}${charNum}${charMaj}${charSpe}`;
 

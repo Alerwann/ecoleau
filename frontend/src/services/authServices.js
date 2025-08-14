@@ -37,10 +37,10 @@ authApi.interceptors.response.use(
     }
     
     // 🎯 Redirection SEULEMENT si c'est une vraie erreur 403
-    // if (error.response?.status === 403 && error.response?.data?.requirePasswordChange) {
-    //   console.log("🔄 Redirection vers changement de mot de passe");
-    //   window.location.href = '/change-password';
-    // }
+    if (error.response?.status === 403 && error.response?.data?.requirePasswordChange) {
+      console.log("🔄 Redirection vers changement de mot de passe");
+      window.location.href = '/change-password';
+    }
     
     return Promise.reject(error);
   }
@@ -48,6 +48,7 @@ authApi.interceptors.response.use(
 
 
 export const loginAPI = async (credentials) => {
+
   try {
     const response = await authApi.post("/auth/login", credentials);
     return response.data;
@@ -77,16 +78,6 @@ export const userAuthentification = async () => {
   }
 };
 
-export const changePasswordAPI = async (currentPassword, newPassword) => {
-  try {
-    const response = await authApi.put("/auth/change-password", {
-      currentPassword,
-      newPassword
-    });
-    return response.data;
-  } catch (error) {
-    throw new Error(error.response?.data?.error || "Erreur lors du changement de mot de passe");
-  }
-};
+
 
 export default authApi;

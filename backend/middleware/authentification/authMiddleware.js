@@ -27,7 +27,7 @@ export const authenticateToken = async (req, res, next) => {
 
     // 4. Vérification de besoin de changement de mot de passe
 
-    if (user.mustChangePassword && req.path !== '/change-password') {
+   if (user.mustChangePassword && !req.path.includes('change-password')) {
   return res.status(403).json({
     requirePasswordChange: true,
     message: "Vous devez changer votre mot de passe",

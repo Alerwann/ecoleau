@@ -3,13 +3,7 @@ import User from "../models/User/User.js";
 export const createUser = async (req, res) => {
   console.log("debut back createUsser");
   try {
-    const {
-      rhId,
-      password,
-      identifiant,
-      role,
-   
-    } = req.body;
+    const { rhId, password, identifiant, role } = req.body;
 
     if (!rhId || !password || !identifiant || !role) {
       return res.status(400).json({ message: "tous les champs sont requis" });
@@ -19,7 +13,9 @@ export const createUser = async (req, res) => {
       password,
       rhId,
       role,
-     
+      isTemporaryPassword: true,
+      mustChangePassword: true,
+      firstLogin: true,
     });
     const savedUser = await newUser.save();
     // Puis vous pouvez directement modifier l'objet
@@ -203,7 +199,7 @@ export const changeUserRole = async (req, res) => {
 export const changeOwnPassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
-    const rhIdentifiant = req.user.identifiant; // Depuis le token JWT
+    const rhIdentifiant = req.user.identifiant;
 
     if (!currentPassword || !newPassword) {
       return res.status(400).json({
@@ -211,52 +207,29 @@ export const changeOwnPassword = async (req, res) => {
       });
     }
 
-    // Récupérer l'utilisateur
-    const user = await User.findOne(
-      { identifiant: rhIdentifiant },
-      {
-        password: hashedNewPassword,
-        mustChangePassword: false,
-        isTemporaryPassword: false, // 🎯 Plus temporaire
-        firstLogin: false, // 🎯 Plus le premier login
-        lastPasswordChange: new Date(),
-      }
-    );
+    // 1. Récupérer l'utilisateur
+    const user = await User.findOne({ identifiant: rhIdentifiant });
+    
     if (!user) {
       return res.status(404).json({ error: "Utilisateur introuvable" });
     }
 
-    // Vérifier l'ancien mot de passe
-    const isValidPassword = await bcrypt.compare(
-      currentPassword,
-      user.password
-    );
+    // 2. Vérifier l'ancien mot de passe
+    const isValidPassword = await user.comparePassword(currentPassword);
     if (!isValidPassword) {
       return res.status(400).json({ error: "Mot de passe actuel incorrect" });
     }
 
-    // Validation du nouveau mot de passe
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    // 3. Validation déjà faite côté frontend - pas besoin ici !
 
-    if (!passwordRegex.test(newPassword)) {
-      return res.status(400).json({
-        error:
-          "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial (@$!%*?&)",
-      });
-    }
-
-    // Hash et mise à jour
-    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-
-    await User.findOneAndUpdate(
-      { identifiant: rhIdentifiant },
-      {
-        password: hashedNewPassword,
-        mustChangePassword: false, // Supprime le flag de changement obligatoire
-        lastPasswordChange: new Date(),
-      }
-    );
+    // 🎯 SOLUTION 2 : Utiliser save() pour déclencher le pre-hook
+    user.password = newPassword; // ← Le pre-hook va hasher automatiquement
+    user.mustChangePassword = false;
+    user.isTemporaryPassword = false;
+    user.firstLogin = false;
+    user.lastPasswordChange = new Date();
+    
+    await user.save(); // ← Déclenche le pre-hook de hash !
 
     // Log pour audit
     console.log(`🔑 Changement mot de passe:`);
@@ -268,6 +241,7 @@ export const changeOwnPassword = async (req, res) => {
       mustChangePassword: false,
     });
   } catch (error) {
+    console.error("Erreur changeOwnPassword:", error);
     res.status(500).json({ error: error.message });
   }
 };

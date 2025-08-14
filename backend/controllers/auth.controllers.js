@@ -55,7 +55,7 @@ export const login = async (req, res) => {
     });
     console.log("✅ Cookie défini côté serveur", user);
 
-    res.json({
+     res.json({
       success: true,
       accessToken,
       user: {
@@ -63,6 +63,10 @@ export const login = async (req, res) => {
         identifiant: user.identifiant,
         role: user.role,
         rhId: user.rhId,
+        // 🎯 AJOUTER CES FLAGS CRITIQUES :
+        mustChangePassword: user.mustChangePassword,
+        isTemporaryPassword: user.isTemporaryPassword,
+        firstLogin: user.firstLogin
       },
       debug: { cookieSet: true },
     });

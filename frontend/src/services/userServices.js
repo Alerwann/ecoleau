@@ -112,3 +112,14 @@ export const toggleActive =async (identifiant, motif=null) =>{
   }
 }
 
+export const changePasswordAPI = async (currentPassword, newPassword) => {
+  try {
+    const response = await authApi.put("/user/change-password", {
+      currentPassword,
+      newPassword
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.error || "Erreur lors du changement de mot de passe");
+  }
+};
