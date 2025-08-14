@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import PageLayout from "../../Component/PageLayout/PageLayout";
 import { useVerificationPassword } from "../../Hook/useVerificationPassword";

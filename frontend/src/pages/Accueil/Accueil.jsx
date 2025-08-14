@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./accueil.css";
 import idimg from "../../assets/idimg.webp";
-import { useNavigate } from "react-router-dom";
+
 import { useAuth } from "../../contexts/AuthContext";
 import PageLayout from "../../Component/PageLayout/PageLayout";
 import { usePasswordDisplay } from "../../Hook/useTogglePassword";
@@ -10,7 +10,7 @@ import { usePasswordDisplay } from "../../Hook/useTogglePassword";
 function Accueil() {
   const [identifiant, setIdentifiant] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  
   const [isDisabled, setIsDisabled] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
 
